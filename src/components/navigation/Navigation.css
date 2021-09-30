@@ -1,0 +1,45 @@
+.navigation-logo {
+  margin-right: 12px;
+}
+
+.navigation-menu {
+  margin: 0 14px;
+}
+.navigation-menu-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90px;
+}
+.navigation-menu-item span {
+  color: #000000;
+  line-height: initial;
+  margin-top: 5px;
+}
+
+.user-panel-container .user-name {
+  margin-left: 15px;
+}
+.user-panel-container .user-name .name-item, .user-panel-container .user-name .view-item {
+  margin: 0;
+}
+.user-panel-container .user-name .name-item {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.user-panel-container .user-name .name-item span {
+  margin-left: 10px;
+  color: #18181833;
+  font-weight: 400;
+}
+.user-panel-container .user-name .view-item {
+  color: #747474;
+  font-weight: 300;
+}
+.user-panel-container .user-name .view-item span {
+  color: #02B033;
+  font-weight: 500;
+}
+
+/*# sourceMappingURL=Navigation.css.map */

@@ -1,0 +1,52 @@
+.navigation-logo {
+  margin-right: 12px;
+}
+
+.navigation-menu {
+  margin: 0 14px;
+
+  &-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+
+    span {
+      color: #000000;
+      line-height: initial;
+      margin-top: 5px;
+    }
+  }
+}
+
+.user-panel-container {
+  .user-name {
+    margin-left: 15px;
+
+    .name-item, .view-item {
+      margin: 0;
+    }
+
+    .name-item {
+      text-transform: uppercase;
+      font-weight: 600;
+
+      span {
+        margin-left: 10px;
+        color: #18181833;
+        font-weight: 400;
+      }
+    }
+
+    .view-item {
+      color: #747474;
+      font-weight: 300;
+
+      span {
+        color: #02B033;
+        font-weight: 500;
+      }
+    }
+  }
+}
