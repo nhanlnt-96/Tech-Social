@@ -1,4 +1,3 @@
-import React from 'react';
 import RssFeed from '../assets/icon/rss.svg';
 import Users from '../assets/icon/users.svg';
 import BriefCase from '../assets/icon/briefcase.svg';
@@ -7,7 +6,7 @@ import Bell from '../assets/icon/bell.svg';
 
 export interface INavigationMenu {
   label: string;
-  icon: any;
+  icon: string;
   status: boolean;
 }
 
