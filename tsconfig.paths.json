@@ -10,7 +10,8 @@
       ],
       "img/*": [
         "assets/img/*"
-      ]
+      ],
+      "configs/*": ["configs/*"]
     }
   }
 }
