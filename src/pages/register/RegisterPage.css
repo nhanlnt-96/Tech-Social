@@ -1,0 +1,9 @@
+.register-divider::before {
+  top: unset !important;
+}
+
+.register-divider::after {
+  top: unset !important;
+}
+
+/*# sourceMappingURL=RegisterPage.css.map */

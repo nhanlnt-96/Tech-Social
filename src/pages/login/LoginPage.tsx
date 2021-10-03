@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { Button, Paper } from '@mui/material';
-import './LoginPage.scss';
 import { LoginForm } from 'pages/login/components';
 
 const LoginPage: FC = () => {
   return (
-    <div className="login-page-container">
+    <div className="auth-page-container">
       <Paper
         elevation={3}
         sx={{
@@ -20,14 +19,14 @@ const LoginPage: FC = () => {
         }}
       >
         {/* login title */}
-        <div className="login-title">
+        <div className="auth-title">
           <h1>Sign in</h1>
           <p>Stay updated on your professional world</p>
         </div>
         {/* login form */}
         <LoginForm />
       </Paper>
-      <div className="login-footer">
+      <div className="auth-footer">
         <p>New to LinkedIn?</p>
         <Button sx={{ p: 0.5, ml: 0.5 }} variant="text">
           Join now

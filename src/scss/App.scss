@@ -3,3 +3,39 @@
 * {
   font-family: 'Roboto', sans-serif;
 }
+
+.auth-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
+}
+
+.auth-title {
+  width: 100%;
+  margin-bottom: 24px;
+
+  h1,
+  p {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+}
+
+.auth-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    margin: 0;
+  }
+}

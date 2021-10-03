@@ -6,10 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="d4a328d1-db9b-4070-b92b-eeb8901afb39" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/LoginPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/LoginPage.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/LoginPage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/configs/routes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/configs/routes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.scss" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/LoginPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scss/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scss/App.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/App.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scss/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/App.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,9 +23,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="SCSS File" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="SCSS File" />
       </list>
     </option>
   </component>
@@ -82,7 +86,7 @@
       <workItem from="1632924069299" duration="2865000" />
       <workItem from="1633004659402" duration="3511000" />
       <workItem from="1633180187129" duration="5775000" />
-      <workItem from="1633222448620" duration="5427000" />
+      <workItem from="1633222448620" duration="9097000" />
     </task>
     <servers />
   </component>
