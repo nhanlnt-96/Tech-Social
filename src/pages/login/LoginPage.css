@@ -1,7 +1,33 @@
 .login-page-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
+}
+
+.login-title {
+  width: 100%;
+  margin-bottom: 24px;
+}
+.login-title h1,
+.login-title p {
+  margin: 0;
+}
+.login-title h1 {
+  font-size: 1.5rem;
+}
+.login-title p {
+  font-size: 1rem;
+}
+
+.login-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-footer p {
+  margin: 0;
 }
 
 /*# sourceMappingURL=LoginPage.css.map */

@@ -6,16 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d4a328d1-db9b-4070-b92b-eeb8901afb39" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navigation/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navigation/Navigation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navigation/components/NavigationMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navigation/components/NavigationMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navigation/components/NavigationOtherOption.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navigation/components/NavigationOtherOption.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navigation/components/NavigationSearch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navigation/components/NavigationSearch.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navigation/components/NavigationUserPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navigation/components/NavigationUserPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/LoginPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/LoginPage.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/LoginPage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/LoginPage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +19,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="SCSS File" />
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -87,6 +82,7 @@
       <workItem from="1632924069299" duration="2865000" />
       <workItem from="1633004659402" duration="3511000" />
       <workItem from="1633180187129" duration="5775000" />
+      <workItem from="1633222448620" duration="5427000" />
     </task>
     <servers />
   </component>
