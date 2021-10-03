@@ -5,11 +5,12 @@ import {
   navigationMenu,
 } from '../../../configs/navigationMenu';
 
-const NavigationMenu: FC = () => {
+export const NavigationMenu: FC = () => {
   return (
     <Box className="navigation-menu">
       {navigationMenu.map((val: INavigationMenu) => (
         <Button
+          key={val.label}
           disabled={!val.status}
           className="navigation-menu-item"
           variant="text"
@@ -21,5 +22,3 @@ const NavigationMenu: FC = () => {
     </Box>
   );
 };
-
-export default NavigationMenu;

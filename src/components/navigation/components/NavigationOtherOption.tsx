@@ -5,7 +5,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 const options = ['Option 1', 'Option 2', 'Option 3'];
 const ITEM_HEIGHT = 48;
 
-const NavigationOtherOption: FC = () => {
+export const NavigationOtherOption: FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -65,5 +65,3 @@ const NavigationOtherOption: FC = () => {
     </Paper>
   );
 };
-
-export default NavigationOtherOption;

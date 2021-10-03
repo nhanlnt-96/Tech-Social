@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-const NavigationSearch: FC = () => {
+export const NavigationSearch: FC = () => {
   return (
     <Paper
       component="form"
@@ -20,5 +20,3 @@ const NavigationSearch: FC = () => {
     </Paper>
   );
 };
-
-export default NavigationSearch;

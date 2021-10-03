@@ -3,7 +3,7 @@ import { Avatar, Paper } from '@mui/material';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 // import CallReceivedIcon from '@mui/icons-material/CallReceived';
 
-const NavigationUserPanel: FC = () => {
+export const NavigationUserPanel: FC = () => {
   return (
     <Paper
       className="user-panel-container"
@@ -33,5 +33,3 @@ const NavigationUserPanel: FC = () => {
     </Paper>
   );
 };
-
-export default NavigationUserPanel;

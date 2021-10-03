@@ -7,14 +7,16 @@ import {
   Paper,
   Toolbar,
 } from '@mui/material';
-import Logo from '../../assets/img/logo.svg';
-import { ElevationScroll, Props } from './components/ElevationScroll';
-import NavigationMenu from './components/NavigationMenu';
+import Logo from 'img/logo.svg';
+import {
+  ElevationScroll,
+  NavigationSearch,
+  NavigationUserPanel,
+  NavigationMenu,
+  NavigationOtherOption,
+} from 'components/navigation/components';
 
 import './Navigation.scss';
-import NavigationSearch from './components/NavigationSearch';
-import NavigationUserPanel from './components/NavigationUserPanel';
-import NavigationOtherOption from './components/NavigationOtherOption';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
