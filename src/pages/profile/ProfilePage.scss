@@ -58,3 +58,38 @@
     }
   }
 }
+
+.profile-avatar {
+  position: absolute;
+  bottom: 30px;
+  border: 10px solid #ffffff;
+  border-radius: 100%;
+  width: 170px;
+  height: 170px;
+}
+
+.name-and-location {
+  display: flex;
+  align-items: center;
+  color: #181818;
+
+  .user-name {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .user-location {
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.user-introduce {
+  p {
+    margin: 15px 0;
+    font-size: 14px;
+  }
+}

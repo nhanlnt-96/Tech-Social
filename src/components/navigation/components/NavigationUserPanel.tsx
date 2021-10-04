@@ -17,7 +17,10 @@ export const NavigationUserPanel: FC = () => {
         boxShadow: 'unset',
       }}
     >
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+      <Avatar
+        alt="Remy Sharp"
+        src="https://i.pinimg.com/280x280_RS/1e/d9/41/1ed9419c783a0398efc0f5c378eb0daf.jpg"
+      />
       <div className="user-name">
         <p className="name-item">
           Le Nguyen Thien Nhan <span>YOU</span>
