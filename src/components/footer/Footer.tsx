@@ -16,6 +16,7 @@ const Footer = () => {
         backgroundColor: '#F7F9FB',
         boxShadow: 'unset',
         height: '215px',
+        position: 'unset',
       }}
     >
       <Divider sx={{ borderColor: '#E7E7E7' }} />

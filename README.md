@@ -5,6 +5,7 @@
 - /footer
 - /login
 - /register
+- /profile-page
 
 ### `module`
 - /routes

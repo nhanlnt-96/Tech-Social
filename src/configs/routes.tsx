@@ -1,6 +1,7 @@
 import React from 'react';
 import LoginPage from 'pages/login/LoginPage';
 import RegisterPage from 'pages/register/RegisterPage';
+import ProfilePage from 'pages/profile/ProfilePage';
 
 export const routes = [
   {
@@ -14,5 +15,11 @@ export const routes = [
     isExact: true,
     isPrivate: false,
     module: <RegisterPage />,
+  },
+  {
+    path: '/profile-page/:id',
+    isExact: true,
+    isPrivate: false,
+    module: <ProfilePage />,
   },
 ];

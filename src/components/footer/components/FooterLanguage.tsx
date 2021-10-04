@@ -17,9 +17,10 @@ export const FooterLanguage: FC = () => {
           id="demo-simple-select"
         >
           {footerLanguageItem.map((val) => {
-            const { label, value } = val;
+            const { label, value, isActive } = val;
             return (
               <MenuItem
+                disabled={!isActive}
                 key={value}
                 sx={{ textTransform: 'uppercase' }}
                 value={value}

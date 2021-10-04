@@ -28,7 +28,7 @@ const MainLayout: FC = () => {
       <Navigation />
       {/* /Header */}
       {/* Content */}
-      <Container>
+      <Container sx={{ marginTop: '40px', marginBottom: '40px' }}>
         <Switch>
           {routes.map((val) => {
             const { path, isExact, isPrivate, module } = val;

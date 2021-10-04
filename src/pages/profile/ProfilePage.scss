@@ -1,0 +1,60 @@
+.profile-page-container {
+  .profile-page-item {
+    padding-top: 0 !important;
+  }
+}
+
+.profile-cover {
+  &-container {
+    position: relative;
+  }
+
+  &-img {
+    position: absolute !important;
+  }
+
+  &-btn {
+    padding: 10px 15px;
+    display: flex;
+
+    .btn-options,
+    .btn-upload {
+      margin-left: 10px;
+      padding: 6px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 4px;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.9);
+      }
+    }
+
+    .right-side-btn,
+    .left-side-btn {
+      flex: 1;
+    }
+
+    .left-side-btn {
+      .btn-upload {
+        margin-left: 0;
+      }
+    }
+
+    .right-side-btn {
+      display: flex;
+      justify-content: flex-end;
+
+      .btn-edit {
+        background-color: rgba(255, 255, 255, 0.5);
+        color: #000000;
+        border-radius: 4px;
+        box-shadow: unset;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.9);
+          box-shadow: unset;
+        }
+      }
+    }
+  }
+}
