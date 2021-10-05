@@ -6,6 +6,7 @@
 - /login
 - /register
 - /profile-page
+- /feed
 
 ### `module`
 - /routes

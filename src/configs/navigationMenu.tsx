@@ -8,6 +8,7 @@ export interface INavigationMenu {
   label: string;
   icon: string;
   status: boolean;
+  path?: string;
 }
 
 export const navigationMenu: INavigationMenu[] = [
@@ -15,6 +16,7 @@ export const navigationMenu: INavigationMenu[] = [
     label: 'FEED',
     icon: RssFeed,
     status: true,
+    path: '/',
   },
   {
     label: 'NETWORK',
