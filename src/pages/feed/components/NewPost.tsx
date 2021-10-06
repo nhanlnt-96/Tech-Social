@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Divider, Grid, IconButton, styled } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
+import TelegramIcon from '@mui/icons-material/Telegram';
 import CropOriginalIcon from '@mui/icons-material/CropOriginal';
 
 const Input = styled('input')({
@@ -39,7 +39,7 @@ export const NewPost = () => {
               </IconButton>
             </label>
             <IconButton className="post-btn" aria-label="options">
-              <SendIcon />
+              <TelegramIcon />
             </IconButton>
           </div>
         </Grid>

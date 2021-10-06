@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { Grid } from '@mui/material';
 import { NewPost } from 'pages/feed/components';
+import FeedCard from 'components/feedCard/FeedCard';
+
 import './Feed.scss';
 
 const Feed: FC = () => {
@@ -10,7 +12,7 @@ const Feed: FC = () => {
         <NewPost />
       </Grid>
       <Grid item xs={12}>
-        feed
+        <FeedCard />
       </Grid>
     </Grid>
   );
