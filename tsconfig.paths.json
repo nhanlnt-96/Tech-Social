@@ -11,7 +11,15 @@
       "img/*": [
         "assets/img/*"
       ],
-      "configs/*": ["configs/*"]
+      "configs/*": [
+        "configs/*"
+      ],
+      "model/*": [
+        "model/*"
+      ],
+      "service/*": [
+        "network/service/*"
+      ]
     }
   }
 }

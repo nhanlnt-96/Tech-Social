@@ -13,3 +13,4 @@
 
 ### `integrate-api`
 - /config-firebase
+- /register
