@@ -4,6 +4,7 @@ import { RegisterForm } from 'pages/register/components';
 import RegisterWithGoogle from 'pages/register/components/RegisterWithGoogle';
 
 import './RegisterPage.scss';
+import { Link } from 'react-router-dom';
 
 const RegisterPage: FC = () => {
   return (
@@ -33,7 +34,12 @@ const RegisterPage: FC = () => {
         <RegisterWithGoogle />
         <div className="auth-footer">
           <p>Already on LinkedIn?</p>
-          <Button sx={{ p: 0.5, ml: 0.5 }} variant="text">
+          <Button
+            component={Link}
+            to="/login"
+            sx={{ p: 0.5, ml: 0.5 }}
+            variant="text"
+          >
             Sign in
           </Button>
         </div>
