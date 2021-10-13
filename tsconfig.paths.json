@@ -17,8 +17,11 @@
       "model/*": [
         "model/*"
       ],
-      "service/*": [
-        "network/service/*"
+      "services/*": [
+        "network/services/*"
+      ],
+      "shared/*": [
+        "shared/*"
       ]
     }
   }
