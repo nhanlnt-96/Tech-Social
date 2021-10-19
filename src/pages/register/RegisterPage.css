@@ -10,4 +10,19 @@
   top: 64px !important;
 }
 
+.user-email-info {
+  margin-left: 15px;
+}
+.user-email-info p {
+  margin-bottom: 0;
+}
+.user-email-info .user-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+.user-email-info button:hover {
+  color: #40a9ff;
+  background-color: unset;
+}
+
 /*# sourceMappingURL=RegisterPage.css.map */

@@ -1,96 +1,80 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useState } from 'react';
+import { LoadingButton } from '@mui/lab';
+import { passwordRegex } from 'shared/regex';
 import {
+  Avatar,
+  Box,
+  Button,
   FormControl,
   FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  TextField,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { IRegisterUser } from 'model/user';
+import { IRegisterGoogleUser } from 'model/user';
+import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { registerWithGoogleFail } from 'store/redux/registerGoogle/actions';
 import { registerRequest } from 'services/auth';
 import { message } from 'antd';
-import { LoadingButton } from '@mui/lab';
-import { useHistory } from 'react-router';
-import { emailRegex, fullNameRegex, passwordRegex } from 'shared/regex';
 
-export const RegisterForm: FC = () => {
+type Props = {
+  userData: IRegisterGoogleUser;
+};
+
+export const RegisterWithGoogleForm: FC<Props> = ({ userData }) => {
   const history = useHistory();
-  const [userInput, setUserInput] = useState<IRegisterUser>({
-    email: '',
-    fullName: '',
-    password: '',
-  });
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [passwordInput, setPasswordInput] = useState('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
   const onUserInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserInput({
-      ...userInput,
-      [name]: value,
-    });
+    setPasswordInput(e.target.value);
   };
-  const errorFullName =
-    userInput.fullName && !fullNameRegex.test(userInput.fullName);
-  const errorEmail = userInput.email && !emailRegex.test(userInput.email);
-  const errorPassword =
-    userInput.password && !passwordRegex.test(userInput.password);
-  const onRegisterBtnCLick = () => {
+  const errorPassword = passwordInput && !passwordRegex.test(passwordInput);
+  const onNotYouBtnClick = () => {
+    dispatch(registerWithGoogleFail());
+  };
+  const onSignUpBtnClick = async () => {
     setIsLoading(true);
-    registerRequest(userInput)
+    await registerRequest(userData, passwordInput)
       .then((response) => {
         if (response.status === 201) {
           message.success(response.data, 1.5).then(() => {
-            setUserInput({
-              email: '',
-              fullName: '',
-              password: '',
-            });
+            dispatch(registerWithGoogleFail());
             setIsLoading(false);
             history.push('/login');
           });
         }
       })
-      .catch((err) => {
-        message.error(err.response.data.error, 1.5).then(() => {
+      .catch((error) => {
+        message.error(error.response.data.error, 1.5).then(() => {
           setIsLoading(false);
         });
       });
   };
   return (
-    <div className="login-form">
-      <TextField
-        required
-        sx={{ mb: 2 }}
-        label="Full name"
-        fullWidth
-        name="fullName"
-        value={userInput.fullName}
-        autoComplete="off"
-        error={Boolean(errorFullName)}
-        helperText={
-          Boolean(errorFullName) &&
-          'Full name can not contains number or special character.'
-        }
-        onChange={onUserInputHandler}
-      />
-      <TextField
-        required
-        sx={{ mb: 2 }}
-        label="Email"
-        fullWidth
-        name="email"
-        value={userInput.email}
-        autoComplete="off"
-        error={Boolean(errorEmail)}
-        helperText={Boolean(errorEmail) && 'Invalid email.'}
-        onChange={onUserInputHandler}
-      />
+    <>
+      <Box
+        sx={{ width: '100%', display: 'flex', alignItems: 'center', mb: 2.4 }}
+      >
+        <Avatar alt="user-email-avatar" src={userData.photoURL} />
+        <div className="user-email-info">
+          <p className="user-name">{userData.displayName}</p>
+          <p>{userData.email}</p>
+          <Button
+            onClick={onNotYouBtnClick}
+            sx={{ textTransform: 'none', minWidth: 'unset', p: 0 }}
+          >
+            Not you?
+          </Button>
+        </div>
+      </Box>
       <FormControl sx={{ mb: 2.4 }} fullWidth variant="outlined">
         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
         <OutlinedInput
@@ -110,7 +94,6 @@ export const RegisterForm: FC = () => {
           error={Boolean(errorPassword)}
           onChange={onUserInputHandler}
           name="password"
-          value={userInput.password}
           label="Password"
           autoComplete="off"
         />
@@ -126,20 +109,13 @@ export const RegisterForm: FC = () => {
         fullWidth
         variant="contained"
         disableElevation
-        disabled={
-          userInput.email !== '' ||
-          userInput.fullName !== '' ||
-          userInput.password !== '' ||
-          !errorFullName ||
-          !errorEmail ||
-          !errorPassword
-        }
+        disabled={Boolean(passwordInput !== '') || !errorPassword}
         loading={isLoading}
         loadingIndicator="Signing up"
-        onClick={onRegisterBtnCLick}
+        onClick={onSignUpBtnClick}
       >
         Sign up
       </LoadingButton>
-    </div>
+    </>
   );
 };

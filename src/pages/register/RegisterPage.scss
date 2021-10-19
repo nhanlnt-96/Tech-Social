@@ -9,3 +9,21 @@
 .ant-message {
   top: 64px !important;
 }
+
+.user-email-info {
+  margin-left: 15px;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .user-name {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  button:hover {
+    color: #40a9ff;
+    background-color: unset;
+  }
+}

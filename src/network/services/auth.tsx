@@ -2,11 +2,11 @@ import { IRegisterGoogleUser, IRegisterUser } from 'model/user';
 import api from 'configs/axios';
 
 export const registerRequest = (
-  _id: string,
   userData: IRegisterUser | IRegisterGoogleUser,
+  password?: string,
 ) => {
   return api.post('/auth', {
-    _id,
+    password: ('password' in userData && userData.password) || password,
     fullName:
       ('fullName' in userData && userData.fullName) ||
       ('displayName' in userData && userData.displayName),
