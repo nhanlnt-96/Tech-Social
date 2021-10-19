@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="81d5f36b-2a75-4fab-b5a0-5fa9fbc00535" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/server/JWT/jwt.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/JWT/jwt.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/configs/nodemailer.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/configs/nodemailer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/configs/template/MailResetPasswordTemplate.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/server/configs/template/MailResetPasswordTemplate.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/configs/template/MailVerifyTemplate.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/server/configs/template/MailVerifyTemplate.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/Users.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/Users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/models/UserMessage.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/UserMessage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/Users.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/Users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/register/components/RegisterWithGoogle.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/.env" beforeDir="false" afterPath="$PROJECT_DIR$/server/.env" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +69,8 @@
       <updated>1634628280211</updated>
       <workItem from="1634628288712" duration="136000" />
       <workItem from="1634628461341" duration="8665000" />
+      <workItem from="1634652775732" duration="105000" />
+      <workItem from="1634653150357" duration="4000" />
     </task>
     <servers />
   </component>
