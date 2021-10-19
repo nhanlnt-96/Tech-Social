@@ -26,26 +26,6 @@ const RegisterWithGoogle: FC = () => {
           email,
           photoURL,
         };
-        await registerRequest(uid, userData)
-          .then((response) => {
-            if (response.status === 201) {
-              message.success(response.data, 1.5).then(() => {
-                setIsLoading(false);
-                history.push('/');
-              });
-            }
-          })
-          .catch((error) => {
-            message.error(error.response.data.error, 1.5).then(() => {
-              setIsLoading(false);
-            });
-          });
-      })
-      .catch((error) => {
-        message.error(error.message, 1.5).then(() => {
-          setIsLoading(false);
-        });
-      });
   };
   return (
     <>
