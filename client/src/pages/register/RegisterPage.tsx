@@ -1,12 +1,20 @@
 import React, { FC } from 'react';
 import { Button, CssBaseline, Divider, Paper } from '@mui/material';
-import { RegisterForm } from 'pages/register/components';
-import RegisterWithGoogle from 'pages/register/components/RegisterWithGoogle';
+import {
+  RegisterForm,
+  RegisterWithGoogleForm,
+} from 'pages/register/components';
+import ButtonRegisterWithGoogle from 'pages/register/components/ButtonRegisterWithGoogle';
 
 import './RegisterPage.scss';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { IRootState } from 'store/rootReducer';
 
 const RegisterPage: FC = () => {
+  const { registerSuccess } = useSelector(
+    (state: IRootState) => state.registerGoogle,
+  );
   return (
     <div className="auth-page-container">
       <CssBaseline />
@@ -27,11 +35,20 @@ const RegisterPage: FC = () => {
           <p>Make the most of your professional life</p>
         </div>
         {/* register form */}
-        <RegisterForm />
-        <Divider className="register-divider" sx={{ width: '100%', mb: 2.4 }}>
-          or
-        </Divider>
-        <RegisterWithGoogle />
+        {!registerSuccess.isSuccess ? (
+          <>
+            <RegisterForm />
+            <Divider
+              className="register-divider"
+              sx={{ width: '100%', mb: 2.4 }}
+            >
+              or
+            </Divider>
+            <ButtonRegisterWithGoogle />
+          </>
+        ) : (
+          <RegisterWithGoogleForm userData={registerSuccess.data} />
+        )}
         <div className="auth-footer">
           <p>Already on LinkedIn?</p>
           <Button

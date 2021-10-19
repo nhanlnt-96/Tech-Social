@@ -1,4 +1,4 @@
-import axios from 'configs/axios';
+import axios from 'axios';
 
 const api = axios.create({
   // baseURL: 'https://social-app-lnt.herokuapp.com',

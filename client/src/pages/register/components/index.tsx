@@ -1,2 +1,3 @@
 export * from './RegisterForm';
-export * from './RegisterWithGoogle';
+export * from './ButtonRegisterWithGoogle';
+export * from './RegisterWithGoogleForm';
