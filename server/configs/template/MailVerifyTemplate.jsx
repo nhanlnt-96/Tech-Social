@@ -76,7 +76,7 @@ const MailVerifyTemplate = ({ displayName, verifyUrl }) => {
             word-wrap: break-word;
             font-weight: normal;
             font-family: arial, helvetica, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
           "
           >
             Hi {displayName},
@@ -88,7 +88,7 @@ const MailVerifyTemplate = ({ displayName, verifyUrl }) => {
             word-wrap: break-word;
             font-weight: normal;
             font-family: arial, helvetica, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
           "
           >
             Please confirm that you want to use this as your Tech Social account email address.
@@ -100,7 +100,7 @@ const MailVerifyTemplate = ({ displayName, verifyUrl }) => {
             word-wrap: break-word;
             font-weight: normal;
             font-family: arial, helvetica, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
           "
           >
             This link will expire in 2 hours and can only be used once.
@@ -139,7 +139,7 @@ const MailVerifyTemplate = ({ displayName, verifyUrl }) => {
             word-wrap: break-word;
             font-weight: normal;
             font-family: arial, helvetica, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
           "
           >
             The Tech Social Team

@@ -16,12 +16,14 @@ const sendEmail = (res, type, hash, receiver, displayName) => {
   });
 
   const emailToken = createEmailToken(hash);
+
   const verifyUrl = `${process.env.DOMAIN}/auth/verify/user/${emailToken}`;
-  const resetPasswordUrl = `${process.env.DOMAIN}/auth/reset-password/user/${emailToken}`;
   const templateVerify = View.renderToHtml(MailVerifyTemplate, {
     displayName,
     verifyUrl,
   });
+
+  const resetPasswordUrl = `${process.env.DOMAIN}/auth/reset-password/user/${emailToken}`;
   const templateResetPassword = View.renderToHtml(MailRestPasswordTemplate, {
     displayName,
     resetPasswordUrl,
@@ -50,7 +52,7 @@ const sendEmail = (res, type, hash, receiver, displayName) => {
       res
         .status(200)
         .json(
-          `Click the link we sent to ${receiver} to verify your account.`
+          `Click the link we sent to ${receiver} to ${type === 'confirm' ? 'verify your account.' : 'reset your password.'}`
         );
     }
   });

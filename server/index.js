@@ -10,16 +10,16 @@ View.settings.set("views", "./configs");
 const app = express();
 const PORT = process.env.PORT || 3001;
 // use when run at local
-// const corsOptions = {
-//   origin: "http://localhost:3000",
-//   optionSuccessStatus: 200,
-// };
+/*const corsOptions = {
+  origin: "http://localhost:3000",
+  optionSuccessStatus: 200,
+};*/
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json());
 // use when run at local
-// app.use(cors(corsOptions));
+/*app.use(cors(corsOptions));*/
 app.use(cors());
 
 app.get("/", (req, res) => {

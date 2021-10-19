@@ -3,8 +3,10 @@ const { sign, verify } = require("jsonwebtoken");
 const createToken = (user) => {
   const accessToken = sign(
     {
-      username: user.username,
+      email: user.email,
       id: user._id,
+      fullName: user.fullName,
+      isVerify: user.verify,
       avatarImageURL: user.avatarImageURL,
     },
     process.env.ACCESS_TOKEN
@@ -15,7 +17,7 @@ const createToken = (user) => {
 
 const validateToken = (req, res, next) => {
   const accessToken = req.header("accessToken");
-  if (!accessToken) return res.json({ error: "User not logged in !" });
+  if (!accessToken) return res.json({ error: "User not logged in!" });
 
   try {
     const validToken = verify(accessToken, process.env.ACCESS_TOKEN);

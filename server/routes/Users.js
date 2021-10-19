@@ -5,9 +5,9 @@ const {
   signInAccount,
   getAuthUser,
   getUserProfile,
-  changePassword,
+  changePasswordRequest,
   verifyUser,
-  verifyRequest,
+  verifyRequest, resetPassword,
 } = require("../controllers/Users");
 
 const router = express.Router();
@@ -27,6 +27,7 @@ router.get("/auth-user", validateToken, getAuthUser);
 router.get("/profile/:id", getUserProfile);
 
 //change password
-router.put("/change-password", changePassword);
+router.post("/change-password-request", changePasswordRequest);
+router.put("/reset-password/user/:token", resetPassword);
 
 module.exports = router;

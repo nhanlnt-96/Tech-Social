@@ -1,6 +1,6 @@
 const { View } = require("grandjs");
 
-const MailResetPasswordTemplate = ({ displayName, verifyUrl }) => {
+const MailResetPasswordTemplate = ({ displayName, resetPasswordUrl }) => {
   const style = {
     body: {
       backgroundColor: "#e7e7e7",
@@ -76,7 +76,7 @@ const MailResetPasswordTemplate = ({ displayName, verifyUrl }) => {
             word-wrap: break-word;
             font-weight: normal;
             font-family: arial, helvetica, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
           "
           >
             Hi {displayName},
@@ -88,7 +88,7 @@ const MailResetPasswordTemplate = ({ displayName, verifyUrl }) => {
             word-wrap: break-word;
             font-weight: normal;
             font-family: arial, helvetica, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
           "
           >
             A request has been received to change the password for your Tech Social account.
@@ -100,7 +100,7 @@ const MailResetPasswordTemplate = ({ displayName, verifyUrl }) => {
             word-wrap: break-word;
             font-weight: normal;
             font-family: arial, helvetica, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
           "
           >
             This link will expire in 2 hours and can only be used once.
@@ -113,7 +113,7 @@ const MailResetPasswordTemplate = ({ displayName, verifyUrl }) => {
       <div style={style.verifyBtn}>
         <div style="width: 100%; text-align: center">
           <a
-            href={verifyUrl}
+            href={resetPasswordUrl}
             target="_blank"
             style="
             font-family: arial, helvetica, sans-serif;
@@ -139,7 +139,7 @@ const MailResetPasswordTemplate = ({ displayName, verifyUrl }) => {
             word-wrap: break-word;
             font-weight: normal;
             font-family: arial, helvetica, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
           "
           >
             The Tech Social Team

@@ -4,7 +4,6 @@ const UserMessage = mongoose.model(
   "Users",
   mongoose.Schema({
     _id: {
-      // type: String,
       type: mongoose.Schema.Types.ObjectId,
       require: true,
     },
@@ -12,11 +11,7 @@ const UserMessage = mongoose.model(
       type: String,
       require: true,
     },
-    // fullName: {
-    //   type: String,
-    //   require: false,
-    // },
-    username: {
+    fullName: {
       type: String,
       require: true,
     },
@@ -29,11 +24,11 @@ const UserMessage = mongoose.model(
       require: false,
       default: null,
     },
-    // isVerify: {
-    //   type: Boolean,
-    //   require: true,
-    //   default: false,
-    // },
+    isVerify: {
+      type: Boolean,
+      require: true,
+      default: false,
+    },
     createdAt: {
       type: Date,
       default: new Date(),
