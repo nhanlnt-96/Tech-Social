@@ -109,7 +109,7 @@ export const RegisterWithGoogleForm: FC<Props> = ({ userData }) => {
         fullWidth
         variant="contained"
         disableElevation
-        disabled={Boolean(passwordInput !== '') || !errorPassword}
+        disabled={passwordInput === '' || Boolean(errorPassword)}
         loading={isLoading}
         loadingIndicator="Signing up"
         onClick={onSignUpBtnClick}

@@ -127,12 +127,12 @@ export const RegisterForm: FC = () => {
         variant="contained"
         disableElevation
         disabled={
-          userInput.email !== '' ||
-          userInput.fullName !== '' ||
-          userInput.password !== '' ||
-          !errorFullName ||
-          !errorEmail ||
-          !errorPassword
+          userInput.email === '' ||
+          userInput.fullName === '' ||
+          userInput.password === '' ||
+          Boolean(errorFullName) ||
+          Boolean(errorEmail) ||
+          Boolean(errorPassword)
         }
         loading={isLoading}
         loadingIndicator="Signing up"
