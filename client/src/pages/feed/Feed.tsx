@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Grid } from '@mui/material';
 import { NewPost } from 'pages/feed/components';
 import FeedCard from 'components/feedCard/FeedCard';
+import { withRouter } from 'react-router-dom';
 
 import './Feed.scss';
 
@@ -18,4 +19,4 @@ const Feed: FC = () => {
   );
 };
 
-export default Feed;
+export default withRouter(Feed);

@@ -1,6 +1,9 @@
 import React, { FC } from 'react';
 import { Button, Paper } from '@mui/material';
 import { LoginForm } from 'pages/login/components';
+import { Link } from 'react-router-dom';
+
+import './LoginPage.scss';
 
 const LoginPage: FC = () => {
   return (
@@ -28,7 +31,12 @@ const LoginPage: FC = () => {
       </Paper>
       <div className="auth-footer">
         <p>New to LinkedIn?</p>
-        <Button sx={{ p: 0.5, ml: 0.5 }} variant="text">
+        <Button
+          component={Link}
+          to="/register"
+          sx={{ p: 0.5, ml: 0.5 }}
+          variant="text"
+        >
           Join now
         </Button>
       </div>

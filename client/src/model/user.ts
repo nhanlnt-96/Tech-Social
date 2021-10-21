@@ -9,3 +9,8 @@ export interface IRegisterGoogleUser {
   displayName: string;
   photoURL: string;
 }
+
+export interface ILoginUser {
+  email: string;
+  password: string;
+}

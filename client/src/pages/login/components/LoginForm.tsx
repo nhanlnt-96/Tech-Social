@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import {
   Button,
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -9,15 +10,77 @@ import {
   TextField,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { ILoginUser } from 'model/user';
+import { emailRegex, passwordRegex } from 'shared/regex';
+import { loginRequest } from 'services/auth';
+import { message } from 'antd';
+import { useHistory } from 'react-router';
+import { LoadingButton } from '@mui/lab';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from 'store/redux/auth/actions';
+import Cookies from 'js-cookie';
+import { ResetPasswordModal } from 'pages/login/components/ResetPasswordModal';
 
 export const LoginForm: FC = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [userInput, setUserInput] = useState<ILoginUser>({
+    email: '',
+    password: '',
+  });
+  const [visible, setVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+  const onUserInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserInput({
+      ...userInput,
+      [name]: value,
+    });
+  };
+  const errorEmail = userInput.email && !emailRegex.test(userInput.email);
+  const errorPassword =
+    userInput.password && !passwordRegex.test(userInput.password);
+  const onLoginBtnClick = () => {
+    setIsLoading(true);
+    loginRequest(userInput)
+      .then((response: any) => {
+        if (response.status === 200) {
+          message.success('Logged in.', 1).then(() => {
+            setIsLoading(false);
+            Cookies.set('accessToken', response.data.accessToken);
+            dispatch(loginSuccess());
+            setUserInput({
+              email: '',
+              password: '',
+            });
+            history.push('/');
+          });
+        }
+      })
+      .catch((error) => {
+        message.error(error.response.data.error, 1.5).then(() => {
+          setIsLoading(false);
+        });
+      });
+  };
   return (
     <div className="login-form">
-      <TextField sx={{ mb: 2 }} label="Username" fullWidth />
+      <TextField
+        required
+        sx={{ mb: 2 }}
+        label="Email"
+        fullWidth
+        name="email"
+        autoComplete="off"
+        value={userInput.email}
+        error={Boolean(errorEmail)}
+        helperText={Boolean(errorEmail) && 'Invalid email.'}
+        onChange={onUserInputHandler}
+      />
       <FormControl sx={{ mb: 1 }} fullWidth variant="outlined">
         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
         <OutlinedInput
@@ -34,15 +97,45 @@ export const LoginForm: FC = () => {
               </IconButton>
             </InputAdornment>
           }
+          required
           label="Password"
+          error={Boolean(errorPassword)}
+          onChange={onUserInputHandler}
+          name="password"
+          value={userInput.password}
+          autoComplete="off"
         />
+        {Boolean(errorPassword) && (
+          <FormHelperText error>
+            Password should be at least: 6 characters, 1 uppercase, 1 lowercase,
+            1 number.
+          </FormHelperText>
+        )}
       </FormControl>
-      <Button sx={{ p: 0.5, mb: 2.4 }} variant="text">
+      <Button
+        sx={{ p: 0.5, mb: 2.4 }}
+        variant="text"
+        onClick={() => setVisible(true)}
+      >
         Forgot password?
       </Button>
-      <Button fullWidth variant="contained" disableElevation>
+      <LoadingButton
+        fullWidth
+        variant="contained"
+        disableElevation
+        disabled={
+          userInput.email === '' ||
+          userInput.password === '' ||
+          Boolean(errorEmail) ||
+          Boolean(errorPassword)
+        }
+        loading={isLoading}
+        loadingIndicator="Signing in"
+        onClick={onLoginBtnClick}
+      >
         Sign in
-      </Button>
+      </LoadingButton>
+      <ResetPasswordModal visible={visible} setVisible={setVisible} />
     </div>
   );
 };
