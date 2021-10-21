@@ -6,7 +6,7 @@ const createToken = (user) => {
       email: user.email,
       id: user._id,
       fullName: user.fullName,
-      isVerify: user.verify,
+      isVerify: user.isVerify,
       avatarImageURL: user.avatarImageURL,
     },
     process.env.ACCESS_TOKEN

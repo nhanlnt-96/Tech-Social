@@ -27,10 +27,9 @@ const signUpAccount = async (req, res) => {
           createdAt,
         }).save();
         res.status(201).json("Register 😍");
-      })
+      });
     }
-  } catch
-    (error) {
+  } catch (error) {
     res.status(400).json({ error: { error } });
   }
 };
@@ -45,7 +44,7 @@ const verifyRequest = async (req, res) => {
   }
 };
 
-// verify updating
+// verify user
 const verifyUser = async (req, res) => {
   try {
     const { _id } = verify(req.params.token, process.env.EMAIL_TOKEN);
@@ -82,7 +81,7 @@ const signInAccount = async (req, res) => {
       bcrypt.compare(password, emailCheck.password).then((match) => {
         if (!match) {
           res.status(400).json({
-            error: "Hmm, that password doesn't look right. 🤔"
+            error: "Hmm, that password doesn't look right. 🤔",
           });
         } else {
           const accessToken = createToken(emailCheck);
@@ -120,17 +119,34 @@ const changePasswordRequest = async (req, res) => {
   const emailCheck = await UserMessage.findOne({ email });
   try {
     if (!emailCheck) {
-      res.status(400).json({ error: "Email is wrong 🤔" });
+      res.status(400).json({ error: "Hmm, that email doesn't look right. 😳" });
     } else {
-      sendEmail(res, 'reset', emailCheck._id, emailCheck.email, emailCheck.fullName);
+      sendEmail(
+        res,
+        "reset",
+        emailCheck._id,
+        emailCheck.email,
+        emailCheck.fullName
+      );
     }
   } catch (error) {
     res.status(400).json({ error: { error } });
   }
 };
 
+const validateResetPasswordToken = (req, res) => {
+  const { token } = req.body;
+  try {
+    verify(token, process.env.EMAIL_TOKEN);
+    res.status(200).json("OK");
+  } catch (error) {
+    res.status(500).json({ error: { error } });
+  }
+};
+
 const resetPassword = async (req, res) => {
   const { _id } = verify(req.params.token, process.env.EMAIL_TOKEN);
+  res.json(_id);
   const { password } = req.body;
   try {
     bcrypt.hash(password, 10).then(async (hash) => {
@@ -155,5 +171,6 @@ module.exports = {
   getAuthUser,
   getUserProfile,
   changePasswordRequest,
-  resetPassword
+  validateResetPasswordToken,
+  resetPassword,
 };

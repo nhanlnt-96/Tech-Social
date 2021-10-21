@@ -7,7 +7,9 @@ const {
   getUserProfile,
   changePasswordRequest,
   verifyUser,
-  verifyRequest, resetPassword,
+  verifyRequest,
+  resetPassword,
+  validateResetPasswordToken,
 } = require("../controllers/Users");
 
 const router = express.Router();
@@ -28,6 +30,7 @@ router.get("/profile/:id", getUserProfile);
 
 //change password
 router.post("/change-password-request", changePasswordRequest);
+router.post("/validate-reset-password/", validateResetPasswordToken);
 router.put("/reset-password/user/:token", resetPassword);
 
 module.exports = router;
