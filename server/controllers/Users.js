@@ -146,7 +146,6 @@ const validateResetPasswordToken = (req, res) => {
 
 const resetPassword = async (req, res) => {
   const { _id } = verify(req.params.token, process.env.EMAIL_TOKEN);
-  res.json(_id);
   const { password } = req.body;
   try {
     bcrypt.hash(password, 10).then(async (hash) => {

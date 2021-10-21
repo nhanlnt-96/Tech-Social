@@ -15,6 +15,21 @@ import { useSelector } from 'react-redux';
 
 const mdTheme = createTheme();
 
+const styleIsAuth = {
+  marginTop: '40px',
+  marginBottom: '40px',
+};
+
+const styleNotAuth = {
+  width: '100%',
+  height: '100%',
+  paddingLeft: '0 !important',
+  paddingRight: '0 !important',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
+
 const MainLayout: FC = () => {
   const token = Cookies.get('accessToken');
   const { isLogged } = useSelector((state: IRootState) => state.loginUser);
@@ -36,7 +51,7 @@ const MainLayout: FC = () => {
       {(isLogged || token) && <Navigation />}
       {/* /Header */}
       {/* Content */}
-      <Container sx={{ marginTop: '40px', marginBottom: '40px' }}>
+      <Container sx={isLogged || token ? styleIsAuth : styleNotAuth}>
         <Switch>
           {routes.map((val) => {
             const { path, isExact, isPrivate, isAuth, module } = val;

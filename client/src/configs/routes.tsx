@@ -4,6 +4,7 @@ import RegisterPage from 'pages/register/RegisterPage';
 import ProfilePage from 'pages/profile/ProfilePage';
 import Feed from 'pages/feed/Feed';
 import ResetPassword from 'pages/resetPassword/ResetPassword';
+import PageNotFound from 'pages/notFound/PageNotFound';
 
 export const routes = [
   {
@@ -39,6 +40,13 @@ export const routes = [
     isExact: true,
     isPrivate: false,
     module: <ProfilePage />,
+    isAuth: false,
+  },
+  {
+    path: '*',
+    isExact: true,
+    isPrivate: false,
+    module: <PageNotFound />,
     isAuth: false,
   },
 ];

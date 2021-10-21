@@ -8,7 +8,9 @@ const { createEmailToken } = require("../JWT/jwt");
 
 const sendEmail = (res, type, hash, receiver, displayName) => {
   let transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.NODE_MAILER_EMAIL,
       pass: process.env.NODE_MAILER_EMAIL_PASS,
@@ -52,7 +54,9 @@ const sendEmail = (res, type, hash, receiver, displayName) => {
       res
         .status(200)
         .json(
-          `Click the link we sent to ${receiver} to ${type === 'confirm' ? 'verify your account.' : 'reset your password.'}`
+          `Click the link we sent to ${receiver} to ${
+            type === "confirm" ? "verify your account." : "reset your password."
+          }`
         );
     }
   });
