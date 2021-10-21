@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
+  Button,
+  CircularProgress,
   FormControl,
   FormHelperText,
   IconButton,
@@ -15,22 +17,28 @@ import { LoadingButton } from '@mui/lab';
 import { resetPassword, validateResetPasswordToken } from 'services/auth';
 import { message } from 'antd';
 import { useHistory } from 'react-router';
+import PageNotFound from 'pages/notFound/PageNotFound';
 
 const ResetPassword = () => {
   const history = useHistory();
   const { token } = useParams<{ token: string }>();
-  useEffect(() => {
-    validateResetPasswordToken(token)
-      .then()
-      .catch((error) => {
-        if (error) {
-          history.push('/');
-        }
-      });
-  }, []);
+  const [isTokenExpired, setIsTokenExpired] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  useEffect(() => {
+    setIsPageLoading(true);
+    validateResetPasswordToken(token)
+      .then(() => {
+        setIsPageLoading(false);
+        setIsTokenExpired(false);
+      })
+      .catch(() => {
+        setIsPageLoading(false);
+        setIsTokenExpired(true);
+      });
+  }, []);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -56,63 +64,82 @@ const ResetPassword = () => {
       });
   };
   return (
-    <Paper
-      elevation={3}
-      sx={{
-        width: 400,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        p: 2.4,
-      }}
-    >
-      <div className="auth-title">
-        <h1>Reset password</h1>
-        <p>Enter your new password below.</p>
-      </div>
-      <FormControl sx={{ mb: 2.4 }} fullWidth variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-        <OutlinedInput
-          type={showPassword ? 'text' : 'password'}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-          required
-          error={Boolean(errorPassword)}
-          onChange={onUserInputHandler}
-          name="password"
-          label="Password"
-          autoComplete="off"
-        />
-        {Boolean(errorPassword) && (
-          <FormHelperText error>
-            Password should be at least: 6 characters, 1 uppercase, 1 lowercase,
-            1 number.
-          </FormHelperText>
-        )}
-      </FormControl>
-      <LoadingButton
-        sx={{ mb: 2.4 }}
-        fullWidth
-        variant="contained"
-        disableElevation
-        disabled={passwordInput === '' || Boolean(errorPassword)}
-        loading={isLoading}
-        loadingIndicator="Resetting password"
-        onClick={onResetPasswordBtnClick}
-      >
-        Reset password
-      </LoadingButton>
-    </Paper>
+    <>
+      {/* eslint-disable-next-line no-nested-ternary */}
+      {isPageLoading ? (
+        <CircularProgress />
+      ) : isTokenExpired ? (
+        <PageNotFound />
+      ) : (
+        <Paper
+          elevation={3}
+          sx={{
+            width: 400,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            p: 2.4,
+          }}
+        >
+          <div className="auth-title">
+            <h1>Reset password</h1>
+            <p>Enter your new password below.</p>
+          </div>
+          <FormControl sx={{ mb: 2.4 }} fullWidth variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              required
+              error={Boolean(errorPassword)}
+              onChange={onUserInputHandler}
+              name="password"
+              label="Password"
+              autoComplete="off"
+            />
+            {Boolean(errorPassword) && (
+              <FormHelperText error>
+                Password should be at least: 6 characters, 1 uppercase, 1
+                lowercase, 1 number.
+              </FormHelperText>
+            )}
+          </FormControl>
+          <LoadingButton
+            sx={{ mb: 2.4 }}
+            fullWidth
+            variant="contained"
+            disableElevation
+            disabled={passwordInput === '' || Boolean(errorPassword)}
+            loading={isLoading}
+            loadingIndicator="Resetting password"
+            onClick={onResetPasswordBtnClick}
+          >
+            Reset password
+          </LoadingButton>
+          <Button
+            component={Link}
+            to="/login"
+            sx={{ p: 0.5, ml: 0.5 }}
+            variant="text"
+          >
+            Cancel
+          </Button>
+        </Paper>
+      )}
+    </>
   );
 };
 
