@@ -23,7 +23,6 @@ router.get("/verify/user/:token", verifyUser);
 
 //login
 router.post("/login", signInAccount);
-router.get("/auth-user", validateToken, getAuthUser);
 
 //user profile
 router.get("/profile/:id", getUserProfile);

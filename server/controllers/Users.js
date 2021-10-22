@@ -53,18 +53,16 @@ const verifyUser = async (req, res) => {
         _id,
         isVerify: false,
       },
-      { $set: { isVerify: true } }
-    )
-      .then((response) => {
-        if (response) {
-          res.status(200).json("Verify successful 😍");
+      { $set: { isVerify: true } },
+      { new: true },
+      (error, doc) => {
+        if (doc) {
+          res.status(200).json({ success: true, data: doc });
         } else {
           res.status(400).json({ error: "Your account is verified 🤔" });
         }
-      })
-      .catch((error) => {
-        res.status(400).json({ error: { error } });
-      });
+      }
+    ).select("-password");
   } catch (error) {
     res.status(400).json({ error: { error } });
   }
@@ -85,18 +83,20 @@ const signInAccount = async (req, res) => {
           });
         } else {
           const accessToken = createToken(emailCheck);
-          res.status(200).json({ accessToken, email });
+          res.status(200).json({
+            user: {
+              email: emailCheck.email,
+              id: emailCheck._id,
+              fullName: emailCheck.fullName,
+              isVerify: emailCheck.isVerify,
+              avatarImageURL: emailCheck.avatarImageURL,
+              iat: emailCheck.iat,
+            },
+            token: accessToken,
+          });
         }
       });
     }
-  } catch (error) {
-    res.status(400).json({ error: { error } });
-  }
-};
-
-const getAuthUser = (req, res) => {
-  try {
-    res.status(200).json(req.user);
   } catch (error) {
     res.status(400).json({ error: { error } });
   }
@@ -167,7 +167,6 @@ module.exports = {
   verifyUser,
   verifyRequest,
   signInAccount,
-  getAuthUser,
   getUserProfile,
   changePasswordRequest,
   validateResetPasswordToken,
