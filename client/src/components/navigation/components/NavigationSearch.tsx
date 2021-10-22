@@ -11,7 +11,6 @@ export const NavigationSearch: FC = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        // width: 367,
         boxShadow: 'unset',
       }}
     >

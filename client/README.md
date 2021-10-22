@@ -14,3 +14,5 @@
 ### `integrate-api`
 - /config-firebase
 - /register
+- /login
+- /navbar

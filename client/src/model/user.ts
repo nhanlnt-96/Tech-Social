@@ -14,3 +14,12 @@ export interface ILoginUser {
   email: string;
   password: string;
 }
+
+export interface IUserData {
+  avatarImageURL: string;
+  email: string;
+  fullName: string;
+  iat: number;
+  id: string;
+  isVerify: boolean;
+}

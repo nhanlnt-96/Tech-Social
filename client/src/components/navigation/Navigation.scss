@@ -24,28 +24,20 @@
   .user-name {
     margin-left: 15px;
 
-    .name-item, .view-item {
+    .name-item,
+    .view-item {
       margin: 0;
     }
 
     .name-item {
       text-transform: uppercase;
       font-weight: 600;
-
-      span {
-        margin-left: 10px;
-        color: #18181833;
-        font-weight: 400;
-      }
     }
 
-    .view-item {
-      color: #747474;
-      font-weight: 300;
-
-      span {
-        color: #02B033;
-        font-weight: 500;
+    .profile-page-btn {
+      &:hover {
+        color: #40a9ff;
+        background-color: unset;
       }
     }
   }
