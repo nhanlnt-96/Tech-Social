@@ -1,7 +1,10 @@
+import { IUserData } from 'model/user';
+
 export type ActionLoginUser = {
   type: string;
   payload: {
-    isLoading: boolean;
     isLogged: boolean;
+    getAuthData: IUserData;
+    getAuthError: any;
   };
 };
