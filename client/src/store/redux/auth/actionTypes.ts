@@ -1,4 +1,3 @@
+export const LOGIN_START = 'LOGIN_START';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const GET_AUTH_START = 'GET_AUTH_START';
-export const GET_AUTH_SUCCESS = 'GET_AUTH_SUCCESS';
-export const GET_AUTH_FAIL = 'GET_AUTH_FAIL';
+export const LOGIN_FAIL = 'LOGIN_FAIL';

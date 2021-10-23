@@ -1,36 +1,41 @@
 import {
-  GET_AUTH_FAIL,
-  GET_AUTH_START,
-  GET_AUTH_SUCCESS,
+  LOGIN_FAIL,
+  LOGIN_START,
   LOGIN_SUCCESS,
 } from 'store/redux/auth/actionTypes';
-import { IUserData } from 'model/user';
+import { ILoginUser, IUserDataLoggedIn } from 'model/user';
+import Cookies from 'js-cookie';
+import { message } from 'antd';
 
-export const loginSuccess = () => {
+export const loginStart = (userInput: ILoginUser) => {
+  const { email, password } = userInput;
+  return {
+    type: LOGIN_START,
+    payload: { email, password },
+  };
+};
+
+export const loginSuccess = (userData: IUserDataLoggedIn) => {
+  const expireAccessToken = new Date(Date.parse(userData.token.access.expire));
+  Cookies.set('accessToken', userData.token.access.token, {
+    expires: expireAccessToken,
+  });
+  Cookies.set('userProfile', JSON.stringify(userData.user), {
+    expires: expireAccessToken,
+  });
+  message.success('Logged in 😍');
   return {
     type: LOGIN_SUCCESS,
     payload: {
-      isLogged: true,
+      loginUserData: userData.user,
     },
   };
 };
 
-export const getAuthStart = () => {
+export const loginFail = (loginError: string) => {
+  message.error(loginError);
   return {
-    type: GET_AUTH_START,
-  };
-};
-
-export const getAuthSuccess = (getAuthData: IUserData) => {
-  return {
-    type: GET_AUTH_SUCCESS,
-    payload: { getAuthData },
-  };
-};
-
-export const getAuthFail = (getAuthError: any) => {
-  return {
-    type: GET_AUTH_FAIL,
-    payload: getAuthError,
+    type: LOGIN_FAIL,
+    payload: { loginError },
   };
 };

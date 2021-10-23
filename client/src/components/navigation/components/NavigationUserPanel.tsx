@@ -1,10 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Avatar, Button, Paper, Typography } from '@mui/material';
+import React, { FC, useState } from 'react';
+import { Avatar, Button, Paper, Popover, Typography } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAuthStart } from 'store/redux/auth/actions';
-import { IRootState } from 'store/rootReducer';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { IUserData } from 'model/user';
 
 const verifyIconStyle = {
   fontSize: '13px',
@@ -12,14 +11,10 @@ const verifyIconStyle = {
 };
 
 export const NavigationUserPanel: FC = () => {
-  const dispatch = useDispatch();
-  const userData = useSelector(
-    (state: IRootState) => state.loginUser.userAuthData,
-  );
+  const userProfile = Cookies.get('userProfile');
+  const userData: IUserData =
+    typeof userProfile === 'string' && JSON.parse(userProfile);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  useEffect(() => {
-    dispatch(getAuthStart());
-  }, []);
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -40,25 +35,47 @@ export const NavigationUserPanel: FC = () => {
     >
       <Avatar alt={userData?.id} src={`${userData?.avatarImageURL}`} />
       <div className="user-name">
-        <Typography
-          className="name-item"
-          aria-owns={open ? 'mouse-over-popover' : undefined}
-          aria-haspopup="true"
-          onMouseEnter={handlePopoverOpen}
-          onMouseLeave={handlePopoverClose}
-        >
+        <Typography className="name-item" sx={{ display: 'flex' }}>
           {userData?.fullName}
-          <CheckCircleIcon
-            sx={
-              userData?.isVerify
-                ? {
-                    ...verifyIconStyle,
-                    color: '#0275B1',
-                  }
-                : { ...verifyIconStyle, color: '#747474' }
-            }
-          />
+          <Typography
+            className="name-item"
+            aria-owns={open ? 'mouse-over-popover' : undefined}
+            aria-haspopup="true"
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+          >
+            <CheckCircleIcon
+              sx={
+                userData?.isVerify
+                  ? {
+                      ...verifyIconStyle,
+                      color: '#0275B1',
+                    }
+                  : { ...verifyIconStyle, color: '#747474' }
+              }
+            />
+          </Typography>
         </Typography>
+        <Popover
+          id="mouse-over-popover"
+          sx={{
+            pointerEvents: 'none',
+          }}
+          open={open}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          onClose={handlePopoverClose}
+          disableRestoreFocus
+        >
+          <Typography sx={{ p: 1 }}>User account is verified 😍</Typography>
+        </Popover>
         <Button
           sx={{ color: '#0275b1', textTransform: 'unset', p: 0 }}
           className="profile-page-btn"

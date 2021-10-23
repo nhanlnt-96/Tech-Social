@@ -4,7 +4,7 @@ export type ActionLoginUser = {
   type: string;
   payload: {
     isLogged: boolean;
-    getAuthData: IUserData;
-    getAuthError: any;
+    loginUserData: IUserData;
+    loginError: string;
   };
 };

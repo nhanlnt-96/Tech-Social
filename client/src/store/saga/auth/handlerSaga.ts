@@ -1,7 +1,7 @@
 import { takeEvery } from 'redux-saga/effects';
-import { GET_AUTH_START } from 'store/redux/auth/actionTypes';
-import { onGetAuthSagaRequest } from 'store/saga/auth/resquestSaga';
+import { LOGIN_START } from 'store/redux/auth/actionTypes';
+import { onLoginSagaRequest } from 'store/saga/auth/requestSaga';
 
-export function* onGetAuthSagaHandler() {
-  yield takeEvery(GET_AUTH_START, onGetAuthSagaRequest);
+export function* onLoginSagaHandler() {
+  yield takeEvery(LOGIN_START, onLoginSagaRequest);
 }

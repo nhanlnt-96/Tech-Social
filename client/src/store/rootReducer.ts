@@ -2,11 +2,11 @@ import { combineReducers } from 'redux';
 import registerGoogleReducer, {
   IRegisterGoogle,
 } from 'store/redux/registerGoogle';
-import loginUserReducer, { ILoginUser } from 'store/redux/auth';
+import loginUserReducer, { ILoginUserState } from 'store/redux/auth';
 
 export interface IRootState {
   registerGoogle: IRegisterGoogle;
-  loginUser: ILoginUser;
+  loginUser: ILoginUserState;
 }
 
 export const rootReducer = combineReducers({

@@ -10,8 +10,8 @@ import Navigation from 'components/navigation/Navigation';
 import Footer from 'components/footer/Footer';
 import { routes } from 'configs/routes';
 import Cookies from 'js-cookie';
-import { IRootState } from 'store/rootReducer';
 import { useSelector } from 'react-redux';
+import { IRootState } from 'store/rootReducer';
 
 const mdTheme = createTheme();
 
@@ -32,14 +32,16 @@ const styleNotAuth = {
 
 const MainLayout: FC = () => {
   const token = Cookies.get('accessToken');
-  const { isLogged } = useSelector((state: IRootState) => state.loginUser);
+  const {
+    userLogin: { isLogged },
+  } = useSelector((state: IRootState) => state.loginUser);
   const renderComponent =
     (module: JSX.Element, isPrivate: boolean, isAuth: boolean) => () => {
       if (isAuth) {
-        return !isLogged && !token ? module : <Redirect to="/" />;
+        return !token && !isLogged ? module : <Redirect to="/" />;
       }
       if (isPrivate) {
-        return isLogged || token ? module : <Redirect to="/login" />;
+        return token || isLogged ? module : <Redirect to="/login" />;
       }
       return module;
     };
@@ -48,10 +50,10 @@ const MainLayout: FC = () => {
     <ThemeProvider theme={mdTheme}>
       <CssBaseline />
       {/* Header */}
-      {(isLogged || token) && <Navigation />}
+      {(token || isLogged) && <Navigation />}
       {/* /Header */}
       {/* Content */}
-      <Container sx={isLogged || token ? styleIsAuth : styleNotAuth}>
+      <Container sx={token ? styleIsAuth : styleNotAuth}>
         <Switch>
           {routes.map((val) => {
             const { path, isExact, isPrivate, isAuth, module } = val;
@@ -65,7 +67,7 @@ const MainLayout: FC = () => {
       </Container>
       {/* /Content */}
       {/* Footer */}
-      {(isLogged || token) && <Footer />}
+      {(token || isLogged) && <Footer />}
       {/* /Footer */}
     </ThemeProvider>
   );

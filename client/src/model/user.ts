@@ -23,3 +23,13 @@ export interface IUserData {
   id: string;
   isVerify: boolean;
 }
+
+export interface IUserDataLoggedIn {
+  user: IUserData;
+  token: {
+    access: {
+      token: string;
+      expire: string;
+    };
+  };
+}

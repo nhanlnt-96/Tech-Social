@@ -19,12 +19,8 @@ const createToken = (user) => {
   const accessTokenExpire = moment().add("30", "days");
   const accessToken = generateToken(user._id, accessTokenExpire, "access");
 
-  const refreshAccessToken = moment().add("60", "days");
-  const refreshToken = generateToken(user._id, refreshAccessToken, "refresh");
-
   return {
     access: { token: accessToken, expire: accessTokenExpire.toDate() },
-    refresh: { token: refreshToken, expire: refreshAccessToken.toDate() },
   };
 };
 

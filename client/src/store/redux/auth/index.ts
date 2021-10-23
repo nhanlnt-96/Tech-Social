@@ -1,62 +1,63 @@
 import { ActionLoginUser } from 'store/redux/auth/types';
 import {
-  GET_AUTH_FAIL,
-  GET_AUTH_START,
-  GET_AUTH_SUCCESS,
+  LOGIN_FAIL,
+  LOGIN_START,
   LOGIN_SUCCESS,
 } from 'store/redux/auth/actionTypes';
 import { IUserData } from 'model/user';
 
-export interface ILoginUser {
-  isLogged: boolean;
-  getAuthLoading: boolean;
-  userAuthData: IUserData;
-  getAuthError: any;
+export interface ILoginUserState {
+  userLogin: {
+    isLogged: boolean;
+    isLoading: boolean;
+    loginUserData: IUserData;
+    loginError: string;
+  };
 }
 
-const loginUserState: ILoginUser = {
-  isLogged: false,
-  getAuthLoading: true,
-  userAuthData: {
-    avatarImageURL: '',
-    email: '',
-    fullName: '',
-    iat: 0,
-    id: '',
-    isVerify: false,
+const loginUserState: ILoginUserState = {
+  userLogin: {
+    isLogged: false,
+    isLoading: false,
+    loginUserData: {
+      email: '',
+      fullName: '',
+      isVerify: false,
+      id: '',
+      iat: 0,
+      avatarImageURL: '',
+    },
+    loginError: '',
   },
-  getAuthError: {},
 };
 
 const loginUserReducer = (state = loginUserState, action: ActionLoginUser) => {
   switch (action.type) {
-    case LOGIN_SUCCESS:
+    case LOGIN_START:
       return {
-        isLogged: action.payload.isLogged,
+        userLogin: {
+          ...state.userLogin,
+          isLoading: true,
+        },
       };
-    case GET_AUTH_START:
+    case LOGIN_SUCCESS: {
       return {
-        getAuthLoading: true,
-      };
-    case GET_AUTH_SUCCESS: {
-      const { avatarImageURL, email, fullName, iat, id, isVerify } =
-        action.payload.getAuthData;
-      return {
-        getAuthLoading: false,
-        userAuthData: {
-          avatarImageURL,
-          email,
-          fullName,
-          iat,
-          id,
-          isVerify,
+        userLogin: {
+          ...state.userLogin,
+          isLogged: true,
+          isLoading: false,
+          loginUserData: action.payload.loginUserData,
+          loginError: '',
         },
       };
     }
-    case GET_AUTH_FAIL:
+    case LOGIN_FAIL:
       return {
-        getAuthLoading: false,
-        getAuthError: action.payload.getAuthError,
+        userLogin: {
+          ...state.userLogin,
+          isLoading: false,
+          loginError: action.payload.loginError,
+        },
       };
     default:
       return state;
