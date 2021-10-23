@@ -2,6 +2,8 @@ import {
   LOGIN_FAIL,
   LOGIN_START,
   LOGIN_SUCCESS,
+  LOGOUT_START,
+  LOGOUT_SUCCESS,
 } from 'store/redux/auth/actionTypes';
 import { ILoginUser, IUserDataLoggedIn } from 'model/user';
 import Cookies from 'js-cookie';
@@ -37,5 +39,20 @@ export const loginFail = (loginError: string) => {
   return {
     type: LOGIN_FAIL,
     payload: { loginError },
+  };
+};
+
+export const logoutStart = () => {
+  Cookies.remove('accessToken');
+  Cookies.remove('userProfile');
+  message.success('Logged out 😍');
+  return {
+    type: LOGOUT_START,
+  };
+};
+
+export const logoutSuccess = () => {
+  return {
+    type: LOGOUT_SUCCESS,
   };
 };

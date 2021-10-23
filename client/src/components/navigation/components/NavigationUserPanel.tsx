@@ -33,7 +33,11 @@ export const NavigationUserPanel: FC = () => {
         boxShadow: 'unset',
       }}
     >
-      <Avatar alt={userData?.id} src={`${userData?.avatarImageURL}`} />
+      {userData?.avatarImageURL ? (
+        <Avatar alt={userData?.id} src={`${userData?.avatarImageURL}`} />
+      ) : (
+        <Avatar alt={userData?.id}>{userData?.fullName.charAt(0)}</Avatar>
+      )}
       <div className="user-name">
         <Typography className="name-item" sx={{ display: 'flex' }}>
           {userData?.fullName}
@@ -74,7 +78,11 @@ export const NavigationUserPanel: FC = () => {
           onClose={handlePopoverClose}
           disableRestoreFocus
         >
-          <Typography sx={{ p: 1 }}>User account is verified 😍</Typography>
+          <Typography sx={{ p: 1 }}>
+            {userData?.isVerify
+              ? 'User account is verified 😍'
+              : 'User account is not verify 🤔'}
+          </Typography>
         </Popover>
         <Button
           sx={{ color: '#0275b1', textTransform: 'unset', p: 0 }}

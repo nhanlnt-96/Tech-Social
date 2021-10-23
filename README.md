@@ -2,6 +2,7 @@
 
 ### `client`
 - /login
+- /header
 
 ### `server`
 - /user
