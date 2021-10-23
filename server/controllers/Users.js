@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const UserMessage = require("../models/UserMessage");
 const { createToken } = require("../JWT/jwt");
 const { verify } = require("jsonwebtoken");
+const PostMessage = require("../models/PostMessage");
 
 //sign up v.2.0
 const signUpAccount = async (req, res) => {
@@ -106,14 +107,30 @@ const signInAccount = async (req, res) => {
 const getUserProfile = async (req, res) => {
   const id = req.params.id;
   const profileUser = await UserMessage.findById(id).select("-password");
+  const postByUser = await PostMessage.aggregate([
+    {
+      $match: { UserId: id },
+    },
+    {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "PostId",
+        as: "Likes",
+      },
+    },
+  ]);
   try {
-    res.status(200).json(profileUser);
+    res.status(200).json({
+      user: profileUser,
+      posts: postByUser,
+    });
   } catch (error) {
     res.status(400).json({ error: { error } });
   }
 };
 
-//change password
+//reset password
 const changePasswordRequest = async (req, res) => {
   const { email } = req.body;
   const emailCheck = await UserMessage.findOne({ email });

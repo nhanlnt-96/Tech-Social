@@ -18,16 +18,16 @@ const router = express.Router();
 router.post("/", signUpAccount);
 
 //verify user
-router.post("/verify/request", verifyRequest);
-router.get("/verify/user/:token", verifyUser);
+router.post("/verify/request", validateToken, verifyRequest);
+router.get("/verify/user/:token", validateToken, verifyUser);
 
 //login
 router.post("/login", signInAccount);
 
 //user profile
-router.get("/profile/:id", getUserProfile);
+router.get("/profile/:id", validateToken, getUserProfile);
 
-//change password
+//reset password
 router.post("/change-password-request", changePasswordRequest);
 router.post("/validate-reset-password/", validateResetPasswordToken);
 router.put("/reset-password/user/:token", resetPassword);
