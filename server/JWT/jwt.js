@@ -2,13 +2,18 @@ const { sign, verify } = require("jsonwebtoken");
 const moment = require("moment");
 
 const generateToken = (
-  userId,
+  userData,
   expires,
   type,
   secretToken = process.env.ACCESS_TOKEN
 ) => {
   const data = {
-    sub: userId,
+    sub: {
+      id: userData._id,
+      fullName: userData.fullName,
+      avatarImageURL: userData.avatarImageURL,
+      isVerify: userData.isVerify,
+    },
     exp: expires.unix(),
     type,
   };
@@ -17,7 +22,7 @@ const generateToken = (
 
 const createToken = (user) => {
   const accessTokenExpire = moment().add("30", "days");
-  const accessToken = generateToken(user._id, accessTokenExpire, "access");
+  const accessToken = generateToken(user, accessTokenExpire, "access");
 
   return {
     access: { token: accessToken, expire: accessTokenExpire.toDate() },
