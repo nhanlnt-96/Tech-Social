@@ -13,6 +13,7 @@ const generateToken = (
       fullName: userData.fullName,
       avatarImageURL: userData.avatarImageURL,
       isVerify: userData.isVerify,
+      email: userData.email,
     },
     exp: expires.unix(),
     type,
@@ -45,8 +46,8 @@ const validateToken = (req, res, next) => {
   }
 };
 
-const createEmailToken = (_id) => {
-  const emailToken = sign({ _id }, process.env.EMAIL_TOKEN, {
+const createEmailToken = (_id, type) => {
+  const emailToken = sign({ _id, type }, process.env.EMAIL_TOKEN, {
     expiresIn: "2h",
   });
   return emailToken;

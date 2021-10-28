@@ -2,9 +2,10 @@ const sendEmail = require("../configs/nodemailer");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const UserMessage = require("../models/UserMessage");
-const { createToken } = require("../JWT/jwt");
-const { verify } = require("jsonwebtoken");
 const PostMessage = require("../models/PostMessage");
+const TokenMessage = require("../models/TokenMessage");
+const { createToken, createEmailToken } = require("../JWT/jwt");
+const { verify } = require("jsonwebtoken");
 
 //sign up v.2.0
 const signUpAccount = async (req, res) => {
@@ -37,9 +38,23 @@ const signUpAccount = async (req, res) => {
 
 //verify request
 const verifyRequest = async (req, res) => {
-  const { _id, email, fullName } = req.body;
+  const createdAt = new Date();
+  const { id, email, fullName } = req.user.sub;
+  let tokenCheck = await TokenMessage.findOne({ UserId: id });
   try {
-    await sendEmail(res, "confirm", _id, email, fullName);
+    if (!tokenCheck) {
+      await new TokenMessage({
+        UserId: id,
+        token: createEmailToken(id, "reset"),
+        createdAt,
+      }).save((err, doc) => {
+        if (doc) {
+          sendEmail(res, "confirm", email, fullName, doc.token);
+        }
+      });
+    } else {
+      sendEmail(res, "confirm", email, fullName, tokenCheck.token);
+    }
   } catch (error) {
     res.status(400).json({ error: { error } });
   }
@@ -47,23 +62,30 @@ const verifyRequest = async (req, res) => {
 
 // verify user
 const verifyUser = async (req, res) => {
+  const token = req.params.token;
+  const { _id, type } = verify(token, process.env.EMAIL_TOKEN);
+  const tokenCheck = await TokenMessage.findOne({ UserId: _id, token });
   try {
-    const { _id } = verify(req.params.token, process.env.EMAIL_TOKEN);
-    await UserMessage.findOneAndUpdate(
-      {
-        _id,
-        isVerify: false,
-      },
-      { $set: { isVerify: true } },
-      { new: true },
-      (error, doc) => {
-        if (doc) {
-          res.status(200).json({ success: true, data: doc });
-        } else {
-          res.status(400).json({ error: "Your account is verified 🤔" });
+    if (!tokenCheck && type !== "confirm") {
+      res.status(400).json({ error: "Your verify account link has expired." });
+    } else {
+      await UserMessage.findOneAndUpdate(
+        {
+          _id,
+          isVerify: false,
+        },
+        { $set: { isVerify: true } },
+        { new: true },
+        async (error, doc) => {
+          if (doc) {
+            await tokenCheck.delete();
+            res.status(200).json({ success: true, data: doc });
+          } else {
+            res.status(400).json({ error: "Your account is verified 🤔" });
+          }
         }
-      }
-    ).select("-password");
+      ).select("-password");
+    }
   } catch (error) {
     res.status(400).json({ error: { error } });
   }
@@ -131,49 +153,55 @@ const getUserProfile = async (req, res) => {
 };
 
 //reset password
-const changePasswordRequest = async (req, res) => {
+const resetPasswordRequest = async (req, res) => {
   const { email } = req.body;
-  const emailCheck = await UserMessage.findOne({ email });
+  const createdAt = new Date();
+  const emailCheck = await UserMessage.findOne({ email }).select("-password");
+  let tokenCheck = await TokenMessage.findOne({ UserId: emailCheck._id });
   try {
     if (!emailCheck) {
       res.status(400).json({ error: "Hmm, that email doesn't look right. 😳" });
+    }
+
+    const { _id, email, fullName } = emailCheck;
+    if (!tokenCheck) {
+      await new TokenMessage({
+        UserId: _id,
+        token: createEmailToken(_id, "reset"),
+        createdAt,
+      }).save((err, doc) => {
+        if (doc) {
+          sendEmail(res, "reset", email, fullName, doc.token);
+        }
+      });
     } else {
-      sendEmail(
-        res,
-        "reset",
-        emailCheck._id,
-        emailCheck.email,
-        emailCheck.fullName
-      );
+      sendEmail(res, "reset", email, fullName, tokenCheck.token);
     }
   } catch (error) {
     res.status(400).json({ error: { error } });
   }
 };
 
-const validateResetPasswordToken = (req, res) => {
-  const { token } = req.body;
-  try {
-    verify(token, process.env.EMAIL_TOKEN);
-    res.status(200).json("OK");
-  } catch (error) {
-    res.status(500).json({ error: { error } });
-  }
-};
-
 const resetPassword = async (req, res) => {
-  const { _id } = verify(req.params.token, process.env.EMAIL_TOKEN);
+  const token = req.params.token;
+  const { _id, type } = verify(token, process.env.EMAIL_TOKEN);
   const { password } = req.body;
+  const tokenCheck = await TokenMessage.findOne({ UserId: _id, token });
   try {
-    bcrypt.hash(password, 10).then(async (hash) => {
-      await UserMessage.findOneAndUpdate(
-        {
-          _id,
-        },
-        { $set: { password: hash } }
-      );
-      res.status(200).json("Password changed 😍");
-    });
+    if (!tokenCheck && type !== "reset") {
+      res.status(400).json({ error: "Your password reset link has expired." });
+    } else {
+      bcrypt.hash(password, 10).then(async (hash) => {
+        await UserMessage.findOneAndUpdate(
+          {
+            _id,
+          },
+          { $set: { password: hash } }
+        );
+        await tokenCheck.delete();
+        res.status(200).json("Password reset successfully 😍");
+      });
+    }
   } catch (error) {
     res.status(400).json({ error: { error } });
   }
@@ -185,7 +213,6 @@ module.exports = {
   verifyRequest,
   signInAccount,
   getUserProfile,
-  changePasswordRequest,
-  validateResetPasswordToken,
+  resetPasswordRequest,
   resetPassword,
 };

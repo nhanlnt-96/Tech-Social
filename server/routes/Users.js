@@ -3,13 +3,11 @@ const { validateToken } = require("../JWT/jwt");
 const {
   signUpAccount,
   signInAccount,
-  getAuthUser,
   getUserProfile,
-  changePasswordRequest,
+  resetPasswordRequest,
   verifyUser,
   verifyRequest,
   resetPassword,
-  validateResetPasswordToken,
 } = require("../controllers/Users");
 
 const router = express.Router();
@@ -19,7 +17,7 @@ router.post("/", signUpAccount);
 
 //verify user
 router.post("/verify/request", validateToken, verifyRequest);
-router.get("/verify/user/:token", validateToken, verifyUser);
+router.patch("/verify/user/:token", validateToken, verifyUser);
 
 //login
 router.post("/login", signInAccount);
@@ -28,8 +26,7 @@ router.post("/login", signInAccount);
 router.get("/profile/:id", validateToken, getUserProfile);
 
 //reset password
-router.post("/change-password-request", changePasswordRequest);
-router.post("/validate-reset-password/", validateResetPasswordToken);
-router.put("/reset-password/user/:token", resetPassword);
+router.post("/change-password-request", resetPasswordRequest);
+router.patch("/reset-password/user/:token", resetPassword);
 
 module.exports = router;
