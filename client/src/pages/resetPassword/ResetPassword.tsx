@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import PageNotFound from 'pages/notFound/PageNotFound';
 import { ResetPasswordForm } from 'pages/resetPassword/components';
+import { validateToken } from 'services/auth';
 
 const ResetPassword = () => {
   const { token } = useParams<{ token: string }>();
@@ -10,6 +11,16 @@ const ResetPassword = () => {
   const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
   useEffect(() => {
     setIsPageLoading(true);
+    validateToken(token)
+      .then((res) => {
+        if (res.status === 200) {
+          setIsPageLoading(false);
+        }
+      })
+      .catch((err) => {
+        setIsPageLoading(false);
+        setIsTokenExpired(true);
+      });
   }, []);
   return (
     <>

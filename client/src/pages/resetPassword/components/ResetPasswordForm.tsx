@@ -15,14 +15,12 @@ import { Link } from 'react-router-dom';
 import { passwordRegex } from 'shared/regex';
 import { resetPassword } from 'services/auth';
 import { message } from 'antd';
-import { useHistory } from 'react-router';
 
 type Props = {
   token: string;
 };
 
 export const ResetPasswordForm: FC<Props> = ({ token }) => {
-  const history = useHistory();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -40,8 +38,11 @@ export const ResetPasswordForm: FC<Props> = ({ token }) => {
         if (response.status === 200) {
           message.success(response.data, 1.5).then(() => {
             setIsLoading(false);
-            history.push('/login');
           });
+          setPasswordInput('');
+          setTimeout(() => {
+            window.close();
+          }, 1500);
         }
       })
       .catch((error) => {

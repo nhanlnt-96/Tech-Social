@@ -22,7 +22,7 @@ const styleIsAuth = {
 
 const styleNotAuth = {
   width: '100%',
-  height: '100%',
+  height: '100vh',
   paddingLeft: '0 !important',
   paddingRight: '0 !important',
   display: 'flex',
