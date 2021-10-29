@@ -207,6 +207,14 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const validateTokenToAuth = (req, res) => {
+  const token = verify(req.body.token, process.env.EMAIL_TOKEN);
+  if (token) {
+    res.status(200).json("OK");
+  }
+  res.status(400).json("Expired");
+};
+
 module.exports = {
   signUpAccount,
   verifyUser,
@@ -215,4 +223,5 @@ module.exports = {
   getUserProfile,
   resetPasswordRequest,
   resetPassword,
+  validateTokenToAuth,
 };
