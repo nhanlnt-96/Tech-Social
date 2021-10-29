@@ -207,12 +207,19 @@ const resetPassword = async (req, res) => {
   }
 };
 
-const validateTokenToAuth = (req, res) => {
-  const token = verify(req.body.token, process.env.EMAIL_TOKEN);
-  if (token) {
-    res.status(200).json("OK");
+const validateTokenToAuth = async (req, res) => {
+  const token = req.body.token;
+  const { _id } = verify(token, process.env.EMAIL_TOKEN);
+  const tokenCheck = await TokenMessage.findOne({ UserId: _id, token });
+  try {
+    if (tokenCheck) {
+      res.status(200).json("OK");
+    } else {
+      res.status(404).json("Expired");
+    }
+  } catch (error) {
+    res.status(400).json({ error: { error } });
   }
-  res.status(400).json("Expired");
 };
 
 module.exports = {
