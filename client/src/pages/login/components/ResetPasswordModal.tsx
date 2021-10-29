@@ -40,6 +40,10 @@ export const ResetPasswordModal: FC<Props> = ({ visible, setVisible }) => {
             message: response.data,
           });
           setIsLoading(false);
+          setTimeout(() => {
+            setVisible(false);
+            setSentSuccess({ isSent: false, message: '' });
+          }, 2000);
         }
       })
       .catch((error) => {

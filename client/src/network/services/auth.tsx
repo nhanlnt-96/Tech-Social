@@ -23,18 +23,10 @@ export const loginRequest = (userData: ILoginUser) => {
   });
 };
 
-export const getAuthUser = () => {
-  return api.get('/auth/auth-user');
-};
-
 export const resetPasswordRequest = (email: string) => {
   return api.post('/auth/change-password-request', {
     email,
   });
-};
-
-export const validateResetPasswordToken = (token: string) => {
-  return api.post('/auth/validate-reset-password', { token });
 };
 
 export const resetPassword = (token: string, password: string) => {
