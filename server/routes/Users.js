@@ -31,6 +31,6 @@ router.post("/change-password-request", resetPasswordRequest);
 router.patch("/reset-password/user/:token", resetPassword);
 
 // validate token
-router.get("/validate-token", validateTokenToAuth);
+router.post("/validate-token", validateTokenToAuth);
 
 module.exports = router;
