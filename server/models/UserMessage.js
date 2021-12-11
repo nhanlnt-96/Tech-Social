@@ -15,6 +15,11 @@ const UserMessage = mongoose.model(
       type: String,
       require: true,
     },
+    location: {
+      type: String,
+      require: true,
+      default: null
+    },
     password: {
       type: String,
       require: true,

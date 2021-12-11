@@ -42,6 +42,10 @@ app.use("/likes", likeRouter);
 const commentRouter = require("./routes/Comments");
 app.use("/comments", commentRouter);
 
+//country router
+const countryRouter = require("./routes/Countries");
+app.use("/country", countryRouter);
+
 mongoose
   .connect(process.env.ATLAS_URI, {
     useNewUrlParser: true,
