@@ -1,9 +1,10 @@
 import React, { FC, useState } from 'react';
-import { Avatar, Button, Paper, Popover, Typography } from '@mui/material';
+import { Avatar, Button, Paper, Typography } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { IUserData } from 'model/user';
+import VerifyPopover from 'components/verifyPoper/VerifyPopover';
 
 const verifyIconStyle = {
   fontSize: '13px',
@@ -18,10 +19,11 @@ export const NavigationUserPanel: FC = () => {
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const open = Boolean(anchorEl);
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
-  const open = Boolean(anchorEl);
+  console.log(userData?.avatarImageURL);
   return (
     <Paper
       className="user-panel-container"
@@ -34,7 +36,10 @@ export const NavigationUserPanel: FC = () => {
       }}
     >
       {userData?.avatarImageURL ? (
-        <Avatar alt={userData?.id} src={`${userData?.avatarImageURL}`} />
+        <Avatar
+          alt={userData?.id}
+          src={`${String(userData?.avatarImageURL)}`}
+        />
       ) : (
         <Avatar alt={userData?.id}>{userData?.fullName.charAt(0)}</Avatar>
       )}
@@ -60,30 +65,12 @@ export const NavigationUserPanel: FC = () => {
             />
           </Typography>
         </Typography>
-        <Popover
-          id="mouse-over-popover"
-          sx={{
-            pointerEvents: 'none',
-          }}
+        <VerifyPopover
           open={open}
           anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-          onClose={handlePopoverClose}
-          disableRestoreFocus
-        >
-          <Typography sx={{ p: 1 }}>
-            {userData?.isVerify
-              ? 'User account is verified 😍'
-              : 'User account is not verify 🤔'}
-          </Typography>
-        </Popover>
+          setAnchorEl={setAnchorEl}
+          isVerify={userData?.isVerify}
+        />
         <Button
           sx={{ color: '#0275b1', textTransform: 'unset', p: 0 }}
           className="profile-page-btn"

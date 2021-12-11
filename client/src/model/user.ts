@@ -22,6 +22,12 @@ export interface IUserData {
   iat: number;
   id: string;
   isVerify: boolean;
+  country?: string;
+  location?: string;
+  about?: string;
+  phoneNumber?: string;
+  skype?: string;
+  facebook?: string;
 }
 
 export interface IUserDataLoggedIn {
@@ -32,4 +38,14 @@ export interface IUserDataLoggedIn {
       expire: string;
     };
   };
+}
+
+export interface IUserProfile {
+  fullName: string;
+  country: string;
+  location: string;
+  about: string;
+  phoneNumber: string;
+  skype: string;
+  facebook: string;
 }

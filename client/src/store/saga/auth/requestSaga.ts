@@ -4,7 +4,6 @@ import { loginRequest } from 'services/auth';
 import {
   loginFail,
   loginSuccess,
-  logoutStart,
   logoutSuccess,
 } from 'store/redux/auth/actions';
 

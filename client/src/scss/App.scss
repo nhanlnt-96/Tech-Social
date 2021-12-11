@@ -45,3 +45,17 @@
     margin: 0;
   }
 }
+
+.input-without-label {
+  div {
+    padding: 6px 16px !important;
+  }
+
+  fieldset {
+    top: 0;
+
+    legend {
+      display: none;
+    }
+  }
+}

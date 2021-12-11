@@ -1,8 +1,5 @@
 import React, { FC } from 'react';
 import { Backdrop, Box, Button, Fade, Grid, Modal } from '@mui/material';
-import Cookies from 'js-cookie';
-import { message } from 'antd';
-import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { logoutStart } from 'store/redux/auth/actions';
 

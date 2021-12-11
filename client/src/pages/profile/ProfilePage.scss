@@ -74,6 +74,7 @@
   color: #181818;
 
   .user-name {
+    display: flex;
     flex: 1;
     font-size: 18px;
     font-weight: 600;
@@ -91,5 +92,31 @@
   p {
     margin: 15px 0;
     font-size: 14px;
+  }
+}
+
+.edit-profile-form {
+  p {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .input-padding {
+    input {
+      padding: 0 !important;
+    }
+  }
+
+  .about-textarea {
+    margin-bottom: 16px;
+
+    textarea {
+      border-radius: 4px;
+      width: 100%;
+      padding: 6px 16px;
+      outline: none;
+      font-size: 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.23);
+    }
   }
 }

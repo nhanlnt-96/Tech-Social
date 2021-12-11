@@ -1,11 +1,40 @@
-import React, { FC } from 'react';
-import { Avatar, Box, Button, Grid, IconButton } from '@mui/material';
+import React, { FC, useState } from 'react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import Cookies from 'js-cookie';
+import { IUserData } from 'model/user';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import VerifyPopover from 'components/verifyPoper/VerifyPopover';
+import { EditProfileModal } from 'pages/profile/components/EditProfileModal';
+
+const verifyIconStyle = {
+  fontSize: '13px',
+  marginLeft: '5px',
+};
 
 export const ProfileHeader: FC = () => {
+  const userProfile = Cookies.get('userProfile');
+  const [visible, setVisible] = useState<boolean>(false);
+  const userData: IUserData =
+    typeof userProfile === 'string' && JSON.parse(userProfile);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const open = Boolean(anchorEl);
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Box
       sx={{
@@ -42,6 +71,7 @@ export const ProfileHeader: FC = () => {
                 className="btn-edit"
                 variant="contained"
                 startIcon={<BorderColorIcon />}
+                onClick={() => setVisible(true)}
               >
                 Edit profile
               </Button>
@@ -55,17 +85,61 @@ export const ProfileHeader: FC = () => {
           <Grid container>
             <Grid item xs={2}>
               <div className="profile-avatar">
-                <Avatar
-                  className="profile-avatar-img"
-                  src="https://i.pinimg.com/280x280_RS/1e/d9/41/1ed9419c783a0398efc0f5c378eb0daf.jpg"
-                  alt="profile-cover"
-                  sx={{ width: '100%', height: '100%' }}
-                />
+                {userData?.avatarImageURL ? (
+                  <Avatar
+                    alt={userData?.id}
+                    src={`${userData?.avatarImageURL}`}
+                    sx={{ width: '100%', height: '100%' }}
+                  />
+                ) : (
+                  <Avatar
+                    alt={userData?.id}
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  >
+                    <Typography variant="h2" sx={{ color: '#ffffff' }}>
+                      {userData?.fullName.charAt(0)}
+                    </Typography>
+                  </Avatar>
+                )}
               </div>
             </Grid>
             <Grid item xs={10}>
               <div className="name-and-location">
-                <div className="user-name">Le Nguyen Thien Nhan</div>
+                <div className="user-name">
+                  {userData?.fullName}
+                  <Typography
+                    className="name-item"
+                    aria-owns={open ? 'mouse-over-popover' : undefined}
+                    aria-haspopup="true"
+                    onMouseEnter={handlePopoverOpen}
+                    onMouseLeave={handlePopoverClose}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <CheckCircleIcon
+                      sx={
+                        userData?.isVerify
+                          ? {
+                              ...verifyIconStyle,
+                              color: '#0275B1',
+                            }
+                          : { ...verifyIconStyle, color: '#747474' }
+                      }
+                    />
+                  </Typography>
+                </div>
+                <VerifyPopover
+                  open={open}
+                  anchorEl={anchorEl}
+                  setAnchorEl={setAnchorEl}
+                  isVerify={userData?.isVerify}
+                />
                 <div className="user-location">
                   <LocationOnIcon
                     sx={{ mr: 0.5, fontSize: '12px', color: '#0275B1' }}
@@ -96,6 +170,7 @@ export const ProfileHeader: FC = () => {
           </Grid>
         </Grid>
       </Grid>
+      <EditProfileModal visible={visible} setVisible={setVisible} />
     </Box>
   );
 };

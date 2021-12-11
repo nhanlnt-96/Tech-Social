@@ -16,6 +16,7 @@
 - /register
 - /login
 - /navbar
+- /profile-page
 
 ## Fix bug Branch
 

@@ -18,10 +18,12 @@ const ResetPassword = () => {
         }
       })
       .catch((err) => {
-        setIsPageLoading(false);
-        setIsTokenExpired(true);
+        if (err) {
+          setIsPageLoading(false);
+          setIsTokenExpired(true);
+        }
       });
-  }, []);
+  }, [token]);
   return (
     <>
       {/* eslint-disable-next-line no-nested-ternary */}

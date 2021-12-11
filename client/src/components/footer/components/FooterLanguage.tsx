@@ -13,8 +13,9 @@ export const FooterLanguage: FC = () => {
           sx={{ textTransform: 'uppercase' }}
           defaultValue="en"
           fullWidth
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          displayEmpty
+          className="input-without-label"
+          inputProps={{ 'aria-label': 'Without label' }}
         >
           {footerLanguageItem.map((val) => {
             const { label, value, isActive } = val;
