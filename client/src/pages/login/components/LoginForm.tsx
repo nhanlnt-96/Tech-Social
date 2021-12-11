@@ -12,24 +12,19 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { ILoginUser } from 'model/user';
 import { emailRegex, passwordRegex } from 'shared/regex';
-import { loginRequest } from 'services/auth';
-import { message } from 'antd';
-import { useHistory } from 'react-router';
 import { LoadingButton } from '@mui/lab';
-import { useDispatch } from 'react-redux';
-import { loginSuccess } from 'store/redux/auth/actions';
-import Cookies from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginStart } from 'store/redux/auth/actions';
 import { ResetPasswordModal } from 'pages/login/components/ResetPasswordModal';
+import { IRootState } from 'store/rootReducer';
 
 export const LoginForm: FC = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const [userInput, setUserInput] = useState<ILoginUser>({
     email: '',
     password: '',
   });
   const [visible, setVisible] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -41,31 +36,14 @@ export const LoginForm: FC = () => {
       [name]: value,
     });
   };
+  const {
+    userLogin: { isLoading },
+  } = useSelector((state: IRootState) => state.loginUser);
   const errorEmail = userInput.email && !emailRegex.test(userInput.email);
   const errorPassword =
     userInput.password && !passwordRegex.test(userInput.password);
   const onLoginBtnClick = () => {
-    setIsLoading(true);
-    loginRequest(userInput)
-      .then((response: any) => {
-        if (response.status === 200) {
-          message.success('Logged in.', 1).then(() => {
-            setIsLoading(false);
-            Cookies.set('accessToken', response.data.accessToken);
-            dispatch(loginSuccess());
-            setUserInput({
-              email: '',
-              password: '',
-            });
-            history.push('/');
-          });
-        }
-      })
-      .catch((error) => {
-        message.error(error.response.data.error, 1.5).then(() => {
-          setIsLoading(false);
-        });
-      });
+    dispatch(loginStart(userInput));
   };
   return (
     <div className="login-form">

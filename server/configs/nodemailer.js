@@ -4,9 +4,8 @@ const MailVerifyTemplate = View.importJsx("./template/MailVerifyTemplate.jsx");
 const MailRestPasswordTemplate = View.importJsx(
   "./template/MailResetPasswordTemplate.jsx"
 );
-const { createEmailToken } = require("../JWT/jwt");
 
-const sendEmail = (res, type, hash, receiver, displayName) => {
+const sendEmail = (res, type, receiver, displayName, emailToken) => {
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -16,8 +15,6 @@ const sendEmail = (res, type, hash, receiver, displayName) => {
       pass: process.env.NODE_MAILER_EMAIL_PASS,
     },
   });
-
-  const emailToken = createEmailToken(hash);
 
   const verifyUrl = `${process.env.DOMAIN}/auth/verify/user/${emailToken}`;
   const templateVerify = View.renderToHtml(MailVerifyTemplate, {

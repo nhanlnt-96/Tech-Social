@@ -4,7 +4,7 @@ const {
   signUpAccount,
   signInAccount,
   getUserProfile,
-  changePasswordRequest,
+  resetPasswordRequest,
   verifyUser,
   verifyRequest,
   resetPassword,
@@ -17,8 +17,8 @@ const router = express.Router();
 router.post("/", signUpAccount);
 
 //verify user
-router.post("/verify/request", verifyRequest);
-router.get("/verify/user/:token", verifyUser);
+router.post("/verify/request", validateToken, verifyRequest);
+router.patch("/verify/user/:token", validateToken, verifyUser);
 
 //login
 router.post("/login", signInAccount);
@@ -27,9 +27,11 @@ router.post("/login", signInAccount);
 router.get("/profile/:id", validateToken, getUserProfile);
 router.patch("/profile/update", validateToken, updateUser)
 
-//change password
-router.post("/change-password-request", changePasswordRequest);
-router.post("/validate-reset-password/", validateResetPasswordToken);
-router.put("/reset-password/user/:token", resetPassword);
+//reset password
+router.post("/change-password-request", resetPasswordRequest);
+router.patch("/reset-password/user/:token", resetPassword);
+
+// validate token
+router.post("/validate-token", validateTokenToAuth);
 
 module.exports = router;

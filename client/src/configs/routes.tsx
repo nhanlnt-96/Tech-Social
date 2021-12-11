@@ -38,7 +38,7 @@ export const routes = [
   {
     path: '/profile-page/:id',
     isExact: true,
-    isPrivate: false,
+    isPrivate: true,
     module: <ProfilePage />,
     isAuth: false,
   },

@@ -7,14 +7,17 @@ const CommentMessage = require("../models/CommentMessage");
 const createPost = async (req, res) => {
   const _id = mongoose.Types.ObjectId();
   const createdAt = new Date();
+  const { fullName, isVerify, avatarImageURL, id } = req.user.sub;
   const post = req.body;
-  post.username = req.user.username;
-  post.UserId = req.user.id;
-  post.avatarImageURL = req.user.avatarImageURL;
+  post.fullName = fullName;
+  post.UserId = id;
+  post.avatarImageURL = avatarImageURL;
+  post.isVerify = isVerify;
   const newPost = new PostMessage({
     _id,
     user: {
-      username: post.username,
+      fullName: post.fullName,
+      isVerify: post.isVerify,
       avatarImageURL: post.avatarImageURL,
     },
     postText: post.postText,
@@ -24,9 +27,9 @@ const createPost = async (req, res) => {
   });
   try {
     await newPost.save();
-    res.json(post);
+    res.status(200).json("Posted 😍");
   } catch (error) {
-    res.json({ error: { error } });
+    res.status(400).json({ error: { error } });
   }
 };
 
@@ -42,12 +45,12 @@ const getAllPost = async (req, res) => {
       },
     },
   ]);
-  const likedPosts = await LikeMessage.find({ UserId: req.user.id });
+  const likedPosts = await LikeMessage.find({ UserId: req.user.sub.id });
 
   try {
-    res.json({ allPosts, likedPosts });
+    res.status(200).json({ allPosts, likedPosts });
   } catch (error) {
-    res.json({ error: { error } });
+    res.status(400).json({ error: { error } });
   }
 };
 
@@ -69,33 +72,9 @@ const getPostById = async (req, res) => {
   ]);
 
   try {
-    res.json(postById);
+    res.status(200).json(postById);
   } catch (error) {
-    res.json({ error: { error } });
-  }
-};
-
-//get post by user
-const getPostByUser = async (req, res) => {
-  const id = req.params.id;
-  const postByUser = await PostMessage.aggregate([
-    {
-      $match: { UserId: id },
-    },
-    {
-      $lookup: {
-        from: "likes",
-        localField: "_id",
-        foreignField: "PostId",
-        as: "Likes",
-      },
-    },
-  ]);
-
-  try {
-    res.json(postByUser);
-  } catch (error) {
-    res.json({ error: { error } });
+    res.status(400).json({ error: { error } });
   }
 };
 
@@ -128,7 +107,6 @@ module.exports = {
   createPost,
   getAllPost,
   getPostById,
-  getPostByUser,
   deletePost,
   editPost,
 };

@@ -1,4 +1,4 @@
-## Branch
+## Develop Branch
 
 ### `UI`
 - /header
@@ -14,3 +14,15 @@
 ### `integrate-api`
 - /config-firebase
 - /register
+- /login
+- /navbar
+
+## Fix bug Branch
+
+### `fixbug/client`
+- /login
+- /header
+
+### `fixbig/server`
+- /user
+- /single-use-token
