@@ -155,12 +155,37 @@ const resetPassword = async (req, res) => {
         },
         { $set: { password: hash } }
       );
-      res.status(200).json("Password changed 😍");
+      res.status(200).json("Password reseted 😍");
     });
   } catch (error) {
     res.status(400).json({ error: { error } });
   }
 };
+
+const updateUser = async (req, res) => {
+  const { fullName, avatarImageURL, location } = req.body
+  const id = req.user.sub;
+  const profileUser = await UserMessage.findById(id).select("-password");
+  try {
+    if (profileUser) {
+      await UserMessage.findOneAndUpdate({ _id: id }, {
+        $set: {
+          fullName,
+          avatarImageURL,
+          location
+        }
+      }, { new: true }, (err, doc) => {
+        if (err) {
+          res.status(400).json({ error: { err } });
+        } else {
+          res.status(200).json(doc);
+        }
+      }).select("-password");
+    }
+  } catch (error) {
+    res.status(400).json({ error: { error } });
+  }
+}
 
 module.exports = {
   signUpAccount,
@@ -171,4 +196,5 @@ module.exports = {
   changePasswordRequest,
   validateResetPasswordToken,
   resetPassword,
+  updateUser
 };
