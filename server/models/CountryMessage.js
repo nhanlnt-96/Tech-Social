@@ -4,8 +4,9 @@ const CountryMessage = mongoose.model(
   "Countries",
   mongoose.Schema({
     _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      require: true,
+      type: mongoose.Types.ObjectId,
+      ref: 'States',
+      require: true
     },
     name: {
       type: String,
