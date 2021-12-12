@@ -23,7 +23,6 @@ export const NavigationUserPanel: FC = () => {
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
-  console.log(userData?.avatarImageURL);
   return (
     <Paper
       className="user-panel-container"

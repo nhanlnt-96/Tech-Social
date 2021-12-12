@@ -1,25 +1,42 @@
-import React, { FC, useState } from 'react';
-import {
-  Autocomplete,
-  Box,
-  FormControl,
-  MenuItem,
-  Select,
-  TextField,
-} from '@mui/material';
-import Country from 'shared/countries.json';
+import React, { FC, useLayoutEffect, useState } from 'react';
+import { Autocomplete, FormControl, TextField } from '@mui/material';
 import { IUserProfile } from 'model/user';
+import { getAllCountry } from 'services/country';
+import { ICountry } from 'model/country';
+
+const countryInitial: ICountry[] = [
+  {
+    _id: '',
+    name: '',
+    phoneCode: '',
+    region: '',
+    subregion: '',
+    flag: '',
+    __v: 0,
+    States: [
+      {
+        _id: '',
+        countryId: '',
+        stateCode: '',
+        name: '',
+        __v: 0,
+      },
+    ],
+  },
+];
 
 export const EditProfileForm: FC = () => {
-  const [editProfile, setEditProfile] = useState<IUserProfile>({
-    fullName: '',
-    country: '',
-    location: '',
-    about: '',
-    phoneNumber: '',
-    skype: '',
-    facebook: '',
-  });
+  const [fullNameInput, setFullNameInput] = useState<string>('');
+  const [countryInput, setCountryInput] = useState<string>('');
+  const [stateInput, setStateInput] = useState<string>('');
+  const [phoneNumberInput, setPhoneNumberInput] = useState<string>('');
+  const [country, setCountry] = useState<ICountry[]>(countryInitial);
+  useLayoutEffect(() => {
+    (async () => {
+      const countryResponse = await getAllCountry();
+      setCountry(countryResponse.data);
+    })();
+  }, []);
   return (
     <div className="edit-profile-form">
       <FormControl fullWidth sx={{ mb: 2 }}>
@@ -50,24 +67,18 @@ export const EditProfileForm: FC = () => {
       <FormControl fullWidth sx={{ mb: 2 }}>
         <p>Country/Region</p>
         <Autocomplete
-          fullWidth
-          options={Country}
-          autoHighlight
-          getOptionLabel={(option) => option.name}
-          renderOption={(props, option) => (
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            <Box component="li" {...props}>
-              {option.name}
-            </Box>
-          )}
+          freeSolo
+          disableClearable
+          options={country.map((option) => option.name)}
           renderInput={(params) => (
             <TextField
-              className="input-without-label input-padding"
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...params}
-              inputProps={{
-                ...params.inputProps,
-                autoComplete: 'new-password', // disable autocomplete and autofill
+              className="input-without-label"
+              InputProps={{
+                ...params.InputProps,
+                type: 'search',
+                'aria-label': 'Without label',
               }}
             />
           )}
@@ -75,11 +86,23 @@ export const EditProfileForm: FC = () => {
       </FormControl>
       <FormControl fullWidth>
         <p>Locations in this Country/Region</p>
-        <Select className="input-without-label">
-          {Country.map((val) => (
-            <MenuItem value={val.name}>{val.name}</MenuItem>
-          ))}
-        </Select>
+        <Autocomplete
+          freeSolo
+          disableClearable
+          options={country.map((option) => option.name)}
+          renderInput={(params) => (
+            <TextField
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...params}
+              className="input-without-label"
+              InputProps={{
+                ...params.InputProps,
+                type: 'search',
+                'aria-label': 'Without label',
+              }}
+            />
+          )}
+        />
       </FormControl>
     </div>
   );
