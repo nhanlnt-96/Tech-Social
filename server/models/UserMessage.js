@@ -24,6 +24,11 @@ const UserMessage = mongoose.model(
       type: String,
       require: true,
     },
+    skype:{
+      type:String,
+      require: false,
+      default: null
+    },
     avatarImageURL: {
       type: String,
       require: false,
