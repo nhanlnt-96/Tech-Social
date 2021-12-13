@@ -1,4 +1,4 @@
-interface IStates {
+export interface IStates {
   _id: string;
   countryId: string;
   stateCode: string;

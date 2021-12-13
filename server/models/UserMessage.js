@@ -18,16 +18,26 @@ const UserMessage = mongoose.model(
     location: {
       type: String,
       require: true,
-      default: null
+      default: null,
     },
     password: {
       type: String,
       require: true,
     },
-    skype:{
-      type:String,
+    skypeUrl: {
+      type: String,
       require: false,
-      default: null
+      default: null,
+    },
+    about: {
+      type: String,
+      require: false,
+      default: null,
+    },
+    phoneNumber: {
+      type: String,
+      require: false,
+      default: null,
     },
     avatarImageURL: {
       type: String,

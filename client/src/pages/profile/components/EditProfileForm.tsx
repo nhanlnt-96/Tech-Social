@@ -1,8 +1,8 @@
 import React, { FC, useLayoutEffect, useState } from 'react';
-import { Autocomplete, FormControl, TextField } from '@mui/material';
+import { Autocomplete, Box, FormControl, TextField } from '@mui/material';
 import { IUserProfile } from 'model/user';
 import { getAllCountry } from 'services/country';
-import { ICountry } from 'model/country';
+import { ICountry, IStates } from 'model/country';
 
 const countryInitial: ICountry[] = [
   {
@@ -27,9 +27,9 @@ const countryInitial: ICountry[] = [
 
 export const EditProfileForm: FC = () => {
   const [fullNameInput, setFullNameInput] = useState<string>('');
-  const [countryInput, setCountryInput] = useState<string>('');
-  const [stateInput, setStateInput] = useState<string>('');
-  const [phoneNumberInput, setPhoneNumberInput] = useState<string>('');
+  const [countryInput, setCountryInput] = useState<ICountry>();
+  const [stateInput, setStateInput] = useState<IStates>();
+  const [aboutInput, setAboutInput] = useState<string>('');
   const [country, setCountry] = useState<ICountry[]>(countryInitial);
   useLayoutEffect(() => {
     (async () => {
@@ -69,19 +69,39 @@ export const EditProfileForm: FC = () => {
         <Autocomplete
           freeSolo
           disableClearable
-          options={country.map((option) => option.name)}
-          renderInput={(params) => (
-            <TextField
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...params}
-              className="input-without-label"
-              InputProps={{
-                ...params.InputProps,
-                type: 'search',
-                'aria-label': 'Without label',
-              }}
-            />
-          )}
+          getOptionLabel={(option) => option.name}
+          options={country}
+          value={countryInput}
+          onChange={(event: any, value: any) => {
+            setStateInput([]);
+            setCountryInput(value);
+          }}
+          renderOption={(props, option) => {
+            return (
+              <Box
+                component="li"
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...props}
+              >
+                {option.name} {option.flag}
+              </Box>
+            );
+          }}
+          renderInput={(params) => {
+            return (
+              <TextField
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...params}
+                className="input-without-label"
+                InputProps={{
+                  ...params.InputProps,
+                  type: 'search',
+                  'aria-label': 'Without label',
+                  autoComplete: 'new-password',
+                }}
+              />
+            );
+          }}
         />
       </FormControl>
       <FormControl fullWidth>
@@ -89,7 +109,21 @@ export const EditProfileForm: FC = () => {
         <Autocomplete
           freeSolo
           disableClearable
-          options={country.map((option) => option.name)}
+          getOptionLabel={(option) => option.name}
+          options={countryInput?.States || []}
+          value={stateInput}
+          onChange={(event: any, value: any) => setStateInput(value)}
+          renderOption={(props, option) => {
+            return (
+              <Box
+                component="li"
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...props}
+              >
+                {option.name}
+              </Box>
+            );
+          }}
           renderInput={(params) => (
             <TextField
               // eslint-disable-next-line react/jsx-props-no-spreading
@@ -99,6 +133,7 @@ export const EditProfileForm: FC = () => {
                 ...params.InputProps,
                 type: 'search',
                 'aria-label': 'Without label',
+                autoComplete: 'new-password',
               }}
             />
           )}
