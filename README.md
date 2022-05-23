@@ -23,6 +23,6 @@
 - /login
 - /header
 
-### `fixbig/server`
+### `fixbug/server`
 - /user
 - /single-use-token
