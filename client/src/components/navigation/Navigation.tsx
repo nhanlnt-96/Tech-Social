@@ -1,3 +1,4 @@
+import './Navigation.scss';
 import React, { FC } from 'react';
 import {
   AppBar,
@@ -8,6 +9,7 @@ import {
   Toolbar,
 } from '@mui/material';
 import Logo from 'img/logo.svg';
+
 import {
   ElevationScroll,
   NavigationSearch,
@@ -15,8 +17,6 @@ import {
   NavigationMenu,
   NavigationOtherOption,
 } from 'components/navigation/components';
-
-import './Navigation.scss';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

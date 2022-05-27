@@ -1,3 +1,4 @@
+import './FeedCard.scss';
 import React, { FC } from 'react';
 import {
   Avatar,
@@ -15,7 +16,6 @@ import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import TestImg from 'img/test-img.jpg';
-import './FeedCard.scss';
 
 const FeedCard: FC = () => {
   return (
