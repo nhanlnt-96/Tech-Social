@@ -1,9 +1,9 @@
+import '../FooterNavigationMenu.scss';
 import React, { FC } from 'react';
 import { Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { footerNavigationMenu } from 'configs/footerNavigationMenu';
 
-import '../FooterNavigationMenu.scss';
+import { footerNavigationMenu } from 'configs/footerNavigationMenu';
 
 export const FooterNavigationMenu: FC = () => {
   return (
