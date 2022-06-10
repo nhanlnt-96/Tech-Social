@@ -1,10 +1,11 @@
-import React, { FC, useState } from 'react';
-import { Backdrop, Box, Fade, Modal, TextField } from '@mui/material';
-import { emailRegex } from 'shared/regex';
-import { LoadingButton } from '@mui/lab';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { resetPasswordRequest } from 'services/auth';
 import { message } from 'antd';
+import React, { FC, useState } from 'react';
+import { resetPasswordRequest } from 'services/auth';
+import { emailRegex } from 'shared/regex';
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { LoadingButton } from '@mui/lab';
+import { Backdrop, Box, Fade, Modal, TextField } from '@mui/material';
 
 type Props = {
   visible: boolean;
@@ -23,15 +24,19 @@ export const ResetPasswordModal: FC<Props> = ({ visible, setVisible }) => {
   });
   const [emailInput, setEmailInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleCancel = () => {
     setVisible(false);
   };
+
   const onUserInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailInput(e.target.value);
   };
   const errorEmail = emailInput && !emailRegex.test(emailInput);
+
   const onSendEmailBtnClick = () => {
     setIsLoading(true);
+
     resetPasswordRequest(emailInput)
       .then((response: any) => {
         if (response.status === 200) {
@@ -39,9 +44,12 @@ export const ResetPasswordModal: FC<Props> = ({ visible, setVisible }) => {
             isSent: true,
             message: response.data,
           });
+
           setIsLoading(false);
+
           setTimeout(() => {
             setVisible(false);
+
             setSentSuccess({ isSent: false, message: '' });
           }, 2000);
         }
@@ -52,10 +60,12 @@ export const ResetPasswordModal: FC<Props> = ({ visible, setVisible }) => {
             isSent: false,
             message: '',
           });
+
           setIsLoading(false);
         });
       });
   };
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"

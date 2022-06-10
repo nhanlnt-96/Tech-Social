@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
+import loginUserReducer, { ILoginUserState } from 'store/redux/auth';
 import registerGoogleReducer, {
   IRegisterGoogle,
 } from 'store/redux/registerGoogle';
-import loginUserReducer, { ILoginUserState } from 'store/redux/auth';
 
 export interface IRootState {
   registerGoogle: IRegisterGoogle;

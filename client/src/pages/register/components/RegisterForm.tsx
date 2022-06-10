@@ -1,4 +1,12 @@
+import { message } from 'antd';
+import { IRegisterUser } from 'model/user';
 import React, { FC, useState } from 'react';
+import { useHistory } from 'react-router';
+import { registerRequest } from 'services/auth';
+import { emailRegex, fullNameRegex, passwordRegex } from 'shared/regex';
+
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 import {
   FormControl,
   FormHelperText,
@@ -8,16 +16,10 @@ import {
   OutlinedInput,
   TextField,
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { IRegisterUser } from 'model/user';
-import { registerRequest } from 'services/auth';
-import { message } from 'antd';
-import { LoadingButton } from '@mui/lab';
-import { useHistory } from 'react-router';
-import { emailRegex, fullNameRegex, passwordRegex } from 'shared/regex';
 
 export const RegisterForm: FC = () => {
   const history = useHistory();
+
   const [userInput, setUserInput] = useState<IRegisterUser>({
     email: '',
     fullName: '',
@@ -25,23 +27,30 @@ export const RegisterForm: FC = () => {
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   const onUserInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setUserInput({
       ...userInput,
       [name]: value,
     });
   };
+
   const errorFullName =
     userInput.fullName && !fullNameRegex.test(userInput.fullName);
   const errorEmail = userInput.email && !emailRegex.test(userInput.email);
+
   const errorPassword =
     userInput.password && !passwordRegex.test(userInput.password);
+
   const onRegisterBtnCLick = () => {
     setIsLoading(true);
+
     registerRequest(userInput)
       .then((response) => {
         if (response.status === 201) {
@@ -51,7 +60,9 @@ export const RegisterForm: FC = () => {
               fullName: '',
               password: '',
             });
+
             setIsLoading(false);
+
             history.push('/login');
           });
         }
@@ -62,6 +73,7 @@ export const RegisterForm: FC = () => {
         });
       });
   };
+
   return (
     <div className="login-form">
       <TextField

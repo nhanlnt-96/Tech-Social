@@ -6,6 +6,7 @@ import {
 
 function* rootSaga() {
   yield fork(onLoginSagaHandler);
+
   yield fork(onLogoutSagaHandle);
 }
 

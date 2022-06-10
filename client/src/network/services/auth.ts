@@ -1,5 +1,5 @@
-import { ILoginUser, IRegisterGoogleUser, IRegisterUser } from 'model/user';
 import api from 'configs/axios';
+import { ILoginUser, IRegisterGoogleUser, IRegisterUser } from 'model/user';
 
 export const registerRequest = (
   userData: IRegisterUser | IRegisterGoogleUser,
@@ -17,6 +17,7 @@ export const registerRequest = (
 
 export const loginRequest = (userData: ILoginUser) => {
   const { email, password } = userData;
+
   return api.post('/auth/login', {
     email,
     password,

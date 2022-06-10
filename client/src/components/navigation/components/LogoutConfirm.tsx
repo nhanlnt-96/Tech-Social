@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Backdrop, Box, Button, Fade, Grid, Modal } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { logoutStart } from 'store/redux/auth/actions';
+
+import { Backdrop, Box, Button, Fade, Grid, Modal } from '@mui/material';
 
 type Props = {
   open: boolean;
@@ -11,9 +12,11 @@ type Props = {
 export const LogoutConfirm: FC<Props> = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const handleClose = () => setOpen(false);
+
   const onLogoutBtnClick = () => {
     dispatch(logoutStart());
   };
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"

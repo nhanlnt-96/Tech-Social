@@ -1,17 +1,18 @@
+import Footer from 'components/footer/Footer';
+import Navigation from 'components/navigation/Navigation';
+import { routes } from 'configs/routes';
+import Cookies from 'js-cookie';
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { IRootState } from 'store/rootReducer';
+
 import {
   Container,
   createTheme,
   CssBaseline,
   ThemeProvider,
 } from '@mui/material';
-import Navigation from 'components/navigation/Navigation';
-import Footer from 'components/footer/Footer';
-import { routes } from 'configs/routes';
-import Cookies from 'js-cookie';
-import { useSelector } from 'react-redux';
-import { IRootState } from 'store/rootReducer';
 
 const mdTheme = createTheme();
 
@@ -32,9 +33,11 @@ const styleNotAuth = {
 
 const MainLayout: FC = () => {
   const token = Cookies.get('accessToken');
+
   const {
     userLogin: { isLogged },
   } = useSelector((state: IRootState) => state.loginUser);
+
   const renderComponent =
     (module: JSX.Element, isPrivate: boolean, isAuth: boolean) => () => {
       if (isAuth) {
@@ -43,6 +46,7 @@ const MainLayout: FC = () => {
       if (isPrivate) {
         return token || isLogged ? module : <Redirect to="/login" />;
       }
+
       return module;
     };
 
@@ -57,6 +61,7 @@ const MainLayout: FC = () => {
         <Switch>
           {routes.map((val) => {
             const { path, isExact, isPrivate, isAuth, module } = val;
+
             return (
               <Route key={val.path} path={path} exact={isExact}>
                 {renderComponent(module, isPrivate, isAuth)}

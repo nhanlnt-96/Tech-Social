@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
-import { Backdrop, Box, Fade, Modal } from '@mui/material';
 import { EditProfileForm } from 'pages/profile/components/EditProfileForm';
+import React, { FC } from 'react';
+
+import { Backdrop, Box, Fade, Modal } from '@mui/material';
 
 type Props = {
   visible: boolean;
@@ -11,6 +12,7 @@ export const EditProfileModal: FC<Props> = ({ visible, setVisible }) => {
   const handleCancel = () => {
     setVisible(false);
   };
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"

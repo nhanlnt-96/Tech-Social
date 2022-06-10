@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
-import { Grid, MenuItem, Select } from '@mui/material';
 import { footerLanguageItem } from 'configs/footerLanguageSelect';
+import React, { FC } from 'react';
+
+import { Grid, MenuItem, Select } from '@mui/material';
 
 export const FooterLanguage: FC = () => {
   return (
@@ -19,6 +20,7 @@ export const FooterLanguage: FC = () => {
         >
           {footerLanguageItem.map((val) => {
             const { label, value, isActive } = val;
+
             return (
               <MenuItem
                 disabled={!isActive}

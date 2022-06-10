@@ -1,4 +1,11 @@
+import { message } from 'antd';
 import React, { FC, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { resetPassword } from 'services/auth';
+import { passwordRegex } from 'shared/regex';
+
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 import {
   Button,
   FormControl,
@@ -9,12 +16,6 @@ import {
   OutlinedInput,
   Paper,
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
-import { Link } from 'react-router-dom';
-import { passwordRegex } from 'shared/regex';
-import { resetPassword } from 'services/auth';
-import { message } from 'antd';
 
 type Props = {
   token: string;
@@ -24,22 +25,28 @@ export const ResetPasswordForm: FC<Props> = ({ token }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   const onUserInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
   };
   const errorPassword = passwordInput && !passwordRegex.test(passwordInput);
+
   const onResetPasswordBtnClick = () => {
     setIsLoading(true);
+
     resetPassword(token, passwordInput)
       .then((response) => {
         if (response.status === 200) {
           message.success(response.data, 1.5).then(() => {
             setIsLoading(false);
           });
+
           setPasswordInput('');
+
           setTimeout(() => {
             window.close();
           }, 1500);
@@ -51,6 +58,7 @@ export const ResetPasswordForm: FC<Props> = ({ token }) => {
         });
       });
   };
+
   return (
     <Paper
       elevation={3}

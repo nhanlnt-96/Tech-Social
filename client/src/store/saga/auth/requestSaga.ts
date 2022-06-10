@@ -1,5 +1,5 @@
-import { call, put } from 'redux-saga/effects';
 import { IUserDataLoggedIn } from 'model/user';
+import { call, put } from 'redux-saga/effects';
 import { loginRequest } from 'services/auth';
 import {
   loginFail,
@@ -13,9 +13,11 @@ export function* onLoginSagaRequest(action: any) {
       loginRequest,
       action.payload,
     );
+
     yield put(loginSuccess(response.data));
   } catch (error: any) {
     const loginError = error.response.data.error;
+
     yield put(loginFail(loginError));
   }
 }

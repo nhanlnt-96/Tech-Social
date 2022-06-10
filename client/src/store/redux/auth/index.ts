@@ -1,4 +1,4 @@
-import { ActionLoginUser } from 'store/redux/auth/types';
+import { IUserData } from 'model/user';
 import {
   LOGIN_FAIL,
   LOGIN_START,
@@ -6,7 +6,7 @@ import {
   LOGOUT_START,
   LOGOUT_SUCCESS,
 } from 'store/redux/auth/actionTypes';
-import { IUserData } from 'model/user';
+import { ActionLoginUser } from 'store/redux/auth/types';
 
 export interface ILoginUserState {
   userLogin: {
@@ -42,6 +42,7 @@ const loginUserReducer = (state = loginUserState, action: ActionLoginUser) => {
           isLoading: true,
         },
       };
+
     case LOGIN_SUCCESS: {
       return {
         userLogin: {
@@ -53,6 +54,7 @@ const loginUserReducer = (state = loginUserState, action: ActionLoginUser) => {
         },
       };
     }
+
     case LOGIN_FAIL:
       return {
         userLogin: {
@@ -61,6 +63,7 @@ const loginUserReducer = (state = loginUserState, action: ActionLoginUser) => {
           loginError: action.payload.loginError,
         },
       };
+
     case LOGOUT_START:
       return {
         userLogin: {
@@ -68,6 +71,7 @@ const loginUserReducer = (state = loginUserState, action: ActionLoginUser) => {
           isLoading: true,
         },
       };
+
     case LOGOUT_SUCCESS:
       return {
         userLogin: {

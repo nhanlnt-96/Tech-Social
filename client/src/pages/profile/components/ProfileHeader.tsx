@@ -1,4 +1,14 @@
+import VerifyPopover from 'components/verifyPoper/VerifyPopover';
+import Cookies from 'js-cookie';
+import { IUserData } from 'model/user';
+import { EditProfileModal } from 'pages/profile/components/EditProfileModal';
 import React, { FC, useState } from 'react';
+
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   Avatar,
   Box,
@@ -7,15 +17,6 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import Cookies from 'js-cookie';
-import { IUserData } from 'model/user';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import VerifyPopover from 'components/verifyPoper/VerifyPopover';
-import { EditProfileModal } from 'pages/profile/components/EditProfileModal';
 
 const verifyIconStyle = {
   fontSize: '13px',
@@ -25,16 +26,20 @@ const verifyIconStyle = {
 export const ProfileHeader: FC = () => {
   const userProfile = Cookies.get('userProfile');
   const [visible, setVisible] = useState<boolean>(false);
+
   const userData: IUserData =
     typeof userProfile === 'string' && JSON.parse(userProfile);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const open = Boolean(anchorEl);
+
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <Box
       sx={{

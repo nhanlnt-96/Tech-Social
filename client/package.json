@@ -28,6 +28,7 @@
     "axios": "^0.22.0",
     "craco-alias": "^3.0.1",
     "dotenv": "^10.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "firebase": "^9.1.1",
     "js-cookie": "^3.0.1",
     "node-sass": "^6.0.1",

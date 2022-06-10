@@ -1,20 +1,22 @@
-import React, { FC } from 'react';
-import { Button, CssBaseline, Divider, Paper } from '@mui/material';
+import './RegisterPage.scss';
+
 import {
   RegisterForm,
   RegisterWithGoogleForm,
 } from 'pages/register/components';
 import ButtonRegisterWithGoogle from 'pages/register/components/ButtonRegisterWithGoogle';
-
-import './RegisterPage.scss';
-import { Link } from 'react-router-dom';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { IRootState } from 'store/rootReducer';
+
+import { Button, CssBaseline, Divider, Paper } from '@mui/material';
 
 const RegisterPage: FC = () => {
   const { registerSuccess } = useSelector(
     (state: IRootState) => state.registerGoogle,
   );
+
   return (
     <div className="auth-page-container">
       <CssBaseline />

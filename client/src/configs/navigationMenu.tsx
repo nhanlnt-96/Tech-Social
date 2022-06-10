@@ -1,8 +1,8 @@
-import RssFeed from '../assets/icon/rss.svg';
-import Users from '../assets/icon/users.svg';
-import BriefCase from '../assets/icon/briefcase.svg';
-import MessageSquare from '../assets/icon/message-square.svg';
-import Bell from '../assets/icon/bell.svg';
+import Bell from 'icons/bell.svg';
+import BriefCase from 'icons/briefcase.svg';
+import MessageSquare from 'icons/message-square.svg';
+import RssFeed from 'icons/rss.svg';
+import Users from 'icons/users.svg';
 
 export interface INavigationMenu {
   label: string;

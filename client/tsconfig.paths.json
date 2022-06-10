@@ -8,8 +8,8 @@
       "components/*": [
         "components/*"
       ],
-      "img/*": [
-        "assets/img/*"
+      "imgs/*": [
+        "assets/imgs/*"
       ],
       "configs/*": [
         "configs/*"
@@ -25,6 +25,9 @@
       ],
       "store/*": [
         "store/*"
+      ],
+      "icons/*": [
+        "assets/icons/*"
       ]
     }
   }

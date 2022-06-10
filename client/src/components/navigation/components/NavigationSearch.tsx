@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { InputBase, Paper } from '@mui/material';
+
 import SearchIcon from '@mui/icons-material/Search';
+import { InputBase, Paper } from '@mui/material';
 
 export const NavigationSearch: FC = () => {
   return (

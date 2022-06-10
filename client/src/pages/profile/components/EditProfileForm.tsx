@@ -1,8 +1,10 @@
-import React, { FC, useLayoutEffect, useState } from 'react';
-import { Autocomplete, Box, FormControl, TextField } from '@mui/material';
-import { IUserProfile } from 'model/user';
-import { getAllCountry } from 'services/country';
 import { ICountry, IStates } from 'model/country';
+import { IUserProfile } from 'model/user';
+import React, { FC, useLayoutEffect, useState } from 'react';
+import { getAllCountry } from 'services/country';
+
+import { LoadingButton } from '@mui/lab';
+import { Autocomplete, Box, FormControl, TextField } from '@mui/material';
 
 const countryInitial: ICountry[] = [
   {
@@ -26,17 +28,27 @@ const countryInitial: ICountry[] = [
 ];
 
 export const EditProfileForm: FC = () => {
+  const initialStateInput = {
+    _id: '',
+    countryId: '',
+    stateCode: '',
+    name: '',
+    __v: 0,
+  };
   const [fullNameInput, setFullNameInput] = useState<string>('');
   const [countryInput, setCountryInput] = useState<ICountry>();
-  const [stateInput, setStateInput] = useState<IStates>();
+  const [stateInput, setStateInput] = useState<IStates>(initialStateInput);
   const [aboutInput, setAboutInput] = useState<string>('');
   const [country, setCountry] = useState<ICountry[]>(countryInitial);
+
   useLayoutEffect(() => {
     (async () => {
       const countryResponse = await getAllCountry();
+
       setCountry(countryResponse.data);
     })();
   }, []);
+
   return (
     <div className="edit-profile-form">
       <FormControl fullWidth sx={{ mb: 2 }}>
@@ -73,7 +85,8 @@ export const EditProfileForm: FC = () => {
           options={country}
           value={countryInput}
           onChange={(event: any, value: any) => {
-            setStateInput([]);
+            setStateInput(initialStateInput);
+
             setCountryInput(value);
           }}
           renderOption={(props, option) => {
@@ -104,7 +117,7 @@ export const EditProfileForm: FC = () => {
           }}
         />
       </FormControl>
-      <FormControl fullWidth>
+      <FormControl fullWidth sx={{ mb: 2 }}>
         <p>Locations in this Country/Region</p>
         <Autocomplete
           freeSolo
@@ -139,6 +152,22 @@ export const EditProfileForm: FC = () => {
           )}
         />
       </FormControl>
+      <LoadingButton
+        fullWidth
+        variant="contained"
+        disableElevation
+        // disabled={
+        //   userInput.email === '' ||
+        //   userInput.password === '' ||
+        //   Boolean(errorEmail) ||
+        //   Boolean(errorPassword)
+        // }
+        // loading={isLoading}
+        loadingIndicator="Signing in"
+        // onClick={onLoginBtnClick}
+      >
+        Save
+      </LoadingButton>
     </div>
   );
 };

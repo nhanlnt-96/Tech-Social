@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
-import { Button, Paper } from '@mui/material';
+import './LoginPage.scss';
+
 import { LoginForm } from 'pages/login/components';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import './LoginPage.scss';
+import { Button, Paper } from '@mui/material';
 
 const LoginPage: FC = () => {
   return (

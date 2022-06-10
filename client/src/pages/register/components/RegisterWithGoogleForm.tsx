@@ -1,6 +1,14 @@
+import { message } from 'antd';
+import { IRegisterGoogleUser } from 'model/user';
 import React, { FC, useState } from 'react';
-import { LoadingButton } from '@mui/lab';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+import { registerRequest } from 'services/auth';
 import { passwordRegex } from 'shared/regex';
+import { registerWithGoogleFail } from 'store/redux/registerGoogle/actions';
+
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 import {
   Avatar,
   Box,
@@ -12,13 +20,6 @@ import {
   InputLabel,
   OutlinedInput,
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { IRegisterGoogleUser } from 'model/user';
-import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
-import { registerWithGoogleFail } from 'store/redux/registerGoogle/actions';
-import { registerRequest } from 'services/auth';
-import { message } from 'antd';
 
 type Props = {
   userData: IRegisterGoogleUser;
@@ -30,24 +31,31 @@ export const RegisterWithGoogleForm: FC<Props> = ({ userData }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   const onUserInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
   };
   const errorPassword = passwordInput && !passwordRegex.test(passwordInput);
+
   const onNotYouBtnClick = () => {
     dispatch(registerWithGoogleFail());
   };
+
   const onSignUpBtnClick = async () => {
     setIsLoading(true);
+
     await registerRequest(userData, passwordInput)
       .then((response) => {
         if (response.status === 201) {
           message.success(response.data, 1.5).then(() => {
             dispatch(registerWithGoogleFail());
+
             setIsLoading(false);
+
             history.push('/login');
           });
         }
@@ -58,6 +66,7 @@ export const RegisterWithGoogleForm: FC<Props> = ({ userData }) => {
         });
       });
   };
+
   return (
     <>
       <Box

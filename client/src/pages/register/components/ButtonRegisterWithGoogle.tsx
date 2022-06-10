@@ -1,30 +1,35 @@
-import React, { FC, useState } from 'react';
-import GoogleIcon from '@mui/icons-material/Google';
-import { getAuth, signInWithPopup } from 'firebase/auth';
-import { Providers } from 'configs/firebase';
 import { message } from 'antd';
+import { Providers } from 'configs/firebase';
+import { getAuth, signInWithPopup } from 'firebase/auth';
 import { IRegisterGoogleUser } from 'model/user';
-import { LoadingButton } from '@mui/lab';
+import React, { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerWithGoogleSuccess } from 'store/redux/registerGoogle/actions';
+
+import GoogleIcon from '@mui/icons-material/Google';
+import { LoadingButton } from '@mui/lab';
 
 const ButtonRegisterWithGoogle: FC = () => {
   const auth = getAuth();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   // create user by google account
   const onCreateUserByGoogleBtnClick = () => {
     setIsLoading(true);
+
     signInWithPopup(auth, Providers)
       .then(async (result: any) => {
         const {
           user: { displayName, email, photoURL },
         } = result;
+
         const userData: IRegisterGoogleUser = {
           displayName,
           email,
           photoURL,
         };
+
         dispatch(registerWithGoogleSuccess(userData));
       })
       .catch((error) => {
@@ -33,6 +38,7 @@ const ButtonRegisterWithGoogle: FC = () => {
         });
       });
   };
+
   return (
     <LoadingButton
       fullWidth

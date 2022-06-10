@@ -1,9 +1,9 @@
-import { ActionRegisterGoogle } from 'store/redux/registerGoogle/types';
+import { IRegisterGoogleUser } from 'model/user';
 import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
 } from 'store/redux/registerGoogle/actionTypes';
-import { IRegisterGoogleUser } from 'model/user';
+import { ActionRegisterGoogle } from 'store/redux/registerGoogle/types';
 
 export interface IRegisterGoogle {
   registerSuccess: {
@@ -34,6 +34,7 @@ const registerGoogleReducer = (
         isSuccess,
         data: { displayName, email, photoURL },
       } = action.payload;
+
       return {
         registerSuccess: {
           isSuccess,
@@ -44,6 +45,7 @@ const registerGoogleReducer = (
           },
         },
       };
+
     case REGISTER_FAIL:
       return {
         registerSuccess: {

@@ -1,11 +1,13 @@
-import React from 'react';
-import { AppBar, Avatar, Divider, Grid, Toolbar } from '@mui/material';
-import Logo from 'img/logo.svg';
 import {
   FooterFastAccess,
   FooterLanguage,
   FooterNavigationMenu,
 } from 'components/footer/components';
+import React from 'react';
+
+import { AppBar, Avatar, Divider, Grid, Toolbar } from '@mui/material';
+
+import Logo from '../../assets/imgs/logo.svg';
 
 const Footer = () => {
   return (

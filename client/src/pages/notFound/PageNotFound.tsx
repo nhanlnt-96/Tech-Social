@@ -1,9 +1,11 @@
-import React, { FC } from 'react';
-import { Button } from '@mui/material';
-import IconPNF from 'img/page-not-found.png';
-
 import './PageNotFound.scss';
+
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
+
+import { Button } from '@mui/material';
+
+import IconPNF from '../../assets/imgs/page-not-found.png';
 
 const PageNotFound: FC = () => {
   return (

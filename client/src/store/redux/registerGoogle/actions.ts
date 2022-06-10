@@ -1,8 +1,8 @@
+import { IRegisterGoogleUser } from 'model/user';
 import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
 } from 'store/redux/registerGoogle/actionTypes';
-import { IRegisterGoogleUser } from 'model/user';
 
 export const registerWithGoogleSuccess = (userInput: IRegisterGoogleUser) => {
   return {

@@ -1,7 +1,8 @@
-import React, { FC } from 'react';
-import { Box, Button } from '@mui/material';
 import { INavigationMenu, navigationMenu } from 'configs/navigationMenu';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
+
+import { Box, Button } from '@mui/material';
 
 export const NavigationMenu: FC = () => {
   return (

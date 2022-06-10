@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Button, Grid } from '@mui/material';
+
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import { Button, Grid } from '@mui/material';
 
 export const FooterFastAccess: FC = () => {
   return (

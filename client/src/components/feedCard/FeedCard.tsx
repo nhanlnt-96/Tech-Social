@@ -1,5 +1,10 @@
 import './FeedCard.scss';
+
 import React, { FC } from 'react';
+
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import {
   Avatar,
   Card,
@@ -12,10 +17,8 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import TestImg from 'img/test-img.jpg';
+
+import TestImg from '../../assets/imgs/test-img.jpg';
 
 const FeedCard: FC = () => {
   return (

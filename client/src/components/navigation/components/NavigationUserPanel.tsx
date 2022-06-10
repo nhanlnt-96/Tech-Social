@@ -1,10 +1,11 @@
-import React, { FC, useState } from 'react';
-import { Avatar, Button, Paper, Typography } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { Link } from 'react-router-dom';
+import VerifyPopover from 'components/verifyPoper/VerifyPopover';
 import Cookies from 'js-cookie';
 import { IUserData } from 'model/user';
-import VerifyPopover from 'components/verifyPoper/VerifyPopover';
+import React, { FC, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Avatar, Button, Paper, Typography } from '@mui/material';
 
 const verifyIconStyle = {
   fontSize: '13px',
@@ -13,16 +14,20 @@ const verifyIconStyle = {
 
 export const NavigationUserPanel: FC = () => {
   const userProfile = Cookies.get('userProfile');
+
   const userData: IUserData =
     typeof userProfile === 'string' && JSON.parse(userProfile);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const open = Boolean(anchorEl);
+
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <Paper
       className="user-panel-container"

@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+
 import { Popover, Typography } from '@mui/material';
 
 type Props = {
@@ -17,6 +18,7 @@ const VerifyPopover: FC<Props> = ({
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <Popover
       id="mouse-over-popover"

@@ -1,10 +1,10 @@
-import React from 'react';
-import LoginPage from 'pages/login/LoginPage';
-import RegisterPage from 'pages/register/RegisterPage';
-import ProfilePage from 'pages/profile/ProfilePage';
 import Feed from 'pages/feed/Feed';
-import ResetPassword from 'pages/resetPassword/ResetPassword';
+import LoginPage from 'pages/login/LoginPage';
 import PageNotFound from 'pages/notFound/PageNotFound';
+import ProfilePage from 'pages/profile/ProfilePage';
+import RegisterPage from 'pages/register/RegisterPage';
+import ResetPassword from 'pages/resetPassword/ResetPassword';
+import React from 'react';
 
 export const routes = [
   {

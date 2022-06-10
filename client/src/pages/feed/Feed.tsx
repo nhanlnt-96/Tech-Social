@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
-import { Grid } from '@mui/material';
-import { NewPost } from 'pages/feed/components';
+import './Feed.scss';
+
 import FeedCard from 'components/feedCard/FeedCard';
+import { NewPost } from 'pages/feed/components';
+import React, { FC } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import './Feed.scss';
+import { Grid } from '@mui/material';
 
 const Feed: FC = () => {
   return (

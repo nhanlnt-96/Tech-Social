@@ -1,4 +1,13 @@
+import { ILoginUser } from 'model/user';
+import { ResetPasswordModal } from 'pages/login/components/ResetPasswordModal';
 import React, { FC, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { emailRegex, passwordRegex } from 'shared/regex';
+import { loginStart } from 'store/redux/auth/actions';
+import { IRootState } from 'store/rootReducer';
+
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 import {
   Button,
   FormControl,
@@ -9,42 +18,42 @@ import {
   OutlinedInput,
   TextField,
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { ILoginUser } from 'model/user';
-import { emailRegex, passwordRegex } from 'shared/regex';
-import { LoadingButton } from '@mui/lab';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginStart } from 'store/redux/auth/actions';
-import { ResetPasswordModal } from 'pages/login/components/ResetPasswordModal';
-import { IRootState } from 'store/rootReducer';
 
 export const LoginForm: FC = () => {
   const dispatch = useDispatch();
+
   const [userInput, setUserInput] = useState<ILoginUser>({
     email: '',
     password: '',
   });
   const [visible, setVisible] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   const onUserInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setUserInput({
       ...userInput,
       [name]: value,
     });
   };
+
   const {
     userLogin: { isLoading },
   } = useSelector((state: IRootState) => state.loginUser);
   const errorEmail = userInput.email && !emailRegex.test(userInput.email);
+
   const errorPassword =
     userInput.password && !passwordRegex.test(userInput.password);
+
   const onLoginBtnClick = () => {
     dispatch(loginStart(userInput));
   };
+
   return (
     <div className="login-form">
       <TextField

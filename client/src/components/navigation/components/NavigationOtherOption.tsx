@@ -1,7 +1,8 @@
-import React, { FC, useState } from 'react';
-import { IconButton, Menu, MenuItem, Paper } from '@mui/material';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { LogoutConfirm } from 'components/navigation/components/LogoutConfirm';
+import React, { FC, useState } from 'react';
+
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { IconButton, Menu, MenuItem, Paper } from '@mui/material';
 
 const ITEM_HEIGHT = 48;
 
@@ -9,16 +10,21 @@ export const NavigationOtherOption: FC = () => {
   const [openConfirm, setOpenConfirm] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const handleOpen = () => {
     setOpenConfirm(true);
+
     setAnchorEl(null);
   };
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <Paper
       className="user-panel-container"
