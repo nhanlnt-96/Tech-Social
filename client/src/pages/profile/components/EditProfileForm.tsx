@@ -1,10 +1,28 @@
 import { ICountry, IStates } from 'model/country';
 import { IUserProfile } from 'model/user';
-import React, { FC, useLayoutEffect, useState } from 'react';
+import React, {
+  FC,
+  MouseEventHandler,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import { getAllCountry } from 'services/country';
 
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { LoadingButton } from '@mui/lab';
-import { Autocomplete, Box, FormControl, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  Button,
+  FormControl,
+  TextField,
+} from '@mui/material';
+
+interface IProps {
+  isClearInputData: boolean;
+  onCloseModalBtnClick: MouseEventHandler<HTMLButtonElement>;
+}
 
 const countryInitial: ICountry[] = [
   {
@@ -27,7 +45,10 @@ const countryInitial: ICountry[] = [
   },
 ];
 
-export const EditProfileForm: FC = () => {
+export const EditProfileForm: FC<IProps> = ({
+  isClearInputData,
+  onCloseModalBtnClick,
+}) => {
   const initialStateInput = {
     _id: '',
     countryId: '',
@@ -35,19 +56,50 @@ export const EditProfileForm: FC = () => {
     name: '',
     __v: 0,
   };
+
+  const initialCountryInput = {
+    _id: '',
+    name: '',
+    phoneCode: '',
+    region: '',
+    subregion: '',
+    flag: '',
+    __v: 0,
+    States: [],
+  };
   const [fullNameInput, setFullNameInput] = useState<string>('');
-  const [countryInput, setCountryInput] = useState<ICountry>();
-  const [stateInput, setStateInput] = useState<IStates>(initialStateInput);
   const [aboutInput, setAboutInput] = useState<string>('');
+
+  const [countryInput, setCountryInput] =
+    useState<ICountry>(initialCountryInput);
+  const [stateInput, setStateInput] = useState<IStates>(initialStateInput);
   const [country, setCountry] = useState<ICountry[]>(countryInitial);
 
   useLayoutEffect(() => {
     (async () => {
       const countryResponse = await getAllCountry();
 
+      console.log(countryResponse);
+
       setCountry(countryResponse.data);
     })();
   }, []);
+
+  useEffect(() => {
+    setFullNameInput('');
+
+    setCountryInput(initialCountryInput);
+
+    setStateInput(initialStateInput);
+
+    setAboutInput('');
+  }, [isClearInputData]);
+
+  const onSaveEditProfileBtnClick = () => {
+    console.log('countryInput', countryInput);
+
+    console.log('stateInput', stateInput);
+  };
 
   return (
     <div className="edit-profile-form">
@@ -117,7 +169,7 @@ export const EditProfileForm: FC = () => {
           }}
         />
       </FormControl>
-      <FormControl fullWidth sx={{ mb: 2 }}>
+      <FormControl fullWidth>
         <p>Locations in this Country/Region</p>
         <Autocomplete
           freeSolo
@@ -152,22 +204,32 @@ export const EditProfileForm: FC = () => {
           )}
         />
       </FormControl>
-      <LoadingButton
-        fullWidth
-        variant="contained"
-        disableElevation
-        // disabled={
-        //   userInput.email === '' ||
-        //   userInput.password === '' ||
-        //   Boolean(errorEmail) ||
-        //   Boolean(errorPassword)
-        // }
-        // loading={isLoading}
-        loadingIndicator="Signing in"
-        // onClick={onLoginBtnClick}
-      >
-        Save
-      </LoadingButton>
+      <Box component="div" sx={{ display: 'flex' }} mt={4}>
+        <Button
+          sx={{ color: '#0275B1', borderColor: '#0275B1', mr: 2 }}
+          fullWidth
+          variant="outlined"
+          onClick={onCloseModalBtnClick}
+        >
+          Close
+        </Button>
+        <LoadingButton
+          fullWidth
+          variant="contained"
+          disableElevation
+          // disabled={
+          //   userInput.email === '' ||
+          //   userInput.password === '' ||
+          //   Boolean(errorEmail) ||
+          //   Boolean(errorPassword)
+          // }
+          // loading={isLoading}
+          loadingIndicator="Signing in"
+          onClick={onSaveEditProfileBtnClick}
+        >
+          Save
+        </LoadingButton>
+      </Box>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { EditProfileForm } from 'pages/profile/components/EditProfileForm';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { Backdrop, Box, Fade, Modal } from '@mui/material';
 
@@ -9,8 +9,12 @@ type Props = {
 };
 
 export const EditProfileModal: FC<Props> = ({ visible, setVisible }) => {
+  const [isClearInputData, setIsClearInputData] = useState<boolean>(false);
+
   const handleCancel = () => {
     setVisible(false);
+
+    setIsClearInputData(true);
   };
 
   return (
@@ -42,7 +46,10 @@ export const EditProfileModal: FC<Props> = ({ visible, setVisible }) => {
           <div className="auth-title">
             <h1>Edit profile</h1>
           </div>
-          <EditProfileForm />
+          <EditProfileForm
+            isClearInputData={isClearInputData}
+            onCloseModalBtnClick={handleCancel}
+          />
         </Box>
       </Fade>
     </Modal>
