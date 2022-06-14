@@ -9,5 +9,5 @@ export const updateUserProfileInfo = (
   location: string,
   about: string,
 ) => {
-  return api.put('/auth/profile/update', { fullName, location, about });
+  return api.patch('/auth/profile/update', { fullName, location, about });
 };

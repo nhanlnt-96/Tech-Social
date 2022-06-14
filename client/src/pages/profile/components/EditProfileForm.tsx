@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import LoadingMask from 'components/loadingMask/LoadingMask';
 import { ICountry, IStates } from 'model/country';
 import { EditLocationForm } from 'pages/profile/components/EditLocationForm';
@@ -100,12 +101,15 @@ export const EditProfileForm: FC<IProps> = ({ setVisible }) => {
   useEffect(() => {
     const getCountryData = async () => {
       setIsLoadingCountry(true);
+      try {
+        const countryResponse = await getAllCountry();
 
-      const countryResponse = await getAllCountry();
+        if (countryResponse.status === 200) {
+          setCountry(countryResponse.data);
 
-      if (countryResponse.status) {
-        setCountry(countryResponse.data);
-
+          setIsLoadingCountry(false);
+        }
+      } catch (e) {
         setIsLoadingCountry(false);
       }
     };
@@ -123,17 +127,31 @@ export const EditProfileForm: FC<IProps> = ({ setVisible }) => {
 
   const onSaveEditProfileBtnClick = async () => {
     setIsSaveEditProfile(true);
+    try {
+      let location;
+      if (stateInput.name && countryInput.name) {
+        location = `${stateInput.name}, ${countryInput.name}`;
+      } else if (stateInput.name) {
+        location = stateInput.name;
+      } else {
+        location = countryInput.name;
+      }
 
-    const response = await updateUserProfileInfo(
-      fullNameInput,
-      `${stateInput.name}, ${countryInput.name}`,
-      aboutInput,
-    );
+      const response = await updateUserProfileInfo(
+        fullNameInput,
+        location,
+        aboutInput,
+      );
 
-    if (response.status === 200) {
-      dispatch(getUserProfileStart(id));
+      if (response.status === 200) {
+        dispatch(getUserProfileStart(id));
 
-      closeEditModal();
+        closeEditModal();
+
+        setIsSaveEditProfile(false);
+      }
+    } catch (e) {
+      message.error('Update failed. Try again.');
 
       setIsSaveEditProfile(false);
     }
@@ -154,10 +172,12 @@ export const EditProfileForm: FC<IProps> = ({ setVisible }) => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setFullNameInput(e.target.value)
             }
-            error={!fullNameInput}
+            error={!fullNameInput || !fullNameRegex.test(fullNameInput)}
             helperText={
-              !fullNameRegex.test(fullNameInput) &&
-              'Full name can not contains number or special character.'
+              !fullNameInput
+                ? 'Full name can not be blank.'
+                : !fullNameRegex.test(fullNameInput) &&
+                  'Full name can not contains number or special character.'
             }
           />
         </FormControl>
