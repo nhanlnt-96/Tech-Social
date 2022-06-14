@@ -223,29 +223,36 @@ const validateTokenToAuth = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { fullName, avatarImageURL, location } = req.body
-  const id = req.user.sub;
+  const { fullName, avatarImageURL, location, about } = req.body;
+  const id = req.user.sub.id;
+
   const profileUser = await UserMessage.findById(id).select("-password");
   try {
     if (profileUser) {
-      await UserMessage.findOneAndUpdate({ _id: id }, {
-        $set: {
-          fullName,
-          avatarImageURL,
-          location
+      await UserMessage.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            fullName,
+            avatarImageURL,
+            location,
+            about,
+          },
+        },
+        { new: true },
+        (err, doc) => {
+          if (err) {
+            res.status(400).json({ error: { err } });
+          } else {
+            res.status(200).json(doc);
+          }
         }
-      }, { new: true }, (err, doc) => {
-        if (err) {
-          res.status(400).json({ error: { err } });
-        } else {
-          res.status(200).json(doc);
-        }
-      }).select("-password");
+      ).select("-password");
     }
   } catch (error) {
     res.status(400).json({ error: { error } });
   }
-}
+};
 
 module.exports = {
   signUpAccount,

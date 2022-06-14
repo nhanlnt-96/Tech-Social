@@ -10,10 +10,10 @@ const generateToken = (
   const data = {
     sub: {
       id: userData._id,
-      fullName: userData.fullName,
-      avatarImageURL: userData.avatarImageURL,
-      isVerify: userData.isVerify,
-      email: userData.email,
+      // fullName: userData.fullName,
+      // avatarImageURL: userData.avatarImageURL,
+      // isVerify: userData.isVerify,
+      // email: userData.email,
     },
     exp: expires.unix(),
     type,
