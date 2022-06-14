@@ -9,12 +9,8 @@ type Props = {
 };
 
 export const EditProfileModal: FC<Props> = ({ visible, setVisible }) => {
-  const [isClearInputData, setIsClearInputData] = useState<boolean>(false);
-
   const handleCancel = () => {
     setVisible(false);
-
-    setIsClearInputData(true);
   };
 
   return (
@@ -46,10 +42,7 @@ export const EditProfileModal: FC<Props> = ({ visible, setVisible }) => {
           <div className="auth-title">
             <h1>Edit profile</h1>
           </div>
-          <EditProfileForm
-            isClearInputData={isClearInputData}
-            onCloseModalBtnClick={handleCancel}
-          />
+          <EditProfileForm setVisible={setVisible} />
         </Box>
       </Fade>
     </Modal>

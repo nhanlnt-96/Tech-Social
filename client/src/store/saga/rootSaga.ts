@@ -1,13 +1,16 @@
 import { fork } from 'redux-saga/effects';
 import {
   onLoginSagaHandler,
-  onLogoutSagaHandle,
+  onLogoutSagaHandler,
 } from 'store/saga/auth/handlerSaga';
+import { onGetUserProfileHandler } from 'store/saga/user/handlerSaga';
 
 function* rootSaga() {
   yield fork(onLoginSagaHandler);
 
-  yield fork(onLogoutSagaHandle);
+  yield fork(onLogoutSagaHandler);
+
+  yield fork(onGetUserProfileHandler);
 }
 
 export default rootSaga;

@@ -33,13 +33,13 @@ const Footer = () => {
             item
             xs={1}
           >
-            <Avatar
-              className="navigation-logo"
-              alt="tech-social-logo"
-              variant="rounded"
-              src={Logo}
-              sx={{ width: 46, height: 46, mr: 0 }}
-            />
+            {/* <Avatar */}
+            {/*  className="navigation-logo" */}
+            {/*  alt="tech-social-logo" */}
+            {/*  variant="rounded" */}
+            {/*  src={Logo} */}
+            {/*  sx={{ width: 46, height: 46, mr: 0 }} */}
+            {/* /> */}
           </Grid>
           <Grid item xs={6}>
             <FooterNavigationMenu />

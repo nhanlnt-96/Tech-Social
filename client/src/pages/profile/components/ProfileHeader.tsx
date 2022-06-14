@@ -1,8 +1,9 @@
+import LoadingMask from 'components/loadingMask/LoadingMask';
 import VerifyPopover from 'components/verifyPoper/VerifyPopover';
-import Cookies from 'js-cookie';
-import { IUserData } from 'model/user';
 import { EditProfileModal } from 'pages/profile/components/EditProfileModal';
 import React, { FC, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { IRootState } from 'store/rootReducer';
 
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -24,11 +25,11 @@ const verifyIconStyle = {
 };
 
 export const ProfileHeader: FC = () => {
-  const userProfile = Cookies.get('userProfile');
   const [visible, setVisible] = useState<boolean>(false);
 
-  const userData: IUserData =
-    typeof userProfile === 'string' && JSON.parse(userProfile);
+  const userProfileData = useSelector(
+    (state: IRootState) => state.getUserProfile,
+  );
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -90,22 +91,24 @@ export const ProfileHeader: FC = () => {
           <Grid container>
             <Grid item xs={2}>
               <div className="profile-avatar">
-                {userData?.avatarImageURL ? (
+                {userProfileData?.userProfileData?.user?.avatarImageURL ? (
                   <Avatar
-                    alt={userData?.id}
-                    src={`${userData?.avatarImageURL}`}
+                    alt={userProfileData?.userProfileData?.user?._id}
+                    src={`${userProfileData?.userProfileData?.user?.avatarImageURL}`}
                     sx={{ width: '100%', height: '100%' }}
                   />
                 ) : (
                   <Avatar
-                    alt={userData?.id}
+                    alt={userProfileData?.userProfileData?.user?._id}
                     sx={{
                       width: '100%',
                       height: '100%',
                     }}
                   >
                     <Typography variant="h2" sx={{ color: '#ffffff' }}>
-                      {userData?.fullName.charAt(0)}
+                      {userProfileData?.userProfileData?.user?.fullName.charAt(
+                        0,
+                      )}
                     </Typography>
                   </Avatar>
                 )}
@@ -114,7 +117,7 @@ export const ProfileHeader: FC = () => {
             <Grid item xs={10}>
               <div className="name-and-location">
                 <div className="user-name">
-                  {userData?.fullName}
+                  {userProfileData?.userProfileData?.user?.fullName}
                   <Typography
                     className="name-item"
                     aria-owns={open ? 'mouse-over-popover' : undefined}
@@ -129,7 +132,7 @@ export const ProfileHeader: FC = () => {
                   >
                     <CheckCircleIcon
                       sx={
-                        userData?.isVerify
+                        userProfileData?.userProfileData?.user?.isVerify
                           ? {
                               ...verifyIconStyle,
                               color: '#0275B1',
@@ -143,20 +146,19 @@ export const ProfileHeader: FC = () => {
                   open={open}
                   anchorEl={anchorEl}
                   setAnchorEl={setAnchorEl}
-                  isVerify={userData?.isVerify}
+                  isVerify={userProfileData?.userProfileData?.user?.isVerify}
                 />
-                <div className="user-location">
-                  <LocationOnIcon
-                    sx={{ mr: 0.5, fontSize: '12px', color: '#0275B1' }}
-                  />
-                  Ho Chi Minh City
-                </div>
+                {userProfileData?.userProfileData?.user?.location && (
+                  <div className="user-location">
+                    <LocationOnIcon
+                      sx={{ mr: 0.5, fontSize: '12px', color: '#0275B1' }}
+                    />
+                    {userProfileData?.userProfileData?.user?.location}
+                  </div>
+                )}
               </div>
               <div className="user-introduce">
-                <p>
-                  Freelance UX/UI designer, 80+ projects in web design, mobile
-                  apps (iOS & android) and creative projects. Open to offers.
-                </p>
+                <p>{userProfileData?.userProfileData?.user?.about}</p>
               </div>
               <div className="user-contact">
                 <Button
@@ -176,6 +178,7 @@ export const ProfileHeader: FC = () => {
         </Grid>
       </Grid>
       <EditProfileModal visible={visible} setVisible={setVisible} />
+      {userProfileData.isLoading && <LoadingMask />}
     </Box>
   );
 };

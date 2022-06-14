@@ -1,8 +1,12 @@
 import VerifyPopover from 'components/verifyPoper/VerifyPopover';
+import api from 'configs/axios';
 import Cookies from 'js-cookie';
 import { IUserData } from 'model/user';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getUserProfileStart } from 'store/redux/user/actions';
+import { IRootState } from 'store/rootReducer';
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Avatar, Button, Paper, Typography } from '@mui/material';
@@ -13,11 +17,20 @@ const verifyIconStyle = {
 };
 
 export const NavigationUserPanel: FC = () => {
+  const dispatch = useDispatch();
   const userProfile = Cookies.get('userProfile');
+
+  const userProfileData = useSelector(
+    (state: IRootState) => state.getUserProfile,
+  );
 
   const userData: IUserData =
     typeof userProfile === 'string' && JSON.parse(userProfile);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    dispatch(getUserProfileStart(userData?.id));
+  }, []);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -39,17 +52,19 @@ export const NavigationUserPanel: FC = () => {
         boxShadow: 'unset',
       }}
     >
-      {userData?.avatarImageURL ? (
+      {userProfileData?.userProfileData?.user?.avatarImageURL ? (
         <Avatar
-          alt={userData?.id}
-          src={`${String(userData?.avatarImageURL)}`}
+          alt={userProfileData?.userProfileData?.user?._id}
+          src={`${userProfileData?.userProfileData?.user?.avatarImageURL}`}
         />
       ) : (
-        <Avatar alt={userData?.id}>{userData?.fullName.charAt(0)}</Avatar>
+        <Avatar alt={userProfileData?.userProfileData?.user?._id}>
+          {userProfileData?.userProfileData?.user?.fullName.charAt(0)}
+        </Avatar>
       )}
       <div className="user-name">
         <Typography className="name-item" sx={{ display: 'flex' }}>
-          {userData?.fullName}
+          {userProfileData?.userProfileData?.user?.fullName}
           <Typography
             className="name-item"
             aria-owns={open ? 'mouse-over-popover' : undefined}
@@ -59,7 +74,7 @@ export const NavigationUserPanel: FC = () => {
           >
             <CheckCircleIcon
               sx={
-                userData?.isVerify
+                userProfileData?.userProfileData?.user?.isVerify
                   ? {
                       ...verifyIconStyle,
                       color: '#0275B1',
@@ -73,13 +88,13 @@ export const NavigationUserPanel: FC = () => {
           open={open}
           anchorEl={anchorEl}
           setAnchorEl={setAnchorEl}
-          isVerify={userData?.isVerify}
+          isVerify={userProfileData?.userProfileData?.user?.isVerify}
         />
         <Button
           sx={{ color: '#0275b1', textTransform: 'unset', p: 0 }}
           className="profile-page-btn"
           component={Link}
-          to={`/profile-page/${userData?.id}`}
+          to={`/profile-page/${userProfileData?.userProfileData?.user?._id}`}
           variant="text"
         >
           Profile page

@@ -3,11 +3,12 @@ import './Feed.scss';
 import FeedCard from 'components/feedCard/FeedCard';
 import { NewPost } from 'pages/feed/components';
 import React, { FC } from 'react';
+import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
 import { Grid } from '@mui/material';
 
-const Feed: FC = () => {
+const Feed: FC<RouteComponentProps> = () => {
   return (
     <Grid container>
       <Grid item xs={12}>

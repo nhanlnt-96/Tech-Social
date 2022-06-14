@@ -26,7 +26,6 @@ const loginUserState: ILoginUserState = {
       fullName: '',
       isVerify: false,
       id: '',
-      iat: 0,
       avatarImageURL: '',
     },
     loginError: '',

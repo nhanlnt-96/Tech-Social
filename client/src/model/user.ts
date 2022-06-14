@@ -19,15 +19,8 @@ export interface IUserData {
   avatarImageURL: string;
   email: string;
   fullName: string;
-  iat: number;
   id: string;
   isVerify: boolean;
-  country?: string;
-  location?: string;
-  about?: string;
-  phoneNumber?: string;
-  skype?: string;
-  facebook?: string;
 }
 
 export interface IUserDataLoggedIn {
@@ -40,12 +33,12 @@ export interface IUserDataLoggedIn {
   };
 }
 
-export interface IUserProfile {
-  fullName: string;
-  country: string;
-  location: string;
-  about: string;
-  phoneNumber: string;
-  skype: string;
-  facebook: string;
+export interface IUserProfile extends Omit<IUserData, 'id'> {
+  location?: string | null;
+  skypeUrl?: string | null;
+  about?: string | null;
+  phoneNumber?: string | null;
+  createdAt: Date | null;
+  __v: number;
+  _id: string;
 }

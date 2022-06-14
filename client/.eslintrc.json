@@ -48,11 +48,31 @@
     "no-use-before-define": "off",
     "padding-line-between-statements": [
       "error",
-      { "blankLine": "always", "prev": "*", "next": "return" },
-      { "blankLine": "always", "prev": "*", "next": "multiline-const" },
-      { "blankLine": "always", "prev": "*", "next": "export" },
-      { "blankLine": "always", "prev": "*", "next": "case" },
-      { "blankLine": "always", "prev": "*", "next": "expression" }
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "return"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "multiline-const"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "export"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "case"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "expression"
+      }
     ],
     "simple-import-sort/imports": [
       "error",
@@ -70,6 +90,12 @@
           // Anything that starts with a dot.
           ["^\\."]
         ]
+      }
+    ],
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allow": ["_id"]
       }
     ]
   },

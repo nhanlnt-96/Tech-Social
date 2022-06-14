@@ -9,6 +9,6 @@ export function* onLoginSagaHandler() {
   yield takeEvery(LOGIN_START, onLoginSagaRequest);
 }
 
-export function* onLogoutSagaHandle() {
+export function* onLogoutSagaHandler() {
   yield takeEvery(LOGOUT_START, onLogoutSagaRequest);
 }

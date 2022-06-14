@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import CropOriginalIcon from '@mui/icons-material/CropOriginal';
 import TelegramIcon from '@mui/icons-material/Telegram';
@@ -8,7 +8,7 @@ const Input = styled('input')({
   display: 'none',
 });
 
-export const NewPost = () => {
+export const NewPost: FC = () => {
   return (
     <Box
       sx={{

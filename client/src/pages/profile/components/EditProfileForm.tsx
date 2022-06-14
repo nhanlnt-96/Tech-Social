@@ -1,27 +1,26 @@
+import LoadingMask from 'components/loadingMask/LoadingMask';
 import { ICountry, IStates } from 'model/country';
-import { IUserProfile } from 'model/user';
-import React, {
-  FC,
-  MouseEventHandler,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react';
+import { EditLocationForm } from 'pages/profile/components/EditLocationForm';
+import React, { FC, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { getAllCountry } from 'services/country';
+import { updateUserProfileInfo } from 'services/user';
+import { fullNameRegex } from 'shared/regex';
+import { getUserProfileStart } from 'store/redux/user/actions';
+import { IRootState } from 'store/rootReducer';
 
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { LoadingButton } from '@mui/lab';
 import {
-  Autocomplete,
   Box,
   Button,
   FormControl,
+  FormHelperText,
   TextField,
 } from '@mui/material';
 
 interface IProps {
-  isClearInputData: boolean;
-  onCloseModalBtnClick: MouseEventHandler<HTMLButtonElement>;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const countryInitial: ICountry[] = [
@@ -45,191 +44,188 @@ const countryInitial: ICountry[] = [
   },
 ];
 
-export const EditProfileForm: FC<IProps> = ({
-  isClearInputData,
-  onCloseModalBtnClick,
-}) => {
-  const initialStateInput = {
-    _id: '',
-    countryId: '',
-    stateCode: '',
-    name: '',
-    __v: 0,
-  };
+export const initialStateInput = {
+  _id: '',
+  countryId: '',
+  stateCode: '',
+  name: '',
+  __v: 0,
+};
 
-  const initialCountryInput = {
-    _id: '',
-    name: '',
-    phoneCode: '',
-    region: '',
-    subregion: '',
-    flag: '',
-    __v: 0,
-    States: [],
-  };
+export const initialCountryInput = {
+  _id: '',
+  name: '',
+  phoneCode: '',
+  region: '',
+  subregion: '',
+  flag: '',
+  __v: 0,
+  States: [],
+};
+
+export const EditProfileForm: FC<IProps> = ({ setVisible }) => {
+  const dispatch = useDispatch();
+  const { id } = useParams<any>();
+
+  const userProfileData = useSelector(
+    (state: IRootState) => state.getUserProfile,
+  );
   const [fullNameInput, setFullNameInput] = useState<string>('');
+  const [emailInput, setEmailInput] = useState<string>('');
   const [aboutInput, setAboutInput] = useState<string>('');
 
   const [countryInput, setCountryInput] =
     useState<ICountry>(initialCountryInput);
   const [stateInput, setStateInput] = useState<IStates>(initialStateInput);
+  const [locationData, setLocationData] = useState<string>('');
   const [country, setCountry] = useState<ICountry[]>(countryInitial);
 
-  useLayoutEffect(() => {
-    (async () => {
-      const countryResponse = await getAllCountry();
-
-      console.log(countryResponse);
-
-      setCountry(countryResponse.data);
-    })();
-  }, []);
+  const [isOpenCountrySelect, setIsOpenCountrySelect] =
+    useState<boolean>(false);
+  const [isLoadingCountry, setIsLoadingCountry] = useState<boolean>(false);
+  const [isSaveEditProfile, setIsSaveEditProfile] = useState<boolean>(false);
 
   useEffect(() => {
-    setFullNameInput('');
+    if (userProfileData.userProfileData.user) {
+      setFullNameInput(userProfileData.userProfileData.user.fullName || '');
 
-    setCountryInput(initialCountryInput);
+      setEmailInput(userProfileData.userProfileData.user.email || '');
 
-    setStateInput(initialStateInput);
+      setAboutInput(userProfileData.userProfileData.user.about || '');
 
-    setAboutInput('');
-  }, [isClearInputData]);
+      setLocationData(userProfileData.userProfileData.user.location || '');
+    }
+  }, [userProfileData.userProfileData.user]);
 
-  const onSaveEditProfileBtnClick = () => {
-    console.log('countryInput', countryInput);
+  useEffect(() => {
+    const getCountryData = async () => {
+      setIsLoadingCountry(true);
 
-    console.log('stateInput', stateInput);
+      const countryResponse = await getAllCountry();
+
+      if (countryResponse.status) {
+        setCountry(countryResponse.data);
+
+        setIsLoadingCountry(false);
+      }
+    };
+    if (isOpenCountrySelect && country === countryInitial) {
+      getCountryData();
+    }
+    if (locationData && country === countryInitial) {
+      getCountryData();
+    }
+  }, [isOpenCountrySelect, locationData]);
+
+  const closeEditModal = () => {
+    setVisible(false);
+  };
+
+  const onSaveEditProfileBtnClick = async () => {
+    setIsSaveEditProfile(true);
+
+    const response = await updateUserProfileInfo(
+      fullNameInput,
+      `${stateInput.name}, ${countryInput.name}`,
+      aboutInput,
+    );
+
+    if (response.status === 200) {
+      dispatch(getUserProfileStart(id));
+
+      closeEditModal();
+
+      setIsSaveEditProfile(false);
+    }
   };
 
   return (
-    <div className="edit-profile-form">
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <p>Full name *</p>
-        <TextField
-          required
-          fullWidth
-          name="fullName"
-          autoComplete="off"
-          className="input-without-label input-padding"
+    <>
+      <div className="edit-profile-form">
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <p>Full name *</p>
+          <TextField
+            required
+            fullWidth
+            name="fullName"
+            autoComplete="off"
+            className="input-without-label input-padding"
+            value={fullNameInput}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFullNameInput(e.target.value)
+            }
+            error={!fullNameInput}
+            helperText={
+              !fullNameRegex.test(fullNameInput) &&
+              'Full name can not contains number or special character.'
+            }
+          />
+        </FormControl>
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <p>Email *</p>
+          <TextField
+            required
+            disabled
+            fullWidth
+            name="email"
+            autoComplete="off"
+            className="input-without-label input-padding"
+            value={emailInput}
+          />
+        </FormControl>
+        <div className="about-textarea">
+          <p>About</p>
+          <textarea
+            rows={5}
+            value={aboutInput}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setAboutInput(e.target.value)
+            }
+          />
+        </div>
+        <EditLocationForm
+          countryInput={countryInput}
+          setCountryInput={setCountryInput}
+          setStateInput={setStateInput}
+          stateInput={stateInput}
+          locationData={locationData}
+          country={country}
+          isLoadingCountry={isLoadingCountry}
+          isOpenCountrySelect={isOpenCountrySelect}
+          setIsOpenCountrySelect={setIsOpenCountrySelect}
         />
-      </FormControl>
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <p>Email *</p>
-        <TextField
-          required
-          disabled
-          fullWidth
-          name="email"
-          autoComplete="off"
-          className="input-without-label input-padding"
-        />
-      </FormControl>
-      <div className="about-textarea">
-        <p>About</p>
-        <textarea rows={5} />
+        <Box component="div" sx={{ display: 'flex' }} mt={4}>
+          <Button
+            sx={{ color: '#0275B1', borderColor: '#0275B1', mr: 2 }}
+            fullWidth
+            variant="outlined"
+            onClick={closeEditModal}
+          >
+            Close
+          </Button>
+          <LoadingButton
+            fullWidth
+            variant="contained"
+            disableElevation
+            loading={isSaveEditProfile}
+            disabled={
+              isSaveEditProfile ||
+              Boolean(isLoadingCountry && locationData) ||
+              (fullNameInput.trim() ===
+                userProfileData.userProfileData.user.fullName &&
+                aboutInput.trim() ===
+                  userProfileData.userProfileData.user.about &&
+                `${stateInput.name}, ${countryInput.name}` === locationData) ||
+              !fullNameInput
+            }
+            loadingIndicator="Saving"
+            onClick={onSaveEditProfileBtnClick}
+          >
+            Save
+          </LoadingButton>
+        </Box>
       </div>
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <p>Country/Region</p>
-        <Autocomplete
-          freeSolo
-          disableClearable
-          getOptionLabel={(option) => option.name}
-          options={country}
-          value={countryInput}
-          onChange={(event: any, value: any) => {
-            setStateInput(initialStateInput);
-
-            setCountryInput(value);
-          }}
-          renderOption={(props, option) => {
-            return (
-              <Box
-                component="li"
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...props}
-              >
-                {option.name} {option.flag}
-              </Box>
-            );
-          }}
-          renderInput={(params) => {
-            return (
-              <TextField
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...params}
-                className="input-without-label"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  'aria-label': 'Without label',
-                  autoComplete: 'new-password',
-                }}
-              />
-            );
-          }}
-        />
-      </FormControl>
-      <FormControl fullWidth>
-        <p>Locations in this Country/Region</p>
-        <Autocomplete
-          freeSolo
-          disableClearable
-          getOptionLabel={(option) => option.name}
-          options={countryInput?.States || []}
-          value={stateInput}
-          onChange={(event: any, value: any) => setStateInput(value)}
-          renderOption={(props, option) => {
-            return (
-              <Box
-                component="li"
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...props}
-              >
-                {option.name}
-              </Box>
-            );
-          }}
-          renderInput={(params) => (
-            <TextField
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...params}
-              className="input-without-label"
-              InputProps={{
-                ...params.InputProps,
-                type: 'search',
-                'aria-label': 'Without label',
-                autoComplete: 'new-password',
-              }}
-            />
-          )}
-        />
-      </FormControl>
-      <Box component="div" sx={{ display: 'flex' }} mt={4}>
-        <Button
-          sx={{ color: '#0275B1', borderColor: '#0275B1', mr: 2 }}
-          fullWidth
-          variant="outlined"
-          onClick={onCloseModalBtnClick}
-        >
-          Close
-        </Button>
-        <LoadingButton
-          fullWidth
-          variant="contained"
-          disableElevation
-          // disabled={
-          //   userInput.email === '' ||
-          //   userInput.password === '' ||
-          //   Boolean(errorEmail) ||
-          //   Boolean(errorPassword)
-          // }
-          // loading={isLoading}
-          loadingIndicator="Signing in"
-          onClick={onSaveEditProfileBtnClick}
-        >
-          Save
-        </LoadingButton>
-      </Box>
-    </div>
+      {userProfileData.isLoading && <LoadingMask />}
+    </>
   );
 };

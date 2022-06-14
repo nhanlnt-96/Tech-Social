@@ -47,13 +47,13 @@ const Navigation: FC = (props: Props) => {
                 boxShadow: 'unset',
               }}
             >
-              <Avatar
-                className="navigation-logo"
-                alt="tech-social-logo"
-                variant="rounded"
-                src={Logo}
-                sx={{ width: 46, height: 46 }}
-              />
+              {/* <Avatar */}
+              {/*  className="navigation-logo" */}
+              {/*  alt="tech-social-logo" */}
+              {/*  variant="rounded" */}
+              {/*  src={Logo} */}
+              {/*  sx={{ width: 46, height: 46 }} */}
+              {/* /> */}
             </Paper>
             <Divider orientation="vertical" flexItem />
             <NavigationMenu />
