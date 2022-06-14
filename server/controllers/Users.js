@@ -225,19 +225,18 @@ const validateTokenToAuth = async (req, res) => {
 const updateUser = async (req, res) => {
   const { fullName, avatarImageURL, location, about } = req.body;
   const id = req.user.sub.id;
-
   const profileUser = await UserMessage.findById(id).select("-password");
+  let updateData = {};
+  if (fullName) updateData.fullName = fullName;
+  if (avatarImageURL) updateData.avatarImageURL = avatarImageURL;
+  if (location) updateData.location = location;
+  if (about) updateData.about = about;
   try {
     if (profileUser) {
       await UserMessage.findOneAndUpdate(
         { _id: id },
         {
-          $set: {
-            fullName,
-            avatarImageURL,
-            location,
-            about,
-          },
+          $set: updateData,
         },
         { new: true },
         (err, doc) => {
