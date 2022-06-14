@@ -175,7 +175,7 @@ export const EditProfileForm: FC<IProps> = ({ setVisible }) => {
             error={!fullNameInput || !fullNameRegex.test(fullNameInput)}
             helperText={
               !fullNameInput
-                ? 'Full name can not be blank.'
+                ? 'Full name can not be blank.  '
                 : !fullNameRegex.test(fullNameInput) &&
                   'Full name can not contains number or special character.'
             }

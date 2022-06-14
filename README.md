@@ -23,6 +23,7 @@
 ### `fixbug/client`
 - /login
 - /header
+- /profile-page
 
 ### `fixbug/server`
 - /user
