@@ -7,6 +7,7 @@
 - /register
 - /profile-page
 - /feed
+- /upload-avatar-cover
 
 ### `module`
 - /routes
