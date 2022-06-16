@@ -53,10 +53,15 @@ export const NavigationUserPanel: FC = () => {
       }}
     >
       {userProfileData?.userProfileData?.user?.avatarImageURL ? (
-        <Avatar
-          alt={userProfileData?.userProfileData?.user?._id}
-          src={`${userProfileData?.userProfileData?.user?.avatarImageURL}`}
-        />
+        <Avatar>
+          <img
+            width="100%"
+            height="100%"
+            alt={userProfileData?.userProfileData?.user?._id}
+            src={`${userProfileData?.userProfileData?.user?.avatarImageURL}`}
+            referrerPolicy="no-referrer"
+          />
+        </Avatar>
       ) : (
         <Avatar alt={userProfileData?.userProfileData?.user?._id}>
           {userProfileData?.userProfileData?.user?.fullName.charAt(0)}

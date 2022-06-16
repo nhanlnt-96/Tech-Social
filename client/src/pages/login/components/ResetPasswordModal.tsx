@@ -7,17 +7,17 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { LoadingButton } from '@mui/lab';
 import { Backdrop, Box, Fade, Modal, TextField } from '@mui/material';
 
-type Props = {
+interface IProps {
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 interface ISentEmailSuccess {
   isSent: boolean;
   message: string;
 }
 
-export const ResetPasswordModal: FC<Props> = ({ visible, setVisible }) => {
+export const ResetPasswordModal: FC<IProps> = ({ visible, setVisible }) => {
   const [sentSuccess, setSentSuccess] = useState<ISentEmailSuccess>({
     isSent: false,
     message: '',

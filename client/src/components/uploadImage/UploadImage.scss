@@ -1,0 +1,12 @@
+.upload-image {
+  &__current__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__btn-container {
+    @extend .upload-image__current__image;
+    margin-top: 24px;
+  }
+}

@@ -1,4 +1,5 @@
 import LoadingMask from 'components/loadingMask/LoadingMask';
+import UploadImage from 'components/uploadImage/UploadImage';
 import VerifyPopover from 'components/verifyPoper/VerifyPopover';
 import { EditProfileModal } from 'pages/profile/components/EditProfileModal';
 import React, { FC, useState } from 'react';
@@ -25,7 +26,9 @@ const verifyIconStyle = {
 };
 
 export const ProfileHeader: FC = () => {
-  const [visible, setVisible] = useState<boolean>(false);
+  const [visibleEditProfileForm, setVisibleEditProfileForm] =
+    useState<boolean>(false);
+  const [visibleUploadImage, setVisibleUploadImage] = useState<boolean>(false);
 
   const userProfileData = useSelector(
     (state: IRootState) => state.getUserProfile,
@@ -68,7 +71,11 @@ export const ProfileHeader: FC = () => {
           />
           <div className="profile-cover-btn">
             <div className="left-side-btn">
-              <IconButton className="btn-upload" aria-label="options">
+              <IconButton
+                className="btn-upload"
+                aria-label="upload picture"
+                onClick={() => setVisibleUploadImage(true)}
+              >
                 <FileUploadOutlinedIcon />
               </IconButton>
             </div>
@@ -77,7 +84,7 @@ export const ProfileHeader: FC = () => {
                 className="btn-edit"
                 variant="contained"
                 startIcon={<BorderColorIcon />}
-                onClick={() => setVisible(true)}
+                onClick={() => setVisibleEditProfileForm(true)}
               >
                 Edit profile
               </Button>
@@ -92,11 +99,15 @@ export const ProfileHeader: FC = () => {
             <Grid item xs={2}>
               <div className="profile-avatar">
                 {userProfileData?.userProfileData?.user?.avatarImageURL ? (
-                  <Avatar
-                    alt={userProfileData?.userProfileData?.user?._id}
-                    src={`${userProfileData?.userProfileData?.user?.avatarImageURL}`}
-                    sx={{ width: '100%', height: '100%' }}
-                  />
+                  <Avatar sx={{ width: '100%', height: '100%' }}>
+                    <img
+                      width="100%"
+                      height="100%"
+                      src={`${userProfileData?.userProfileData?.user?.avatarImageURL}`}
+                      referrerPolicy="no-referrer"
+                      alt={userProfileData?.userProfileData?.user?._id}
+                    />
+                  </Avatar>
                 ) : (
                   <Avatar
                     alt={userProfileData?.userProfileData?.user?._id}
@@ -177,7 +188,16 @@ export const ProfileHeader: FC = () => {
           </Grid>
         </Grid>
       </Grid>
-      <EditProfileModal visible={visible} setVisible={setVisible} />
+      <EditProfileModal
+        visible={visibleEditProfileForm}
+        setVisible={setVisibleEditProfileForm}
+      />
+      <UploadImage
+        visible={visibleUploadImage}
+        handleCancel={() => setVisibleUploadImage(false)}
+        uploadImageFor="Cover"
+        currentImageURL={`${userProfileData?.userProfileData?.user?.avatarImageURL}`}
+      />
       {userProfileData.isLoading && <LoadingMask />}
     </Box>
   );
