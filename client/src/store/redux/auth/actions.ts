@@ -9,14 +9,10 @@ import {
   LOGOUT_SUCCESS,
 } from 'store/redux/auth/actionTypes';
 
-export const loginStart = (userInput: ILoginUser) => {
-  const { email, password } = userInput;
-
-  return {
-    type: LOGIN_START,
-    payload: { email, password },
-  };
-};
+export const loginStart = (data: ILoginUser) => ({
+  type: LOGIN_START,
+  payload: data,
+});
 
 export const loginSuccess = (userData: IUserDataLoggedIn) => {
   const expireAccessToken = new Date(Date.parse(userData.token.access.expire));

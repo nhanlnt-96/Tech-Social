@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux';
-import loginUserReducer, { ILoginUserState } from 'store/redux/auth';
+import loginUserReducer, { IAuthState } from 'store/redux/auth';
 import registerGoogleReducer, {
   IRegisterGoogle,
 } from 'store/redux/registerGoogle';
 import getUserProfileReducer, { IUserState } from 'store/redux/user';
 
 export interface IRootState {
+  auth: IAuthState;
+  user: IUserState;
   registerGoogle: IRegisterGoogle;
-  loginUser: ILoginUserState;
+  loginUser: IAuthState;
   getUserProfile: IUserState;
 }
 

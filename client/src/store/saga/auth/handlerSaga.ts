@@ -1,4 +1,4 @@
-import { takeEvery } from 'redux-saga/effects';
+import { select, takeEvery } from 'redux-saga/effects';
 import { LOGIN_START, LOGOUT_START } from 'store/redux/auth/actionTypes';
 import {
   onLoginSagaRequest,
@@ -6,6 +6,8 @@ import {
 } from 'store/saga/auth/requestSaga';
 
 export function* onLoginSagaHandler() {
+  const users = yield select();
+
   yield takeEvery(LOGIN_START, onLoginSagaRequest);
 }
 

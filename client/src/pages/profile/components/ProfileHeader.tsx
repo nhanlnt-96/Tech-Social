@@ -3,6 +3,7 @@ import VerifyPopover from 'components/verifyPoper/VerifyPopover';
 import { EditProfileModal } from 'pages/profile/components/EditProfileModal';
 import React, { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { getUsers } from 'store/redux/user/selector';
 import { IRootState } from 'store/rootReducer';
 
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -27,9 +28,7 @@ const verifyIconStyle = {
 export const ProfileHeader: FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
 
-  const userProfileData = useSelector(
-    (state: IRootState) => state.getUserProfile,
-  );
+  const userProfileData = useSelector(getUsers);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {

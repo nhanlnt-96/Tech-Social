@@ -13,6 +13,7 @@ export interface IUserState {
     post: any;
   };
   getUserProfileError: any;
+  user?: IUserProfile;
 }
 
 const getUserProfileState: IUserState = {

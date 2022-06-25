@@ -1,11 +1,11 @@
 import api from 'configs/axios';
 import { ILoginUser, IRegisterGoogleUser, IRegisterUser } from 'model/user';
 
-export const registerRequest = (
+export const registerRequest = async (
   userData: IRegisterUser | IRegisterGoogleUser,
   password?: string,
-) => {
-  return api.post('/auth', {
+): Promise<any> => {
+  return api.post<any>('/auth', {
     password: ('password' in userData && userData.password) || password,
     fullName:
       ('fullName' in userData && userData.fullName) ||
@@ -15,10 +15,10 @@ export const registerRequest = (
   });
 };
 
-export const loginRequest = (userData: ILoginUser) => {
+export const loginRequest = async (userData: ILoginUser): Promise<any> => {
   const { email, password } = userData;
 
-  return api.post('/auth/login', {
+  return api.post<any>('/auth/login', {
     email,
     password,
   });

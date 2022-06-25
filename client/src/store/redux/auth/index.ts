@@ -8,16 +8,22 @@ import {
 } from 'store/redux/auth/actionTypes';
 import { ActionLoginUser } from 'store/redux/auth/types';
 
-export interface ILoginUserState {
+export interface IAuthState {
   userLogin: {
     isLogged: boolean;
     isLoading: boolean;
     loginUserData: IUserData;
     loginError: string;
   };
+  isLogged?: boolean;
+  isLoading?: boolean;
+  loginUserData?: IUserData;
+  loginError?: string;
+  resetPasswordPending?: boolean;
+  resetPasswordSuccess?: boolean;
 }
 
-const loginUserState: ILoginUserState = {
+const loginUserState: IAuthState = {
   userLogin: {
     isLogged: false,
     isLoading: false,
