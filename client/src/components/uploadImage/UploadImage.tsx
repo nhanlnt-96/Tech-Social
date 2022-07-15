@@ -1,7 +1,7 @@
 import './UploadImage.scss';
 
 import { CropImage } from 'components/uploadImage/components';
-import { IModalProps } from 'model/props';
+import { IModalProps, IUploadImage } from 'model/props';
 import React, { FC, useState } from 'react';
 
 import { LoadingButton } from '@mui/lab';
@@ -16,31 +16,70 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-interface IProps extends IModalProps {
-  uploadImageFor: string;
+interface IProps extends IModalProps, IUploadImage {
   currentImageURL: string;
+  isUseCropImage: boolean;
+  userId: string;
 }
 
 const Input = styled('input')({
   display: 'none',
 });
 
+interface IImageSize {
+  [index: string]: {
+    width: number;
+    height: number;
+  };
+}
+
+export const imageSize: IImageSize = {
+  cover: {
+    width: 1152,
+    height: 180,
+  },
+  avatar: {
+    width: 150,
+    height: 150,
+  },
+};
+
 const UploadImage: FC<IProps> = ({
   visible,
-  handleCancel,
   uploadImageFor,
   currentImageURL,
+  isUseCropImage,
+  userId,
+  setVisible,
 }) => {
-  const [imageUpload, setImageUpload] = useState<File | null>(null);
+  const [imageUploadUrl, setImageUploadUrl] = useState<string>('');
   const [visibleCropImage, setVisibleCropImage] = useState<boolean>(false);
+  const [croppedImage, setCroppedImage] = useState<File | Blob | null>(null);
 
-  const onUploadImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageFileList = e.target.files;
-    if (imageFileList) {
+    if (imageFileList && isUseCropImage) {
       setVisibleCropImage(true);
 
-      setImageUpload(imageFileList[0]);
+      setImageUploadUrl(URL.createObjectURL(imageFileList[0]));
     }
+    if (!isUseCropImage && imageFileList) {
+      setCroppedImage(imageFileList[0]);
+    }
+  };
+
+  const onInputImageBtnClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    (e.target as HTMLInputElement).value = '';
+  };
+
+  const onSaveImageBtnClick = () => {
+    console.log(croppedImage);
+  };
+
+  const onCloseModalBtnClick = () => {
+    setVisible(false);
+
+    setCroppedImage(null);
   };
 
   return (
@@ -48,7 +87,7 @@ const UploadImage: FC<IProps> = ({
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={visible}
-      onClose={handleCancel}
+      onClose={onCloseModalBtnClick}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
@@ -62,7 +101,10 @@ const UploadImage: FC<IProps> = ({
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 600,
+            width:
+              uploadImageFor === 'avatar'
+                ? 600
+                : imageSize[uploadImageFor].width,
             bgcolor: 'background.paper',
             border: '2px solid #000',
             boxShadow: 24,
@@ -73,17 +115,37 @@ const UploadImage: FC<IProps> = ({
             <h1>Upload {uploadImageFor} Image</h1>
             <Divider />
           </div>
-          <div className="upload-image__current__image">
-            <Avatar sx={{ width: '50%', height: '50%' }}>
+          <Box
+            component="div"
+            sx={{ width: '100%' }}
+            className="upload-image__current__image"
+          >
+            <Box
+              component="div"
+              sx={{
+                position: 'relative',
+                paddingBottom: `${
+                  (imageSize[uploadImageFor].height /
+                    imageSize[uploadImageFor].width) *
+                  100
+                }%`,
+                width: '100%',
+                borderRadius: uploadImageFor === 'avatar' ? '100%' : 'unset',
+                overflow: 'hidden',
+              }}
+              className="upload-image__current__image-container"
+            >
               <img
-                width="100%"
-                height="100%"
-                src={currentImageURL}
+                src={
+                  croppedImage
+                    ? URL.createObjectURL(croppedImage)
+                    : currentImageURL
+                }
                 referrerPolicy="no-referrer"
                 alt=""
               />
-            </Avatar>
-          </div>
+            </Box>
+          </Box>
           <div className="upload-image__btn-container">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="icon-button-file">
@@ -91,7 +153,8 @@ const UploadImage: FC<IProps> = ({
                 accept="image/*"
                 id="icon-button-file"
                 type="file"
-                onChange={(e) => onUploadImageHandler(e)}
+                onChange={(e) => onInputImageHandler(e)}
+                onClick={(e) => onInputImageBtnClick(e)}
               />
               <Button
                 variant="contained"
@@ -107,28 +170,46 @@ const UploadImage: FC<IProps> = ({
               </Button>
             </label>
           </div>
-          <Box component="div" sx={{ display: 'flex' }} mt={4}>
-            <Button
-              sx={{ color: '#0275B1', borderColor: '#0275B1', mr: 2 }}
-              fullWidth
-              variant="outlined"
-              onClick={handleCancel}
+          <Box
+            component="div"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Box
+              component="div"
+              sx={{ display: 'flex', maxWidth: 500, width: '50%' }}
+              mt={4}
             >
-              Close
-            </Button>
-            <LoadingButton
-              fullWidth
-              variant="contained"
-              disableElevation
-              loadingIndicator="Saving"
-            >
-              Save
-            </LoadingButton>
+              <Button
+                sx={{ color: '#0275B1', borderColor: '#0275B1', mr: 2 }}
+                fullWidth
+                variant="outlined"
+                onClick={onCloseModalBtnClick}
+              >
+                Close
+              </Button>
+              <LoadingButton
+                fullWidth
+                variant="contained"
+                disableElevation
+                loadingIndicator="Saving"
+                onClick={onSaveImageBtnClick}
+                disabled={!croppedImage}
+              >
+                Save
+              </LoadingButton>
+            </Box>
           </Box>
           <CropImage
             visible={visibleCropImage}
-            handleCancel={() => setVisibleCropImage(false)}
-            imageFile={imageUpload && imageUpload}
+            setVisible={setVisibleCropImage}
+            imageUrl={imageUploadUrl}
+            uploadImageFor={uploadImageFor}
+            userId={userId}
+            setCroppedImage={setCroppedImage}
           />
         </Box>
       </Fade>

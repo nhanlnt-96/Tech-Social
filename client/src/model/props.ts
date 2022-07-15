@@ -1,6 +1,10 @@
-import React from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface IModalProps {
   visible: boolean;
-  handleCancel: React.MouseEventHandler<HTMLButtonElement>;
+  setVisible: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface IUploadImage {
+  uploadImageFor: 'avatar' | 'cover';
 }

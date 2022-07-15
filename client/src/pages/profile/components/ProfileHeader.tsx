@@ -2,7 +2,7 @@ import LoadingMask from 'components/loadingMask/LoadingMask';
 import UploadImage from 'components/uploadImage/UploadImage';
 import VerifyPopover from 'components/verifyPoper/VerifyPopover';
 import { EditProfileModal } from 'pages/profile/components/EditProfileModal';
-import React, { FC, useState } from 'react';
+import React, { createContext, FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'store/rootReducer';
 
@@ -25,10 +25,20 @@ const verifyIconStyle = {
   marginLeft: '5px',
 };
 
+export type TProfileHeaderContext = {
+  userId: string;
+};
+
+export const ProfileHeaderContext = createContext<TProfileHeaderContext>({
+  userId: '',
+});
+
 export const ProfileHeader: FC = () => {
   const [visibleEditProfileForm, setVisibleEditProfileForm] =
     useState<boolean>(false);
-  const [visibleUploadImage, setVisibleUploadImage] = useState<boolean>(false);
+
+  const [visibleUploadCoverImage, setVisibleUploadCoverImage] =
+    useState<boolean>(false);
 
   const userProfileData = useSelector(
     (state: IRootState) => state.getUserProfile,
@@ -74,7 +84,7 @@ export const ProfileHeader: FC = () => {
               <IconButton
                 className="btn-upload"
                 aria-label="upload picture"
-                onClick={() => setVisibleUploadImage(true)}
+                onClick={() => setVisibleUploadCoverImage(true)}
               >
                 <FileUploadOutlinedIcon />
               </IconButton>
@@ -193,10 +203,12 @@ export const ProfileHeader: FC = () => {
         setVisible={setVisibleEditProfileForm}
       />
       <UploadImage
-        visible={visibleUploadImage}
-        handleCancel={() => setVisibleUploadImage(false)}
-        uploadImageFor="Cover"
-        currentImageURL={`${userProfileData?.userProfileData?.user?.avatarImageURL}`}
+        visible={visibleUploadCoverImage}
+        setVisible={setVisibleUploadCoverImage}
+        uploadImageFor="avatar"
+        currentImageURL="https://www.incimages.com/uploaded_files/image/1920x1080/getty_509107562_2000133320009280346_351827.jpg"
+        isUseCropImage
+        userId={userProfileData?.userProfileData?.user?._id}
       />
       {userProfileData.isLoading && <LoadingMask />}
     </Box>

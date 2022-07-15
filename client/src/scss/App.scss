@@ -4,6 +4,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+iframe {
+  pointer-events: none;
+}
+
 #root {
   width: 100%;
   min-height: 100%;
