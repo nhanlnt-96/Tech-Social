@@ -30,6 +30,7 @@ const getUserProfileState: IUserState = {
       skypeUrl: null,
       __v: 0,
       _id: '',
+      coverImageURL: '',
     },
     post: [],
   },

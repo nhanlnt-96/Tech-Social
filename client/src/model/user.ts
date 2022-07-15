@@ -21,6 +21,7 @@ export interface IUserData {
   fullName: string;
   id: string;
   isVerify: boolean;
+  coverImageURL: string;
 }
 
 export interface IUserDataLoggedIn {

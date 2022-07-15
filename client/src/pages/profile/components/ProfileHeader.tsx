@@ -43,6 +43,7 @@ export const ProfileHeader: FC = () => {
   const userProfileData = useSelector(
     (state: IRootState) => state.getUserProfile,
   );
+  const userProfile = userProfileData?.userProfileData?.user;
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -72,13 +73,26 @@ export const ProfileHeader: FC = () => {
           item
           xs={12}
         >
-          <Avatar
-            className="profile-cover-img"
-            variant="square"
-            src="https://www.incimages.com/uploaded_files/image/1920x1080/getty_509107562_2000133320009280346_351827.jpg"
-            alt="profile-cover"
-            sx={{ width: '100%', height: '100%' }}
-          />
+          {userProfile?.coverImageURL ? (
+            <Avatar
+              className="profile-cover-img"
+              variant="square"
+              src={userProfile?.coverImageURL}
+              alt="profile-cover"
+              sx={{ width: '100%', height: '100%' }}
+            />
+          ) : (
+            <Avatar
+              className="profile-cover-img"
+              variant="square"
+              alt="profile-cover"
+              sx={{ width: '100%', height: '100%' }}
+            >
+              <Typography variant="h2" sx={{ color: '#ffffff' }}>
+                {userProfile?.fullName.charAt(0)}
+              </Typography>
+            </Avatar>
+          )}
           <div className="profile-cover-btn">
             <div className="left-side-btn">
               <IconButton
@@ -108,28 +122,26 @@ export const ProfileHeader: FC = () => {
           <Grid container>
             <Grid item xs={2}>
               <div className="profile-avatar">
-                {userProfileData?.userProfileData?.user?.avatarImageURL ? (
+                {userProfile?.avatarImageURL ? (
                   <Avatar sx={{ width: '100%', height: '100%' }}>
                     <img
                       width="100%"
                       height="100%"
-                      src={`${userProfileData?.userProfileData?.user?.avatarImageURL}`}
+                      src={`${userProfile?.avatarImageURL}`}
                       referrerPolicy="no-referrer"
-                      alt={userProfileData?.userProfileData?.user?._id}
+                      alt={userProfile?._id}
                     />
                   </Avatar>
                 ) : (
                   <Avatar
-                    alt={userProfileData?.userProfileData?.user?._id}
+                    alt={userProfile?._id}
                     sx={{
                       width: '100%',
                       height: '100%',
                     }}
                   >
                     <Typography variant="h2" sx={{ color: '#ffffff' }}>
-                      {userProfileData?.userProfileData?.user?.fullName.charAt(
-                        0,
-                      )}
+                      {userProfile?.fullName.charAt(0)}
                     </Typography>
                   </Avatar>
                 )}
@@ -138,7 +150,7 @@ export const ProfileHeader: FC = () => {
             <Grid item xs={10}>
               <div className="name-and-location">
                 <div className="user-name">
-                  {userProfileData?.userProfileData?.user?.fullName}
+                  {userProfile?.fullName}
                   <Typography
                     className="name-item"
                     aria-owns={open ? 'mouse-over-popover' : undefined}
@@ -153,7 +165,7 @@ export const ProfileHeader: FC = () => {
                   >
                     <CheckCircleIcon
                       sx={
-                        userProfileData?.userProfileData?.user?.isVerify
+                        userProfile?.isVerify
                           ? {
                               ...verifyIconStyle,
                               color: '#0275B1',
@@ -167,19 +179,19 @@ export const ProfileHeader: FC = () => {
                   open={open}
                   anchorEl={anchorEl}
                   setAnchorEl={setAnchorEl}
-                  isVerify={userProfileData?.userProfileData?.user?.isVerify}
+                  isVerify={userProfile?.isVerify}
                 />
-                {userProfileData?.userProfileData?.user?.location && (
+                {userProfile?.location && (
                   <div className="user-location">
                     <LocationOnIcon
                       sx={{ mr: 0.5, fontSize: '12px', color: '#0275B1' }}
                     />
-                    {userProfileData?.userProfileData?.user?.location}
+                    {userProfile?.location}
                   </div>
                 )}
               </div>
               <div className="user-introduce">
-                <p>{userProfileData?.userProfileData?.user?.about}</p>
+                <p>{userProfile?.about}</p>
               </div>
               <div className="user-contact">
                 <Button
@@ -205,10 +217,11 @@ export const ProfileHeader: FC = () => {
       <UploadImage
         visible={visibleUploadCoverImage}
         setVisible={setVisibleUploadCoverImage}
-        uploadImageFor="avatar"
-        currentImageURL="https://www.incimages.com/uploaded_files/image/1920x1080/getty_509107562_2000133320009280346_351827.jpg"
+        uploadImageFor="cover"
+        currentImageURL={userProfile?.coverImageURL}
+        userName={userProfile?.fullName}
         isUseCropImage
-        userId={userProfileData?.userProfileData?.user?._id}
+        userId={userProfile?._id}
       />
       {userProfileData.isLoading && <LoadingMask />}
     </Box>

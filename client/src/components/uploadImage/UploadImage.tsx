@@ -13,6 +13,7 @@ import {
   Divider,
   Fade,
   Modal,
+  Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -20,6 +21,7 @@ interface IProps extends IModalProps, IUploadImage {
   currentImageURL: string;
   isUseCropImage: boolean;
   userId: string;
+  userName: string;
 }
 
 const Input = styled('input')({
@@ -51,6 +53,7 @@ const UploadImage: FC<IProps> = ({
   isUseCropImage,
   userId,
   setVisible,
+  userName,
 }) => {
   const [imageUploadUrl, setImageUploadUrl] = useState<string>('');
   const [visibleCropImage, setVisibleCropImage] = useState<boolean>(false);
@@ -135,15 +138,35 @@ const UploadImage: FC<IProps> = ({
               }}
               className="upload-image__current__image-container"
             >
-              <img
-                src={
-                  croppedImage
-                    ? URL.createObjectURL(croppedImage)
-                    : currentImageURL
-                }
-                referrerPolicy="no-referrer"
-                alt=""
-              />
+              {currentImageURL || croppedImage ? (
+                <img
+                  src={
+                    croppedImage
+                      ? URL.createObjectURL(croppedImage)
+                      : currentImageURL
+                  }
+                  referrerPolicy="no-referrer"
+                  alt=""
+                />
+              ) : (
+                <Typography
+                  variant="h2"
+                  sx={{
+                    color: '#ffffff',
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    backgroundColor: '#bdbdbd',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  {userName.charAt(0)}
+                </Typography>
+              )}
             </Box>
           </Box>
           <div className="upload-image__btn-container">

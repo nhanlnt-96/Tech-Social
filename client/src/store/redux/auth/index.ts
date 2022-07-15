@@ -27,6 +27,7 @@ const loginUserState: ILoginUserState = {
       isVerify: false,
       id: '',
       avatarImageURL: '',
+      coverImageURL: '',
     },
     loginError: '',
   },
