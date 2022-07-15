@@ -44,6 +44,11 @@ const UserMessage = mongoose.model(
       require: false,
       default: null,
     },
+    coverImageURL: {
+      type: String,
+      require: false,
+      default: null,
+    },
     isVerify: {
       type: Boolean,
       require: true,

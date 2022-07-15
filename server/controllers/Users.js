@@ -10,7 +10,7 @@ const { verify } = require("jsonwebtoken");
 //sign up v.2.0
 const signUpAccount = async (req, res) => {
   const _id = new mongoose.Types.ObjectId();
-  const { fullName, email, avatarImageURL, password } = req.body;
+  const { fullName, email, avatarImageURL, password, coverImageURL } = req.body;
   const emailCheck = await UserMessage.findOne({ email });
   const createdAt = new Date();
 
@@ -27,6 +27,7 @@ const signUpAccount = async (req, res) => {
           avatarImageURL,
           password: hash,
           createdAt,
+          coverImageURL,
         }).save();
         res.status(201).json("Register 😍");
       });
@@ -114,6 +115,7 @@ const signInAccount = async (req, res) => {
               isVerify: emailCheck.isVerify,
               avatarImageURL: emailCheck.avatarImageURL,
               iat: emailCheck.iat,
+              coverImageURL: emailCheck.coverImageURL,
             },
             token: accessToken,
           });
@@ -223,7 +225,7 @@ const validateTokenToAuth = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { fullName, avatarImageURL, location, about } = req.body;
+  const { fullName, avatarImageURL, location, about, coverImageURL } = req.body;
   const id = req.user.sub.id;
   const profileUser = await UserMessage.findById(id).select("-password");
   let updateData = {};
@@ -231,6 +233,7 @@ const updateUser = async (req, res) => {
   if (avatarImageURL) updateData.avatarImageURL = avatarImageURL;
   if (location) updateData.location = location;
   if (about) updateData.about = about;
+  if (coverImageURL) updateData.coverImageURL = coverImageURL;
   try {
     if (profileUser) {
       await UserMessage.findOneAndUpdate(
