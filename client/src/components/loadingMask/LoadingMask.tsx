@@ -1,15 +1,42 @@
 import React, { FC } from 'react';
 
-import { Backdrop, CircularProgress } from '@mui/material';
+import { Backdrop, Box, CircularProgress } from '@mui/material';
 
-const LoadingMask: FC = () => {
+type TUseLoadingFor = 'fullPage' | 'section';
+
+interface IProps {
+  useFor: TUseLoadingFor;
+}
+
+const LoadingMask: FC<IProps> = ({ useFor }) => {
   return (
-    <Backdrop
-      open
-      sx={{ color: '#1976d2', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-    >
-      <CircularProgress color="inherit" />
-    </Backdrop>
+    <>
+      {useFor === 'fullPage' ? (
+        <Backdrop
+          open
+          sx={{ color: '#1976d2', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      ) : (
+        <Box
+          component="div"
+          sx={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, .4)',
+            position: 'absolute',
+            left: 0,
+            top: 0,
+          }}
+        >
+          <CircularProgress color="info" />
+        </Box>
+      )}
+    </>
   );
 };
 

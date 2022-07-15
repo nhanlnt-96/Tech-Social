@@ -1,12 +1,18 @@
 import './UploadImage.scss';
 
+import { message } from 'antd';
 import { CropImage } from 'components/uploadImage/components';
-import { IModalProps, IUploadImage } from 'model/props';
+import { storage } from 'configs/firebase';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { IModalProps, TUploadImage } from 'model/props';
 import React, { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateUserProfile } from 'services/user';
+import { generateFirebaseFolderPath } from 'shared/generateFirebaseFolderPath';
+import { getUserProfileStart } from 'store/redux/user/actions';
 
 import { LoadingButton } from '@mui/lab';
 import {
-  Avatar,
   Backdrop,
   Box,
   Button,
@@ -17,11 +23,12 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-interface IProps extends IModalProps, IUploadImage {
+interface IProps extends IModalProps {
   currentImageURL: string;
   isUseCropImage: boolean;
   userId: string;
   userName: string;
+  uploadImageFor: TUploadImage;
 }
 
 const Input = styled('input')({
@@ -33,6 +40,11 @@ interface IImageSize {
     width: number;
     height: number;
   };
+}
+
+interface IUploadingImage {
+  progress: number;
+  status: boolean;
 }
 
 export const imageSize: IImageSize = {
@@ -55,9 +67,12 @@ const UploadImage: FC<IProps> = ({
   setVisible,
   userName,
 }) => {
+  const dispatch = useDispatch();
   const [imageUploadUrl, setImageUploadUrl] = useState<string>('');
   const [visibleCropImage, setVisibleCropImage] = useState<boolean>(false);
-  const [croppedImage, setCroppedImage] = useState<File | Blob | null>(null);
+  const [croppedImage, setCroppedImage] = useState<File | null>(null);
+  const [imageUploadType, setImageUploadType] = useState<string>('');
+  const [isUploadingImage, setIsUploadingImage] = useState<IUploadingImage>();
 
   const onInputImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageFileList = e.target.files;
@@ -65,6 +80,8 @@ const UploadImage: FC<IProps> = ({
       setVisibleCropImage(true);
 
       setImageUploadUrl(URL.createObjectURL(imageFileList[0]));
+
+      setImageUploadType(imageFileList[0].type);
     }
     if (!isUseCropImage && imageFileList) {
       setCroppedImage(imageFileList[0]);
@@ -76,7 +93,65 @@ const UploadImage: FC<IProps> = ({
   };
 
   const onSaveImageBtnClick = () => {
-    console.log(croppedImage);
+    if (croppedImage) {
+      const imageName = croppedImage?.name;
+
+      const firebaseFolderPath = generateFirebaseFolderPath(
+        uploadImageFor,
+        userId,
+      );
+      const filePath = `${firebaseFolderPath}/${imageName}`;
+
+      const storageRef = ref(storage, filePath);
+
+      const metadata = {
+        contentType: croppedImage?.type,
+      };
+
+      const uploadImageAction = uploadBytesResumable(
+        storageRef,
+        croppedImage,
+        metadata,
+      );
+
+      uploadImageAction.on(
+        'state_changed',
+        (snapshot: any) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+          setIsUploadingImage({ progress, status: true });
+        },
+        () => {
+          message.error('Upload failed!');
+
+          setIsUploadingImage({ progress: 0, status: false });
+        },
+        () => {
+          getDownloadURL(uploadImageAction.snapshot.ref).then(
+            async (downloadURL) => {
+              const uploadComplete = await updateUserProfile({
+                [`${uploadImageFor}ImageURL`]: downloadURL,
+              });
+              if (
+                uploadComplete.status === 200 ||
+                uploadComplete.statusText === 'OK'
+              ) {
+                onCloseModalBtnClick();
+
+                dispatch(getUserProfileStart(userId));
+
+                setIsUploadingImage({ progress: 0, status: false });
+              } else {
+                setIsUploadingImage({ progress: 0, status: false });
+
+                message.error('Upload failed!');
+              }
+            },
+          );
+        },
+      );
+    }
   };
 
   const onCloseModalBtnClick = () => {
@@ -109,7 +184,6 @@ const UploadImage: FC<IProps> = ({
                 ? 600
                 : imageSize[uploadImageFor].width,
             bgcolor: 'background.paper',
-            border: '2px solid #000',
             boxShadow: 24,
             p: 4,
           }}
@@ -218,9 +292,13 @@ const UploadImage: FC<IProps> = ({
                 fullWidth
                 variant="contained"
                 disableElevation
-                loadingIndicator="Saving"
+                loadingIndicator={`Saving ${
+                  isUploadingImage?.progress &&
+                  `${Math.floor(isUploadingImage.progress)}%`
+                }`}
                 onClick={onSaveImageBtnClick}
-                disabled={!croppedImage}
+                disabled={!croppedImage || isUploadingImage?.status}
+                loading={isUploadingImage?.status}
               >
                 Save
               </LoadingButton>
@@ -233,6 +311,7 @@ const UploadImage: FC<IProps> = ({
             uploadImageFor={uploadImageFor}
             userId={userId}
             setCroppedImage={setCroppedImage}
+            imageUploadType={imageUploadType}
           />
         </Box>
       </Fade>

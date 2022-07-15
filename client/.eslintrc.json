@@ -110,7 +110,8 @@
         ]
       }
     ],
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "no-case-declarations": "off"
   },
   "settings": {
     "import/resolver": {

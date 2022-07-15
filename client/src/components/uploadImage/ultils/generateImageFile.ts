@@ -83,9 +83,10 @@ export const generateImageFile = async (
   image: HTMLImageElement,
   crop: PixelCrop,
   fileName: string,
+  imageType: string,
   scale = 1,
   rotate = 0,
-): Promise<File | Blob> => {
+): Promise<File> => {
   const canvas = document.createElement('canvas');
 
   canvasPreview(image, crop, canvas, scale, rotate);
@@ -99,5 +100,5 @@ export const generateImageFile = async (
   const convertResponse = await window.fetch(previewUrl);
   const imageBlob = await convertResponse.blob();
 
-  return new window.File([imageBlob], fileName, { type: 'image/*' });
+  return new window.File([imageBlob], fileName, { type: imageType });
 };

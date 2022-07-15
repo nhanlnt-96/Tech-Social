@@ -5,6 +5,4 @@ export interface IModalProps {
   setVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface IUploadImage {
-  uploadImageFor: 'avatar' | 'cover';
-}
+export type TUploadImage = 'avatar' | 'cover';

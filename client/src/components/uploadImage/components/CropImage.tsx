@@ -1,6 +1,6 @@
 import { generateImageFile } from 'components/uploadImage/ultils';
 import { imageSize } from 'components/uploadImage/UploadImage';
-import { IModalProps, IUploadImage } from 'model/props';
+import { IModalProps, TUploadImage } from 'model/props';
 import React, {
   Dispatch,
   FC,
@@ -10,15 +10,17 @@ import React, {
   useState,
 } from 'react';
 import ReactCrop, { PixelCrop } from 'react-image-crop';
-import { generateFIleName } from 'shared/generateFIleName';
+import { generateFileName } from 'shared/generateFileName';
 
 import { LoadingButton } from '@mui/lab';
 import { Backdrop, Box, Button, Container, Fade, Modal } from '@mui/material';
 
-interface IProps extends IModalProps, IUploadImage {
+interface IProps extends IModalProps {
   imageUrl: string;
   userId: string;
-  setCroppedImage: Dispatch<SetStateAction<File | Blob | null>>;
+  setCroppedImage: Dispatch<SetStateAction<File | null>>;
+  uploadImageFor: TUploadImage;
+  imageUploadType: string;
 }
 
 export const CropImage: FC<IProps> = ({
@@ -28,6 +30,7 @@ export const CropImage: FC<IProps> = ({
   uploadImageFor,
   userId,
   setCroppedImage,
+  imageUploadType,
 }) => {
   const [cropImage, setCropImage] = useState<PixelCrop>({
     unit: 'px',
@@ -45,7 +48,8 @@ export const CropImage: FC<IProps> = ({
     const generateResult = await generateImageFile(
       imageToCropRef.current,
       cropImage,
-      generateFIleName(userId, uploadImageFor),
+      generateFileName(userId, uploadImageFor),
+      imageUploadType,
     );
     if (generateResult) {
       setIsLoading(false);
@@ -81,7 +85,6 @@ export const CropImage: FC<IProps> = ({
             left: '50%',
             transform: 'translate(-50%, -50%)',
             bgcolor: 'background.paper',
-            border: '2px solid #000',
             boxShadow: 24,
             p: 4,
           }}

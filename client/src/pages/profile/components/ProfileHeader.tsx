@@ -45,6 +45,7 @@ export const ProfileHeader: FC = () => {
   );
   const userProfile = userProfileData?.userProfileData?.user;
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [isImageLoading, setIsImageLoading] = useState<boolean>(true);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -69,18 +70,22 @@ export const ProfileHeader: FC = () => {
       <Grid sx={{ height: '100%' }} container>
         <Grid
           className="profile-cover-container"
-          sx={{ height: '50%' }}
+          sx={{ height: '50%', position: 'relative' }}
           item
           xs={12}
         >
           {userProfile?.coverImageURL ? (
-            <Avatar
-              className="profile-cover-img"
-              variant="square"
-              src={userProfile?.coverImageURL}
-              alt="profile-cover"
-              sx={{ width: '100%', height: '100%' }}
-            />
+            <>
+              <Avatar
+                className="profile-cover-img"
+                variant="square"
+                src={userProfile?.coverImageURL}
+                alt="profile-cover"
+                sx={{ width: '100%', height: '100%' }}
+                onLoad={() => setIsImageLoading(false)}
+              />
+              {isImageLoading && <LoadingMask useFor="section" />}
+            </>
           ) : (
             <Avatar
               className="profile-cover-img"
@@ -123,15 +128,11 @@ export const ProfileHeader: FC = () => {
             <Grid item xs={2}>
               <div className="profile-avatar">
                 {userProfile?.avatarImageURL ? (
-                  <Avatar sx={{ width: '100%', height: '100%' }}>
-                    <img
-                      width="100%"
-                      height="100%"
-                      src={`${userProfile?.avatarImageURL}`}
-                      referrerPolicy="no-referrer"
-                      alt={userProfile?._id}
-                    />
-                  </Avatar>
+                  <Avatar
+                    sx={{ width: '100%', height: '100%' }}
+                    src={userProfile?.avatarImageURL}
+                    alt="profile-avatar"
+                  />
                 ) : (
                   <Avatar
                     alt={userProfile?._id}
@@ -223,7 +224,7 @@ export const ProfileHeader: FC = () => {
         isUseCropImage
         userId={userProfile?._id}
       />
-      {userProfileData.isLoading && <LoadingMask />}
+      {userProfileData.isLoading && <LoadingMask useFor="fullPage" />}
     </Box>
   );
 };

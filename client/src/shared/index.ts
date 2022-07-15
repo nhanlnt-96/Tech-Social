@@ -1,3 +1,5 @@
 export * from './regex';
 
-export * from './generateFIleName';
+export * from './generateFileName';
+
+export * from './generateFirebaseFolderPath';

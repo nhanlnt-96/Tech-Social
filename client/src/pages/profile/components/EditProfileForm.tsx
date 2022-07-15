@@ -6,7 +6,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getAllCountry } from 'services/country';
-import { updateUserProfileInfo } from 'services/user';
+import { updateUserProfile } from 'services/user';
 import { fullNameRegex } from 'shared/regex';
 import { getUserProfileStart } from 'store/redux/user/actions';
 import { IRootState } from 'store/rootReducer';
@@ -137,11 +137,11 @@ export const EditProfileForm: FC<IProps> = ({ setVisible }) => {
         location = countryInput.name;
       }
 
-      const response = await updateUserProfileInfo(
-        fullNameInput,
+      const response = await updateUserProfile({
+        fullName: fullNameInput,
         location,
-        aboutInput,
-      );
+        about: aboutInput,
+      });
 
       if (response.status === 200) {
         dispatch(getUserProfileStart(id));
@@ -245,7 +245,7 @@ export const EditProfileForm: FC<IProps> = ({ setVisible }) => {
           </LoadingButton>
         </Box>
       </div>
-      {userProfileData.isLoading && <LoadingMask />}
+      {userProfileData.isLoading && <LoadingMask useFor="fullPage" />}
     </>
   );
 };
